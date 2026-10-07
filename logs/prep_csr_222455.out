@@ -1,0 +1,21 @@
+node=rocky.tech.cornell.edu job=222455 start=Thu Sep 24 01:39:07 PM EDT 2026
+               total        used        free      shared  buff/cache   available
+Mem:            1007          20         400           0         591         986
+Swap:              3           0           3
+papers: 121,751,666
+[1/4] loading edges ...
+      1,297,748,926 edges  20.8 GB  (33s)
+[2/4] symmetrising ...
+      2,595,497,852 directed edges
+[3/4] sorting into CSR (slow, memory heavy) ...
+      done in 4.8 min
+[4/4] writing ...
+      rowptr 0.97 GB   col 10.4 GB
+      degree: mean 21.3  max 242,655  isolated 49,243,005
+done
+end=Thu Sep 24 01:46:04 PM EDT 2026
+total 11089856
+drwxr-sr-x 2 ak2877 en-cc-unicorn-gupta-users          39 Sep 24 13:45 .
+drwxr-sr-x 5 ak2877 en-cc-unicorn-gupta-users          43 Sep 17 19:42 ..
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users 10381991536 Sep 24 13:46 col.npy
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users   974013464 Sep 24 13:45 rowptr.npy

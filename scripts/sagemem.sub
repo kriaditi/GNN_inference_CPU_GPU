@@ -1,0 +1,85 @@
+#!/bin/bash
+#SBATCH --job-name=sage_mem
+#SBATCH -o logs/sage_mem_%j.out
+#SBATCH -e logs/sage_mem_%j.err
+#SBATCH --get-user-env
+#SBATCH --mem=350G
+#SBATCH -t 06:00:00
+#SBATCH --gres=gpu:1
+#SBATCH --partition=gupta
+#SBATCH --nodelist=rocky
+#SBATCH --cpus-per-task=8
+
+# Override any of these at submit time, e.g.
+#   SEEDS=88092 ITERS=500 BATCH=256 sbatch scripts/sage_mem.sub
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+
+SEEDS=${SEEDS:-88092}
+FANOUT=${FANOUT:-15,10}
+LAYERS=${LAYERS:-2}
+BATCH=${BATCH:-100}
+ITERS=${ITERS:-500}
+TAG=${TAG:-inmem}_${SLURM_JOB_ID}
+
+echo "=========================================="
+echo "job   : $SLURM_JOB_ID on $(hostname)"
+echo "start : $(date)"
+echo "config: seeds=$SEEDS fanout=$FANOUT layers=$LAYERS batch=$BATCH iters=$ITERS"
+echo "=========================================="
+nvidia-smi --query-gpu=name,memory.total,power.limit --format=csv
+nproc
+echo "--- memory before ---"
+free -g
+
+python sage_mag240m.py \
+  --seeds "$SEEDS" \
+  --fanout "$FANOUT" \
+  --layers "$LAYERS" \
+  --batch-size "$BATCH" \
+  --iters "$ITERS" \
+  --in-memory \
+  --tag "$TAG"
+
+echo "--- memory after ---"
+free -g
+echo "end   : $(date)"
+
+# --------------------------------------------------------------------------
+# Archive everything needed to reconstruct this run later.
+# Job IDs are unique, so nothing is ever overwritten.
+# --------------------------------------------------------------------------
+ARCHIVE=/share/gupta/ak2877/gnn/results/$TAG
+mkdir -p "$ARCHIVE"
+
+cp results/${TAG}_periter.csv "$ARCHIVE/" 2>/dev/null
+cp results/summary.csv        "$ARCHIVE/" 2>/dev/null
+cp logs/sage_mem_${SLURM_JOB_ID}.out "$ARCHIVE/" 2>/dev/null
+cp logs/sage_mem_${SLURM_JOB_ID}.err "$ARCHIVE/" 2>/dev/null
+cp sage_mag240m.py "$ARCHIVE/"
+
+nvidia-smi --query-gpu=name,driver_version,memory.total,power.limit \
+  --format=csv > "$ARCHIVE/hardware.txt"
+
+cat > "$ARCHIVE/run.txt" << EOF
+job        : $SLURM_JOB_ID
+node       : $(hostname)
+date       : $(date)
+seeds      : $SEEDS
+fanout     : $FANOUT
+layers     : $LAYERS
+batch_size : $BATCH
+iters      : $ITERS
+in_memory  : true
+features   : /share/gupta/ak2877/gnn/data (187 GB, loaded into RAM)
+csr        : /share/gupta/ak2877/gnn/csr
+slurm_mem  : 350G
+cpus       : $SLURM_CPUS_PER_TASK
+git        : $(git -C ~/gnn rev-parse --short HEAD 2>/dev/null || echo "not a git repo")
+exclusive  : no
+EOF
+
+echo "archived to $ARCHIVE"
+ls -la "$ARCHIVE"

@@ -1,0 +1,24 @@
+#!/bin/bash
+#SBATCH --job-name=prep_csr
+#SBATCH -o logs/prep_csr_%j.out
+#SBATCH -e logs/prep_csr_%j.err
+#SBATCH --get-user-env
+#SBATCH --mem=400G
+#SBATCH -t 12:00:00
+#SBATCH --gres=gpu:0
+#SBATCH --partition=gupta
+#SBATCH --nodelist=rocky
+#SBATCH --cpus-per-task=8
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+
+echo "node=$(hostname) job=$SLURM_JOB_ID start=$(date)"
+free -g
+
+python ~/gnn/prep_mag240m.py \
+  --root /share/gupta/ak2877/gnn/data \
+  --out  /share/gupta/ak2877/gnn/csr
+
+echo "end=$(date)"
+ls -la /share/gupta/ak2877/gnn/csr

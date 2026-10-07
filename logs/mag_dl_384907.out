@@ -1,0 +1,7 @@
+=== disk before ===
+Filesystem                                        Size  Used Avail Use% Mounted on
+gupta-nfs-01.tech.cornell.edu:/export/data/gupta   59T   51T  8.2T  87% /share/gupta
+This will download 167.39GB. Will you proceed? (y/N)
+=== disk after ===
+Filesystem                                        Size  Used Avail Use% Mounted on
+gupta-nfs-01.tech.cornell.edu:/export/data/gupta   59T   51T  8.2T  87% /share/gupta

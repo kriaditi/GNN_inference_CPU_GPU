@@ -1,0 +1,27 @@
+#!/bin/bash
+#SBATCH --job-name=mag_dl
+#SBATCH -o logs/mag_dl_%j.out
+#SBATCH -e logs/mag_dl_%j.err
+#SBATCH --get-user-env
+#SBATCH --mem=32G
+#SBATCH -t 48:00:00
+#SBATCH --gres=gpu:0
+#SBATCH --partition=gupta
+#SBATCH --nodelist=rocky
+#SBATCH --cpus-per-task=4
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh 2>/dev/null || \
+source /share/apps/anaconda3/2022.10/etc/profile.d/conda.sh
+conda activate gnn
+
+ROOT=/share/gupta/ak2877/gnn/data
+mkdir -p "$ROOT"
+
+echo "=== disk before ==="
+df -h "$ROOT"
+
+yes y | python ~/gnn/download_mag.py "$ROOT"
+
+echo "=== disk after ==="
+df -h "$ROOT"
+du -sh "$ROOT"/mag240m_kddcup2021 2>/dev/null

@@ -1,0 +1,98 @@
+#!/bin/bash
+#SBATCH --job-name=stress
+#SBATCH -o logs/stress_%j.out
+#SBATCH -e logs/stress_%j.err
+#SBATCH --get-user-env
+#SBATCH --mem=400G
+#SBATCH -t 08:00:00
+#SBATCH --gres=gpu:1
+#SBATCH --partition=gupta
+#SBATCH --nodelist=rocky
+#SBATCH --cpus-per-task=8
+
+# Worst case first, then walk down until something survives.
+# Failures are the point: we want the ceiling, not a safe number.
+# Each config runs in its own python process so an OOM kills only that one.
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+
+echo "=============================================="
+echo "job $SLURM_JOB_ID on $(hostname)  $(date)"
+nvidia-smi --query-gpu=name,memory.total,power.limit --format=csv
+free -g
+echo "=============================================="
+
+# batch_size : fanout : iters : label
+CONFIGS=(
+  "88092:100,50:1:allatonce_f100x50"
+  "88092:40,20:1:allatonce_f40x20"
+  "32768:40,20:3:b32768_f40x20"
+  "16384:40,20:3:b16384_f40x20"
+  "16384:25,15:5:b16384_f25x15"
+  "16384:15,10:5:b16384_f15x10"
+  "8192:25,15:5:b8192_f25x15"
+  "8192:15,10:10:b8192_f15x10"
+  "4096:15,10:10:b4096_f15x10"
+)
+
+for CFG in "${CONFIGS[@]}"; do
+  IFS=':' read -r BATCH FANOUT ITERS LABEL <<< "$CFG"
+  echo ""
+  echo "##############################################"
+  echo "### $LABEL   batch=$BATCH fanout=$FANOUT iters=$ITERS"
+  echo "### started $(date +%T)"
+  echo "##############################################"
+
+  python sage_mag240m.py \
+    --seeds 88092 \
+    --fanout "$FANOUT" \
+    --layers 2 \
+    --batch-size "$BATCH" \
+    --iters "$ITERS" \
+    --warmup 1 \
+    --in-memory \
+    --out results \
+    --tag "stress_${LABEL}_${SLURM_JOB_ID}"
+
+  RC=$?
+  if [ $RC -ne 0 ]; then
+    echo ">>> $LABEL FAILED with exit code $RC (expected for the big ones)"
+  else
+    echo ">>> $LABEL SURVIVED"
+  fi
+  echo "### ended $(date +%T)"
+done
+
+echo ""
+echo "=============================================="
+echo "all configs attempted  $(date)"
+free -g
+echo "=============================================="
+
+# archive
+ARCHIVE=/share/gupta/ak2877/gnn/results/stress_${SLURM_JOB_ID}
+mkdir -p "$ARCHIVE"
+cp results/stress_*_${SLURM_JOB_ID}_periter.csv "$ARCHIVE/" 2>/dev/null
+cp results/summary.csv "$ARCHIVE/" 2>/dev/null
+cp logs/stress_${SLURM_JOB_ID}.out "$ARCHIVE/" 2>/dev/null
+cp logs/stress_${SLURM_JOB_ID}.err "$ARCHIVE/" 2>/dev/null
+cp sage_mag240m.py "$ARCHIVE/"
+nvidia-smi --query-gpu=name,driver_version,memory.total,power.limit \
+  --format=csv > "$ARCHIVE/hardware.txt"
+
+cat > "$ARCHIVE/run.txt" << EOF
+job        : $SLURM_JOB_ID
+node       : $(hostname)
+date       : $(date)
+purpose    : stress ladder, worst case first, to find the GPU memory ceiling
+configs    : ${CONFIGS[@]}
+features   : 187 GB paper-only table, loaded into RAM
+slurm_mem  : 400G
+cpus       : $SLURM_CPUS_PER_TASK
+exclusive  : no
+EOF
+
+echo "archived to $ARCHIVE"
+ls -la "$ARCHIVE"

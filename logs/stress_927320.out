@@ -1,0 +1,281 @@
+==============================================
+job 927320 on rocky.tech.cornell.edu  Sat Oct  3 10:49:57 AM EDT 2026
+name, memory.total [MiB], power.limit [W]
+NVIDIA L4, 23034 MiB, 72.00 W
+               total        used        free      shared  buff/cache   available
+Mem:            1007          40         386           0         585         966
+Swap:              3           0           3
+==============================================
+
+##############################################
+### allatonce_f100x50   batch=88092 fanout=100,50 iters=1
+### started 10:49:57
+##############################################
+[run] device=cuda  seeds=88092  fanout=[100, 50]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (44s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 2.0 min)
+[run] 1 batches available, 1 warmup + 1 measured
+>>> allatonce_f100x50 FAILED with exit code 1 (expected for the big ones)
+### ended 10:53:14
+
+##############################################
+### allatonce_f40x20   batch=88092 fanout=40,20 iters=1
+### started 10:53:14
+##############################################
+[run] device=cuda  seeds=88092  fanout=[40, 20]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (6s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 1.1 min)
+[run] 1 batches available, 1 warmup + 1 measured
+>>> allatonce_f40x20 FAILED with exit code 1 (expected for the big ones)
+### ended 10:54:44
+
+##############################################
+### b32768_f40x20   batch=32768 fanout=40,20 iters=3
+### started 10:54:44
+##############################################
+[run] device=cuda  seeds=88092  fanout=[40, 20]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (6s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 1.6 min)
+[run] 3 batches available, 1 warmup + 3 measured
+>>> b32768_f40x20 FAILED with exit code 1 (expected for the big ones)
+### ended 10:56:38
+
+##############################################
+### b16384_f40x20   batch=16384 fanout=40,20 iters=3
+### started 10:56:38
+##############################################
+[run] device=cuda  seeds=88092  fanout=[40, 20]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (4s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 1.0 min)
+[run] 6 batches available, 1 warmup + 3 measured
+>>> b16384_f40x20 FAILED with exit code 1 (expected for the big ones)
+### ended 10:57:49
+
+##############################################
+### b16384_f25x15   batch=16384 fanout=25,15 iters=5
+### started 10:57:49
+##############################################
+[run] device=cuda  seeds=88092  fanout=[25, 15]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (4s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 0.7 min)
+[run] 6 batches available, 1 warmup + 5 measured
+>>> b16384_f25x15 FAILED with exit code 1 (expected for the big ones)
+### ended 10:58:45
+
+##############################################
+### b16384_f15x10   batch=16384 fanout=15,10 iters=5
+### started 10:58:45
+##############################################
+[run] device=cuda  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (3s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 0.7 min)
+[run] 6 batches available, 1 warmup + 5 measured
+[check] batch nodes=1,184,740 from 16384 seeds  (x72.3)
+[check] edges=1,664,818  x=(1184740, 768)  out=(1184740, 153)
+[check] first 10 predicted classes: [28, 7, 134, 134, 83, 46, 83, 86, 43, 134]
+
+============================================================
+attribution drift: median 0.00%  max 0.01%
+attribution OK
+------------------------------------------------------------
+tag                 : stress_b16384_f15x10_927320
+seeds_total         : 71708
+batch_size          : 16384
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 5
+sample_ms           : 273.4771
+gather_ms           : 550.8689
+transfer_ms         : 180.3819
+compute_ms          : 353.4301
+wall_ms             : 1376.1980
+drift_pct           : 0.0045
+nodes_per_batch     : 1175995.0000
+mb_moved            : 1806.3283
+throughput_qps      : 11566.3559
+mean_power_w        : 43.7121
+energy_j            : 267.0314
+energy_mj_per_seed  : 3.7239
+power_samples       : 123
+peak_gpu_gb         : 16.7813
+------------------------------------------------------------
+  sample     20.1%  ##########
+  gather     40.6%  ####################
+  transfer   13.3%  ######
+  compute    26.0%  #############
+============================================================
+wrote results to results/
+>>> b16384_f15x10 SURVIVED
+### ended 10:59:45
+
+##############################################
+### b8192_f25x15   batch=8192 fanout=25,15 iters=5
+### started 10:59:45
+##############################################
+[run] device=cuda  seeds=88092  fanout=[25, 15]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (3s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 0.7 min)
+[run] 11 batches available, 1 warmup + 5 measured
+[check] batch nodes=1,213,257 from 8192 seeds  (x148.1)
+[check] edges=1,779,348  x=(1213257, 768)  out=(1213257, 153)
+[check] first 10 predicted classes: [141, 117, 152, 59, 65, 117, 141, 101, 136, 151]
+
+============================================================
+attribution drift: median 0.01%  max 0.01%
+attribution OK
+------------------------------------------------------------
+tag                 : stress_b8192_f25x15_927320
+seeds_total         : 40960
+batch_size          : 8192
+fanout              : 25,15
+layers              : 2
+hidden              : 256
+iters               : 5
+sample_ms           : 273.2034
+gather_ms           : 563.0413
+transfer_ms         : 185.0501
+compute_ms          : 356.0614
+wall_ms             : 1371.2360
+drift_pct           : 0.0051
+nodes_per_batch     : 1193575.0000
+mb_moved            : 1833.3312
+throughput_qps      : 5863.5798
+mean_power_w        : 43.0734
+energy_j            : 297.6743
+energy_mj_per_seed  : 7.2674
+power_samples       : 139
+peak_gpu_gb         : 17.3736
+------------------------------------------------------------
+  sample     19.8%  #########
+  gather     40.9%  ####################
+  transfer   13.4%  ######
+  compute    25.9%  ############
+============================================================
+wrote results to results/
+>>> b8192_f25x15 SURVIVED
+### ended 11:00:46
+
+##############################################
+### b8192_f15x10   batch=8192 fanout=15,10 iters=10
+### started 11:00:46
+##############################################
+[run] device=cuda  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (4s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 0.7 min)
+[run] 11 batches available, 1 warmup + 10 measured
+[check] batch nodes=683,899 from 8192 seeds  (x83.5)
+[check] edges=883,994  x=(683899, 768)  out=(683899, 153)
+[check] first 10 predicted classes: [79, 40, 57, 57, 145, 81, 81, 79, 145, 79]
+
+============================================================
+attribution drift: median 0.01%  max 0.01%
+attribution OK
+------------------------------------------------------------
+tag                 : stress_b8192_f15x10_927320
+seeds_total         : 79900
+batch_size          : 8192
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 10
+sample_ms           : 142.3593
+gather_ms           : 319.9076
+transfer_ms         : 104.7581
+compute_ms          : 191.4591
+wall_ms             : 761.8420
+drift_pct           : 0.0076
+nodes_per_batch     : 676768.0000
+mb_moved            : 1039.5156
+throughput_qps      : 9723.6535
+mean_power_w        : 42.3800
+energy_j            : 346.3099
+energy_mj_per_seed  : 4.3343
+power_samples       : 164
+peak_gpu_gb         : 9.4508
+------------------------------------------------------------
+  sample     18.8%  #########
+  gather     42.2%  #####################
+  transfer   13.8%  ######
+  compute    25.2%  ############
+============================================================
+wrote results to results/
+>>> b8192_f15x10 SURVIVED
+### ended 11:01:48
+
+##############################################
+### b4096_f15x10   batch=4096 fanout=15,10 iters=10
+### started 11:01:48
+##############################################
+[run] device=cuda  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (3s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 0.7 min)
+[run] 22 batches available, 1 warmup + 10 measured
+[check] batch nodes=378,594 from 4096 seeds  (x92.4)
+[check] edges=460,498  x=(378594, 768)  out=(378594, 153)
+[check] first 10 predicted classes: [89, 133, 124, 4, 84, 87, 4, 89, 124, 7]
+
+============================================================
+attribution drift: median 0.01%  max 0.02%
+attribution OK
+------------------------------------------------------------
+tag                 : stress_b4096_f15x10_927320
+seeds_total         : 40960
+batch_size          : 4096
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 10
+sample_ms           : 98.9053
+gather_ms           : 176.1837
+transfer_ms         : 57.8216
+compute_ms          : 101.9282
+wall_ms             : 434.1414
+drift_pct           : 0.0146
+nodes_per_batch     : 374587.0000
+mb_moved            : 575.3656
+throughput_qps      : 9590.6368
+mean_power_w        : 40.6841
+energy_j            : 171.8292
+energy_mj_per_seed  : 4.1950
+power_samples       : 85
+peak_gpu_gb         : 5.1447
+------------------------------------------------------------
+  sample     22.7%  ###########
+  gather     40.5%  ####################
+  transfer   13.3%  ######
+  compute    23.4%  ###########
+============================================================
+wrote results to results/
+>>> b4096_f15x10 SURVIVED
+### ended 11:02:46
+
+==============================================
+all configs attempted  Sat Oct  3 11:02:46 AM EDT 2026
+               total        used        free      shared  buff/cache   available
+Mem:            1007          16         411           0         585         991
+Swap:              3           0           3
+==============================================
+archived to /share/gupta/ak2877/gnn/results/stress_927320
+total 108
+drwxr-sr-x  2 ak2877 en-cc-unicorn-gupta-users  4096 Oct  3 11:02 .
+drwxr-sr-x 15 ak2877 en-cc-unicorn-gupta-users  4096 Oct  3 11:02 ..
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   100 Oct  3 11:02 hardware.txt
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   550 Oct  3 11:02 run.txt
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users 18786 Oct  3 11:02 sage_mag240m.py
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users 33285 Oct  3 11:02 stress_927320.err
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users 10916 Oct  3 11:02 stress_927320.out
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   860 Oct  3 11:02 stress_b16384_f15x10_927320_periter.csv
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users  1610 Oct  3 11:02 stress_b4096_f15x10_927320_periter.csv
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users  1602 Oct  3 11:02 stress_b8192_f15x10_927320_periter.csv
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   842 Oct  3 11:02 stress_b8192_f25x15_927320_periter.csv
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users  5296 Oct  3 11:02 summary.csv

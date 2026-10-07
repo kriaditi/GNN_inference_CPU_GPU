@@ -1,0 +1,69 @@
+==========================================
+job   : 660629 on rocky.tech.cornell.edu
+start : Tue Sep 29 05:48:56 PM EDT 2026
+config: seeds=88092 fanout=15,10 layers=2 batch=100 iters=200
+==========================================
+name, memory.total [MiB], power.limit [W]
+NVIDIA L4, 23034 MiB, 72.00 W
+8
+--- memory before ---
+               total        used        free      shared  buff/cache   available
+Mem:            1007          22         702           0         287         985
+Swap:              3           0           3
+[run] device=cuda  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (3s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 0.7 min)
+[run] 881 batches available, 2 warmup + 200 measured
+[check] batch nodes=12,049 from 100 seeds  (x120.5)
+[check] edges=12,888  x=(12049, 768)  out=(12049, 153)
+[check] first 10 predicted classes: [100, 119, 27, 96, 85, 124, 120, 92, 89, 137]
+
+============================================================
+attribution drift: median 0.37%  max 0.62%
+attribution OK
+------------------------------------------------------------
+tag                 : sweep_f15x10_660629
+seeds_total         : 20000
+batch_size          : 100
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 200
+sample_ms           : 1.4693
+gather_ms           : 2.3952
+transfer_ms         : 1.2603
+compute_ms          : 2.3070
+wall_ms             : 7.5377
+drift_pct           : 0.3686
+nodes_per_batch     : 11102.5000
+mb_moved            : 17.0534
+throughput_qps      : 12838.6205
+mean_power_w        : 36.5446
+energy_j            : 54.9732
+energy_mj_per_seed  : 2.7487
+power_samples       : 31
+peak_gpu_gb         : 0.1795
+------------------------------------------------------------
+  sample     19.8%  #########
+  gather     32.2%  ################
+  transfer   17.0%  ########
+  compute    31.0%  ###############
+============================================================
+wrote results to results/
+--- memory after ---
+               total        used        free      shared  buff/cache   available
+Mem:            1007         214         510           0         287         792
+Swap:              3           0           3
+end   : Tue Sep 29 05:49:46 PM EDT 2026
+archived to /share/gupta/ak2877/gnn/results/sweep_f15x10_660629
+total 80
+drwxr-sr-x  2 ak2877 en-cc-unicorn-gupta-users  4096 Sep 29 17:49 .
+drwxr-sr-x 12 ak2877 en-cc-unicorn-gupta-users  4096 Sep 29 17:49 ..
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   100 Sep 29 17:49 hardware.txt
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   392 Sep 29 17:49 run.txt
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users 18786 Sep 29 17:49 sage_mag240m.py
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users  2366 Sep 29 17:49 sage_mem_660629.err
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users  2377 Sep 29 17:49 sage_mem_660629.out
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users  3658 Sep 29 17:49 summary.csv
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users 31338 Sep 29 17:49 sweep_f15x10_660629_periter.csv

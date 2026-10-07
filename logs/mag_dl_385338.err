@@ -1,0 +1,13 @@
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/cuda/__init__.py:58: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+Traceback (most recent call last):
+  File "<stdin>", line 4, in <module>
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py", line 40, in __init__
+    self.download()
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py", line 48, in download
+    if decide_download(self.url):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/utils/url.py", line 17, in decide_download
+    return input("This will download %.2fGB. Will you proceed? (y/N)\n" % (size)).lower() == "y"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+EOFError: EOF when reading a line

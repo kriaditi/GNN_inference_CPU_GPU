@@ -1,0 +1,47 @@
+               total        used        free      shared  buff/cache   available
+Mem:            1007          13         528           0         470         993
+Swap:              3           0           3
+[run] device=cuda  seeds=1024  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (8s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 15.2 min)
+[run] 11 batches available, 2 warmup + 10 measured
+[check] batch nodes=10,942 from 100 seeds  (x109.4)
+[check] edges=12,016  x=(10942, 768)  out=(10942, 153)
+[check] first 10 predicted classes: [125, 64, 45, 85, 26, 26, 146, 111, 45, 69]
+
+============================================================
+attribution drift: median 1.89%  max 2.29%
+attribution OK
+------------------------------------------------------------
+tag                 : mag240m_inmem_L2
+seeds_total         : 924
+batch_size          : 100
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 10
+sample_ms           : 1.5194
+gather_ms           : 3.2062
+transfer_ms         : 1.2268
+compute_ms          : 2.0534
+wall_ms             : 8.5305
+drift_pct           : 1.8860
+nodes_per_batch     : 10791.0000
+mb_moved            : 16.5750
+throughput_qps      : 7602.2768
+mean_power_w        : 29.4220
+energy_j            : 1.4734
+energy_mj_per_seed  : 1.5946
+power_samples       : 2
+peak_gpu_gb         : 0.1730
+------------------------------------------------------------
+  sample     19.0%  #########
+  gather     40.0%  ####################
+  transfer   15.3%  #######
+  compute    25.6%  ############
+============================================================
+wrote results to results/
+               total        used        free      shared  buff/cache   available
+Mem:            1007          14         367           0         630         992
+Swap:              3           0           3

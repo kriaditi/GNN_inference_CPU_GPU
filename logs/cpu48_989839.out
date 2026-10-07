@@ -1,0 +1,369 @@
+==============================================
+job 989839 on rocky.tech.cornell.edu  Mon Oct  5 08:50:01 AM EDT 2026
+cores allocated: 48
+name, memory.total [MiB], power.limit [W]
+NVIDIA L4, 23034 MiB, 72.00 W
+               total        used        free      shared  buff/cache   available
+Mem:            1007          13         390           0         609         994
+Swap:              3           0           3
+==============================================
+
+##############################################
+### cpu48_b1024_f15x10  device=cpu batch=1024 fanout=15,10 iters=5
+### started 08:50:01
+##############################################
+[run] device=cpu  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (3s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 0.7 min)
+[run] 87 batches available, 1 warmup + 5 measured
+[check] batch nodes=104,750 from 1024 seeds  (x102.3)
+[check] edges=119,181  x=(104750, 768)  out=(104750, 153)
+[check] first 10 predicted classes: [11, 10, 135, 114, 96, 75, 79, 114, 58, 55]
+
+============================================================
+attribution drift: median 0.00%  max 0.00%
+attribution OK
+------------------------------------------------------------
+tag                 : cpu48_b1024_f15x10_989839
+seeds_total         : 5120
+batch_size          : 1024
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 5
+sample_ms           : 50.9309
+gather_ms           : 46.2282
+transfer_ms         : 15.3979
+compute_ms          : 555.4447
+wall_ms             : 664.1605
+drift_pct           : 0.0003
+nodes_per_batch     : 106955.0000
+mb_moved            : 164.2829
+throughput_qps      : 1516.1209
+mean_power_w        : 16.4527
+energy_j            : 54.4145
+energy_mj_per_seed  : 10.6278
+power_samples       : 66
+peak_gpu_gb         : 0.0000
+------------------------------------------------------------
+  sample      7.6%  ###
+  gather      6.9%  ###
+  transfer    2.3%  #
+  compute    83.2%  #########################################
+============================================================
+wrote results to results/
+>>> cpu48_b1024_f15x10 SURVIVED
+### ended 08:51:00
+
+##############################################
+### gpu48_b1024_f15x10  device=cuda batch=1024 fanout=15,10 iters=5
+### started 08:51:00
+##############################################
+[run] device=cuda  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (3s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 0.7 min)
+[run] 87 batches available, 1 warmup + 5 measured
+[check] batch nodes=104,379 from 1024 seeds  (x101.9)
+[check] edges=118,875  x=(104379, 768)  out=(104379, 153)
+[check] first 10 predicted classes: [124, 124, 38, 85, 130, 92, 113, 35, 81, 35]
+
+============================================================
+attribution drift: median 0.04%  max 0.05%
+attribution OK
+------------------------------------------------------------
+tag                 : gpu48_b1024_f15x10_989839
+seeds_total         : 5120
+batch_size          : 1024
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 5
+sample_ms           : 61.8422
+gather_ms           : 41.0909
+transfer_ms         : 13.3826
+compute_ms          : 27.8672
+wall_ms             : 146.6749
+drift_pct           : 0.0435
+nodes_per_batch     : 106907.0000
+mb_moved            : 164.2092
+throughput_qps      : 7181.5778
+mean_power_w        : 33.2822
+energy_j            : 22.1519
+energy_mj_per_seed  : 4.3265
+power_samples       : 14
+peak_gpu_gb         : 1.4578
+------------------------------------------------------------
+  sample     42.9%  #####################
+  gather     28.5%  ##############
+  transfer    9.3%  ####
+  compute    19.3%  #########
+============================================================
+wrote results to results/
+>>> gpu48_b1024_f15x10 SURVIVED
+### ended 08:51:53
+
+##############################################
+### cpu48_b4096_f15x10  device=cpu batch=4096 fanout=15,10 iters=3
+### started 08:51:53
+##############################################
+[run] device=cpu  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (3s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 0.7 min)
+[run] 22 batches available, 1 warmup + 3 measured
+[check] batch nodes=378,198 from 4096 seeds  (x92.3)
+[check] edges=460,087  x=(378198, 768)  out=(378198, 153)
+[check] first 10 predicted classes: [65, 71, 31, 23, 31, 15, 45, 72, 31, 12]
+
+============================================================
+attribution drift: median 0.00%  max 0.00%
+attribution OK
+------------------------------------------------------------
+tag                 : cpu48_b4096_f15x10_989839
+seeds_total         : 12288
+batch_size          : 4096
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 3
+sample_ms           : 60.8048
+gather_ms           : 141.0535
+transfer_ms         : 70.0033
+compute_ms          : 853.6912
+wall_ms             : 1127.2569
+drift_pct           : 0.0002
+nodes_per_batch     : 377144.0000
+mb_moved            : 579.2932
+throughput_qps      : 3630.6738
+mean_power_w        : 16.5092
+energy_j            : 55.7752
+energy_mj_per_seed  : 4.5390
+power_samples       : 68
+peak_gpu_gb         : 0.0000
+------------------------------------------------------------
+  sample      5.4%  ##
+  gather     12.5%  ######
+  transfer    6.2%  ###
+  compute    75.8%  #####################################
+============================================================
+wrote results to results/
+>>> cpu48_b4096_f15x10 SURVIVED
+### ended 08:52:48
+
+##############################################
+### gpu48_b4096_f15x10  device=cuda batch=4096 fanout=15,10 iters=5
+### started 08:52:48
+##############################################
+[run] device=cuda  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (3s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 0.7 min)
+[run] 22 batches available, 1 warmup + 5 measured
+[check] batch nodes=379,003 from 4096 seeds  (x92.5)
+[check] edges=460,874  x=(379003, 768)  out=(379003, 153)
+[check] first 10 predicted classes: [19, 135, 142, 135, 116, 97, 144, 98, 135, 9]
+
+============================================================
+attribution drift: median 0.02%  max 0.02%
+attribution OK
+------------------------------------------------------------
+tag                 : gpu48_b4096_f15x10_989839
+seeds_total         : 20480
+batch_size          : 4096
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 5
+sample_ms           : 116.3921
+gather_ms           : 140.1836
+transfer_ms         : 46.4933
+compute_ms          : 102.2833
+wall_ms             : 404.2638
+drift_pct           : 0.0170
+nodes_per_batch     : 376742.0000
+mb_moved            : 578.6757
+throughput_qps      : 10235.2145
+mean_power_w        : 38.7368
+energy_j            : 76.0614
+energy_mj_per_seed  : 3.7139
+power_samples       : 40
+peak_gpu_gb         : 5.1468
+------------------------------------------------------------
+  sample     28.7%  ##############
+  gather     34.6%  #################
+  transfer   11.5%  #####
+  compute    25.2%  ############
+============================================================
+wrote results to results/
+>>> gpu48_b4096_f15x10 SURVIVED
+### ended 08:53:41
+
+##############################################
+### gpu48_b16384_f15x10  device=cuda batch=16384 fanout=15,10 iters=5
+### started 08:53:41
+##############################################
+[run] device=cuda  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (3s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 0.7 min)
+[run] 6 batches available, 1 warmup + 5 measured
+[check] batch nodes=1,184,817 from 16384 seeds  (x72.3)
+[check] edges=1,663,503  x=(1184817, 768)  out=(1184817, 153)
+[check] first 10 predicted classes: [37, 34, 11, 92, 92, 120, 116, 11, 11, 11]
+
+============================================================
+attribution drift: median 0.01%  max 0.01%
+attribution OK
+------------------------------------------------------------
+tag                 : gpu48_b16384_f15x10_989839
+seeds_total         : 71708
+batch_size          : 16384
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 5
+sample_ms           : 285.0182
+gather_ms           : 435.6456
+transfer_ms         : 149.0378
+compute_ms          : 348.5524
+wall_ms             : 1214.4070
+drift_pct           : 0.0053
+nodes_per_batch     : 1176345.0000
+mb_moved            : 1806.8659
+throughput_qps      : 12831.1671
+mean_power_w        : 46.3181
+energy_j            : 257.7551
+energy_mj_per_seed  : 3.5945
+power_samples       : 112
+peak_gpu_gb         : 16.7657
+------------------------------------------------------------
+  sample     23.4%  ###########
+  gather     35.8%  #################
+  transfer   12.2%  ######
+  compute    28.6%  ##############
+============================================================
+wrote results to results/
+>>> gpu48_b16384_f15x10 SURVIVED
+### ended 08:54:39
+
+##############################################
+### gpu48_b8192_f25x15  device=cuda batch=8192 fanout=25,15 iters=5
+### started 08:54:39
+##############################################
+[run] device=cuda  seeds=88092  fanout=[25, 15]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (3s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 0.7 min)
+[run] 11 batches available, 1 warmup + 5 measured
+[check] batch nodes=1,212,693 from 8192 seeds  (x148.0)
+[check] edges=1,777,955  x=(1212693, 768)  out=(1212693, 153)
+[check] first 10 predicted classes: [117, 108, 12, 20, 10, 117, 117, 117, 95, 63]
+
+============================================================
+attribution drift: median 0.01%  max 0.01%
+attribution OK
+------------------------------------------------------------
+tag                 : gpu48_b8192_f25x15_989839
+seeds_total         : 40960
+batch_size          : 8192
+fanout              : 25,15
+layers              : 2
+hidden              : 256
+iters               : 5
+sample_ms           : 287.6084
+gather_ms           : 442.4291
+transfer_ms         : 155.8624
+compute_ms          : 357.0164
+wall_ms             : 1243.5425
+drift_pct           : 0.0052
+nodes_per_batch     : 1194619.0000
+mb_moved            : 1834.9348
+throughput_qps      : 6515.6224
+mean_power_w        : 45.1590
+energy_j            : 281.1903
+energy_mj_per_seed  : 6.8650
+power_samples       : 125
+peak_gpu_gb         : 17.3662
+------------------------------------------------------------
+  sample     23.1%  ###########
+  gather     35.6%  #################
+  transfer   12.5%  ######
+  compute    28.7%  ##############
+============================================================
+wrote results to results/
+>>> gpu48_b8192_f25x15 SURVIVED
+### ended 08:55:37
+
+##############################################
+### cpu48_b16384_f15x10  device=cpu batch=16384 fanout=15,10 iters=2
+### started 08:55:37
+##############################################
+[run] device=cpu  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (3s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 0.7 min)
+[run] 6 batches available, 1 warmup + 2 measured
+[check] batch nodes=1,186,552 from 16384 seeds  (x72.4)
+[check] edges=1,664,556  x=(1186552, 768)  out=(1186552, 153)
+[check] first 10 predicted classes: [19, 68, 95, 66, 113, 66, 66, 66, 2, 66]
+
+============================================================
+attribution drift: median 0.00%  max 0.00%
+attribution OK
+------------------------------------------------------------
+tag                 : cpu48_b16384_f15x10_989839
+seeds_total         : 32768
+batch_size          : 16384
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 2
+sample_ms           : 235.7391
+gather_ms           : 442.9409
+transfer_ms         : 207.2024
+compute_ms          : 2561.7426
+wall_ms             : 3447.6269
+drift_pct           : 0.0001
+nodes_per_batch     : 1174459.5000
+mb_moved            : 1803.9698
+throughput_qps      : 4752.2223
+mean_power_w        : 16.5496
+energy_j            : 112.9994
+energy_mj_per_seed  : 3.4485
+power_samples       : 137
+peak_gpu_gb         : 0.0000
+------------------------------------------------------------
+  sample      6.8%  ###
+  gather     12.8%  ######
+  transfer    6.0%  ###
+  compute    74.3%  #####################################
+============================================================
+wrote results to results/
+>>> cpu48_b16384_f15x10 SURVIVED
+### ended 08:56:39
+
+==============================================
+done Mon Oct  5 08:56:39 AM EDT 2026
+               total        used        free      shared  buff/cache   available
+Mem:            1007          23         380           0         609         983
+Swap:              3           0           3
+==============================================
+archived to /share/gupta/ak2877/gnn/results/cpu48_989839
+total 108
+drwxr-sr-x  2 ak2877 en-cc-unicorn-gupta-users  4096 Oct  5 08:56 .
+drwxr-sr-x 16 ak2877 en-cc-unicorn-gupta-users  4096 Oct  5 08:56 ..
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users 16562 Oct  5 08:56 cpu48_989839.err
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users 13625 Oct  5 08:56 cpu48_989839.out
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   858 Oct  5 08:56 cpu48_b1024_f15x10_989839_periter.csv
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   403 Oct  5 08:56 cpu48_b16384_f15x10_989839_periter.csv
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   545 Oct  5 08:56 cpu48_b4096_f15x10_989839_periter.csv
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   857 Oct  5 08:56 gpu48_b1024_f15x10_989839_periter.csv
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   856 Oct  5 08:56 gpu48_b16384_f15x10_989839_periter.csv
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   849 Oct  5 08:56 gpu48_b4096_f15x10_989839_periter.csv
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   854 Oct  5 08:56 gpu48_b8192_f25x15_989839_periter.csv
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   100 Oct  5 08:56 hardware.txt
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   572 Oct  5 08:56 run.txt
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users 19171 Oct  5 08:56 sage_mag240m.py
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users  7457 Oct  5 08:56 summary.csv

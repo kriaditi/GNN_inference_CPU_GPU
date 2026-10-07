@@ -1,0 +1,69 @@
+==========================================
+job   : 648241 on rocky.tech.cornell.edu
+start : Tue Sep 29 02:48:18 PM EDT 2026
+config: seeds=1024 fanout=15,10 layers=2 batch=100 iters=100
+==========================================
+name, memory.total [MiB], power.limit [W]
+NVIDIA L4, 23034 MiB, 72.00 W
+8
+--- memory before ---
+               total        used        free      shared  buff/cache   available
+Mem:            1007          18         743           0         250         988
+Swap:              3           0           3
+[run] device=cuda  seeds=1024  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (28s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 1.4 min)
+[run] 11 batches available, 2 warmup + 100 measured
+[check] batch nodes=10,870 from 100 seeds  (x108.7)
+[check] edges=12,022  x=(10870, 768)  out=(10870, 153)
+[check] first 10 predicted classes: [70, 42, 109, 13, 5, 5, 97, 95, 109, 46]
+
+============================================================
+attribution drift: median 0.40%  max 1.46%
+attribution OK
+------------------------------------------------------------
+tag                 : drift_check_648241
+seeds_total         : 9316
+batch_size          : 100
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 100
+sample_ms           : 1.4107
+gather_ms           : 2.3336
+transfer_ms         : 1.2030
+compute_ms          : 2.2129
+wall_ms             : 7.3315
+drift_pct           : 0.3962
+nodes_per_batch     : 10802.0000
+mb_moved            : 16.5919
+throughput_qps      : 12783.1624
+mean_power_w        : 30.5128
+energy_j            : 19.9179
+energy_mj_per_seed  : 2.1380
+power_samples       : 14
+peak_gpu_gb         : 0.1746
+------------------------------------------------------------
+  sample     19.7%  #########
+  gather     32.6%  ################
+  transfer   16.8%  ########
+  compute    30.9%  ###############
+============================================================
+wrote results to results/
+--- memory after ---
+               total        used        free      shared  buff/cache   available
+Mem:            1007          20         710           0         281         987
+Swap:              3           0           3
+end   : Tue Sep 29 02:50:39 PM EDT 2026
+archived to /share/gupta/ak2877/gnn/results/drift_check_648241
+total 60
+drwxr-sr-x 2 ak2877 en-cc-unicorn-gupta-users  4096 Sep 29 14:50 .
+drwxr-sr-x 4 ak2877 en-cc-unicorn-gupta-users    64 Sep 29 14:50 ..
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users 15635 Sep 29 14:50 drift_check_648241_periter.csv
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users   100 Sep 29 14:50 hardware.txt
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users   391 Sep 29 14:50 run.txt
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users 18786 Sep 29 14:50 sage_mag240m.py
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users  2366 Sep 29 14:50 sage_mem_648241.err
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users  2368 Sep 29 14:50 sage_mem_648241.out
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users  1526 Sep 29 14:50 summary.csv

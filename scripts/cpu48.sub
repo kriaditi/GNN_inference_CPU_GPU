@@ -1,0 +1,102 @@
+#!/bin/bash
+#SBATCH --job-name=cpu48
+#SBATCH -o logs/cpu48_%j.out
+#SBATCH -e logs/cpu48_%j.err
+#SBATCH --get-user-env
+#SBATCH --mem=400G
+#SBATCH -t 08:00:00
+#SBATCH --gres=gpu:1
+#SBATCH --partition=gupta
+#SBATCH --nodelist=rocky
+#SBATCH --cpus-per-task=48
+
+# Two things in one job:
+#   A. CPU vs GPU at 48 cores, so the comparison uses the whole machine
+#      rather than the 8 cores the earlier runs had.
+#   B. Worst-case configs at the largest batch that survived, so there are
+#      second-scale numbers to put beside the first stress ladder.
+#
+# Every config runs as its own python process. A failure kills only that
+# config; the ladder continues.
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+
+echo "=============================================="
+echo "job $SLURM_JOB_ID on $(hostname)  $(date)"
+echo "cores allocated: $(nproc)"
+nvidia-smi --query-gpu=name,memory.total,power.limit --format=csv
+free -g
+echo "=============================================="
+
+# device : batch : fanout : iters : label
+CONFIGS=(
+  "cpu:1024:15,10:5:cpu48_b1024_f15x10"
+  "cuda:1024:15,10:5:gpu48_b1024_f15x10"
+  "cpu:4096:15,10:3:cpu48_b4096_f15x10"
+  "cuda:4096:15,10:5:gpu48_b4096_f15x10"
+  "cuda:16384:15,10:5:gpu48_b16384_f15x10"
+  "cuda:8192:25,15:5:gpu48_b8192_f25x15"
+  "cpu:16384:15,10:2:cpu48_b16384_f15x10"
+)
+
+for CFG in "${CONFIGS[@]}"; do
+  IFS=':' read -r DEV BATCH FANOUT ITERS LABEL <<< "$CFG"
+  echo ""
+  echo "##############################################"
+  echo "### $LABEL  device=$DEV batch=$BATCH fanout=$FANOUT iters=$ITERS"
+  echo "### started $(date +%T)"
+  echo "##############################################"
+
+  python sage_mag240m.py \
+    --seeds 88092 \
+    --fanout "$FANOUT" \
+    --layers 2 \
+    --batch-size "$BATCH" \
+    --iters "$ITERS" \
+    --warmup 1 \
+    --device "$DEV" \
+    --in-memory \
+    --out results \
+    --tag "${LABEL}_${SLURM_JOB_ID}"
+
+  RC=$?
+  if [ $RC -ne 0 ]; then
+    echo ">>> $LABEL FAILED exit $RC"
+  else
+    echo ">>> $LABEL SURVIVED"
+  fi
+  echo "### ended $(date +%T)"
+done
+
+echo ""
+echo "=============================================="
+echo "done $(date)"
+free -g
+echo "=============================================="
+
+ARCHIVE=/share/gupta/ak2877/gnn/results/cpu48_${SLURM_JOB_ID}
+mkdir -p "$ARCHIVE"
+cp results/*_${SLURM_JOB_ID}_periter.csv "$ARCHIVE/" 2>/dev/null
+cp results/summary.csv "$ARCHIVE/" 2>/dev/null
+cp logs/cpu48_${SLURM_JOB_ID}.out "$ARCHIVE/" 2>/dev/null
+cp logs/cpu48_${SLURM_JOB_ID}.err "$ARCHIVE/" 2>/dev/null
+cp sage_mag240m.py "$ARCHIVE/"
+nvidia-smi --query-gpu=name,driver_version,memory.total,power.limit \
+  --format=csv > "$ARCHIVE/hardware.txt"
+
+cat > "$ARCHIVE/run.txt" << EOF
+job        : $SLURM_JOB_ID
+node       : $(hostname)
+date       : $(date)
+cores      : $SLURM_CPUS_PER_TASK (nproc reported $(nproc))
+purpose    : CPU vs GPU at full core count, plus second-scale worst cases
+configs    : ${CONFIGS[@]}
+features   : 187 GB paper-only table, resident in RAM
+slurm_mem  : 400G
+exclusive  : no
+EOF
+
+echo "archived to $ARCHIVE"
+ls -la "$ARCHIVE"

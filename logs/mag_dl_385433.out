@@ -1,0 +1,14 @@
+=== disk before ===
+Filesystem                                        Size  Used Avail Use% Mounted on
+gupta-nfs-01.tech.cornell.edu:/export/data/gupta   59T   51T  8.2T  87% /share/gupta
+This will download 167.39GB. Will you proceed? (y/N)
+Downloading https://dgl-data.s3-accelerate.amazonaws.com/dataset/OGB-LSC/mag240m_kddcup2021.zip
+Extracting /share/gupta/ak2877/gnn/data/mag240m_kddcup2021.zip
+papers      : 121751666
+feat dim    : 768
+classes     : 153
+elapsed min : 71.45253156820932
+=== disk after ===
+Filesystem                                        Size  Used Avail Use% Mounted on
+gupta-nfs-01.tech.cornell.edu:/export/data/gupta   59T   52T  8.0T  87% /share/gupta
+202G	/share/gupta/ak2877/gnn/data/mag240m_kddcup2021

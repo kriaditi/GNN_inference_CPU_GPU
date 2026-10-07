@@ -1,0 +1,93 @@
+#!/bin/bash
+#SBATCH --job-name=scenB
+#SBATCH -o logs/scenB_%j.out
+#SBATCH -e logs/scenB_%j.err
+#SBATCH --get-user-env
+#SBATCH --mem=400G
+#SBATCH -t 06:00:00
+#SBATCH --gres=gpu:1
+#SBATCH --partition=gupta
+#SBATCH --nodelist=rocky
+#SBATCH --cpus-per-task=8
+
+# Scenario B: full-corpus reclassification.
+#
+# The claim from arithmetic: 121.75M papers at 12,831 QPS is ~2.6 hours.
+# That assumes throughput holds steady for hours. This run tests that
+# assumption rather than taking it.
+#
+# Three durations at the same config, so a trend is visible:
+#   1,000 iterations  (~20 min of batches at 1.2M nodes each)
+#   3,000 iterations
+#   6,000 iterations
+#
+# If QPS is flat across all three, extrapolating to the full corpus is
+# defensible. If it decays, the 2.6 hour figure is optimistic and that is
+# the more interesting result.
+#
+# 8 cores deliberately, matching the earlier sweeps rather than the 48-core
+# run, so these numbers sit beside the existing ones.
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+
+echo "=============================================="
+echo "job $SLURM_JOB_ID on $(hostname)  $(date)"
+echo "cores: $(nproc)"
+nvidia-smi --query-gpu=name,memory.total,power.limit --format=csv
+free -g
+echo "=============================================="
+
+for ITERS in 1000 3000 6000; do
+  echo ""
+  echo "##############################################"
+  echo "### sustained run, $ITERS iterations"
+  echo "### started $(date +%T)"
+  echo "##############################################"
+
+  python sage_mag240m.py \
+    --seeds 88092 \
+    --fanout 15,10 \
+    --layers 2 \
+    --batch-size 16384 \
+    --iters "$ITERS" \
+    --warmup 2 \
+    --in-memory \
+    --out results \
+    --tag "scenB_i${ITERS}_${SLURM_JOB_ID}"
+
+  RC=$?
+  [ $RC -ne 0 ] && echo ">>> ${ITERS} iters FAILED exit $RC" || echo ">>> ${ITERS} iters SURVIVED"
+  echo "### ended $(date +%T)"
+done
+
+echo ""
+echo "=============================================="
+echo "done $(date)"
+free -g
+
+ARCHIVE=/share/gupta/ak2877/gnn/results/scenB_${SLURM_JOB_ID}
+mkdir -p "$ARCHIVE"
+cp results/scenB_*_${SLURM_JOB_ID}_periter.csv "$ARCHIVE/" 2>/dev/null
+cp results/summary.csv "$ARCHIVE/" 2>/dev/null
+cp logs/scenB_${SLURM_JOB_ID}.out "$ARCHIVE/" 2>/dev/null
+cp logs/scenB_${SLURM_JOB_ID}.err "$ARCHIVE/" 2>/dev/null
+cp sage_mag240m.py "$ARCHIVE/"
+nvidia-smi --query-gpu=name,driver_version,memory.total,power.limit \
+  --format=csv > "$ARCHIVE/hardware.txt"
+
+cat > "$ARCHIVE/run.txt" << EOF
+job        : $SLURM_JOB_ID
+node       : $(hostname)
+date       : $(date)
+purpose    : scenario B, does throughput hold over sustained running
+config     : batch 16384, fanout 15,10, 2 layers, features resident
+durations  : 1000 / 3000 / 6000 iterations
+cores      : $SLURM_CPUS_PER_TASK
+slurm_mem  : 400G
+exclusive  : no
+EOF
+
+echo "archived to $ARCHIVE"
+ls -la "$ARCHIVE"

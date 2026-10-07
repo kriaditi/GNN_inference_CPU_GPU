@@ -1,0 +1,6 @@
+torch
+torch_geometric
+pyg_lib
+ogb
+numpy
+pynvml

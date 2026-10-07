@@ -1,0 +1,210 @@
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/cuda/__init__.py:58: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+Traceback (most recent call last):
+  File "/home/ak2877/gnn/sage_mag240m.py", line 445, in <module>
+    main()
+  File "/home/ak2877/gnn/sage_mag240m.py", line 441, in main
+    run(p.parse_args())
+  File "/home/ak2877/gnn/sage_mag240m.py", line 305, in run
+    x = x.float()
+        ^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 33.62 GiB. GPU 0 has a total capacity of 22.05 GiB of which 4.37 GiB is free. Including non-PyTorch memory, this process has 17.66 GiB memory in use. Of the allocated memory 17.48 GiB is allocated by PyTorch, and 3.11 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/cuda/__init__.py:58: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+Traceback (most recent call last):
+  File "/home/ak2877/gnn/sage_mag240m.py", line 445, in <module>
+    main()
+  File "/home/ak2877/gnn/sage_mag240m.py", line 441, in main
+    run(p.parse_args())
+  File "/home/ak2877/gnn/sage_mag240m.py", line 305, in run
+    x = x.float()
+        ^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 20.81 GiB. GPU 0 has a total capacity of 22.05 GiB of which 11.16 GiB is free. Including non-PyTorch memory, this process has 10.88 GiB memory in use. Of the allocated memory 10.70 GiB is allocated by PyTorch, and 204.00 KiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/cuda/__init__.py:58: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+Traceback (most recent call last):
+  File "/home/ak2877/gnn/sage_mag240m.py", line 445, in <module>
+    main()
+  File "/home/ak2877/gnn/sage_mag240m.py", line 441, in main
+    run(p.parse_args())
+  File "/home/ak2877/gnn/sage_mag240m.py", line 306, in run
+    out = model(x, ei)
+          ^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/gnn/sage_mag240m.py", line 105, in forward
+    x = conv(x, edge_index)
+        ^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/conv/sage_conv.py", line 134, in forward
+    out = self.propagate(edge_index, x=x, size=size)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/torch_geometric.nn.conv.sage_conv_SAGEConv_propagate_watzhfem.py", line 173, in propagate
+    kwargs = self.collect(
+             ^^^^^^^^^^^^^
+  File "/tmp/torch_geometric.nn.conv.sage_conv_SAGEConv_propagate_watzhfem.py", line 83, in collect
+    x_j = self._index_select(_x_0, edge_index_j)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/conv/message_passing.py", line 267, in _index_select
+    return self._index_select_safe(src, index)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/conv/message_passing.py", line 290, in _index_select_safe
+    raise e
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/conv/message_passing.py", line 271, in _index_select_safe
+    return src.index_select(self.node_dim, index)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 26.36 GiB. GPU 0 has a total capacity of 22.05 GiB of which 9.38 GiB is free. Including non-PyTorch memory, this process has 12.65 GiB memory in use. Of the allocated memory 12.44 GiB is allocated by PyTorch, and 1.62 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/cuda/__init__.py:58: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+Traceback (most recent call last):
+  File "/home/ak2877/gnn/sage_mag240m.py", line 445, in <module>
+    main()
+  File "/home/ak2877/gnn/sage_mag240m.py", line 441, in main
+    run(p.parse_args())
+  File "/home/ak2877/gnn/sage_mag240m.py", line 306, in run
+    out = model(x, ei)
+          ^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/gnn/sage_mag240m.py", line 105, in forward
+    x = conv(x, edge_index)
+        ^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/conv/sage_conv.py", line 134, in forward
+    out = self.propagate(edge_index, x=x, size=size)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/torch_geometric.nn.conv.sage_conv_SAGEConv_propagate_1en_48i0.py", line 173, in propagate
+    kwargs = self.collect(
+             ^^^^^^^^^^^^^
+  File "/tmp/torch_geometric.nn.conv.sage_conv_SAGEConv_propagate_1en_48i0.py", line 83, in collect
+    x_j = self._index_select(_x_0, edge_index_j)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/conv/message_passing.py", line 267, in _index_select
+    return self._index_select_safe(src, index)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/conv/message_passing.py", line 290, in _index_select_safe
+    raise e
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/conv/message_passing.py", line 271, in _index_select_safe
+    return src.index_select(self.node_dim, index)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 14.95 GiB. GPU 0 has a total capacity of 22.05 GiB of which 13.67 GiB is free. Including non-PyTorch memory, this process has 8.37 GiB memory in use. Of the allocated memory 8.16 GiB is allocated by PyTorch, and 204.00 KiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/cuda/__init__.py:58: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+Traceback (most recent call last):
+  File "/home/ak2877/gnn/sage_mag240m.py", line 445, in <module>
+    main()
+  File "/home/ak2877/gnn/sage_mag240m.py", line 441, in main
+    run(p.parse_args())
+  File "/home/ak2877/gnn/sage_mag240m.py", line 306, in run
+    out = model(x, ei)
+          ^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/gnn/sage_mag240m.py", line 105, in forward
+    x = conv(x, edge_index)
+        ^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/conv/sage_conv.py", line 134, in forward
+    out = self.propagate(edge_index, x=x, size=size)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/torch_geometric.nn.conv.sage_conv_SAGEConv_propagate_kcg7v54x.py", line 229, in propagate
+    out = self.aggregate(
+          ^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/conv/message_passing.py", line 594, in aggregate
+    return self.aggr_module(inputs, index, ptr=ptr, dim_size=dim_size,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch_geometric/experimental.py", line 117, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/aggr/base.py", line 139, in __call__
+    raise e
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/aggr/base.py", line 131, in __call__
+    return super().__call__(x, index=index, ptr=ptr, dim_size=dim_size,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/aggr/basic.py", line 36, in forward
+    return self.reduce(x, index, ptr, dim_size, dim, reduce='mean')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/aggr/base.py", line 185, in reduce
+    return scatter(x, index, dim, dim_size, reduce)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch_geometric/utils/_scatter.py", line 78, in scatter
+    out = src.new_zeros(size).scatter_add_(dim, index, src)
+          ^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 5.78 GiB. GPU 0 has a total capacity of 22.05 GiB of which 3.68 GiB is free. Including non-PyTorch memory, this process has 18.36 GiB memory in use. Of the allocated memory 15.26 GiB is allocated by PyTorch, and 2.89 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/cuda/__init__.py:58: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/cuda/__init__.py:58: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/cuda/__init__.py:58: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/torch/cuda/__init__.py:58: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ak2877/.conda/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))

@@ -1,0 +1,172 @@
+==============================================
+job 990026 on rocky.tech.cornell.edu  Mon Oct  5 09:41:08 AM EDT 2026
+cores: 8
+name, memory.total [MiB], power.limit [W]
+NVIDIA L4, 23034 MiB, 72.00 W
+               total        used        free      shared  buff/cache   available
+Mem:            1007          14         389           0         609         993
+Swap:              3           0           3
+==============================================
+
+##############################################
+### sustained run, 1000 iterations
+### started 09:41:08
+##############################################
+[run] device=cuda  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (4s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 2.1 min)
+[run] 6 batches available, 2 warmup + 1000 measured
+[check] batch nodes=1,185,228 from 16384 seeds  (x72.3)
+[check] edges=1,663,854  x=(1185228, 768)  out=(1185228, 153)
+[check] first 10 predicted classes: [11, 11, 11, 50, 148, 151, 117, 84, 26, 40]
+
+============================================================
+attribution drift: median 0.00%  max 0.07%
+attribution OK
+------------------------------------------------------------
+tag                 : scenB_i1000_990026
+seeds_total         : 14678596
+batch_size          : 16384
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 239.7939
+gather_ms           : 1406.3488
+transfer_ms         : 175.3565
+compute_ms          : 351.4255
+wall_ms             : 2175.7958
+drift_pct           : 0.0028
+nodes_per_batch     : 1177326.0000
+mb_moved            : 1808.3727
+throughput_qps      : 7386.6238
+mean_power_w        : 40.7545
+energy_j            : 80985.8897
+energy_mj_per_seed  : 5.5173
+power_samples       : 39673
+peak_gpu_gb         : 16.7882
+------------------------------------------------------------
+  sample     11.0%  #####
+  gather     64.7%  ################################
+  transfer    8.1%  ####
+  compute    16.2%  ########
+============================================================
+wrote results to results/
+>>> 1000 iters SURVIVED
+### ended 10:16:55
+
+##############################################
+### sustained run, 3000 iterations
+### started 10:16:55
+##############################################
+[run] device=cuda  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (4s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 2.0 min)
+[run] 6 batches available, 2 warmup + 3000 measured
+[check] batch nodes=1,185,781 from 16384 seeds  (x72.4)
+[check] edges=1,665,137  x=(1185781, 768)  out=(1185781, 153)
+[check] first 10 predicted classes: [66, 113, 113, 24, 48, 66, 40, 48, 110, 52]
+
+============================================================
+attribution drift: median 0.00%  max 0.04%
+attribution OK
+------------------------------------------------------------
+tag                 : scenB_i3000_990026
+seeds_total         : 44046000
+batch_size          : 16384
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 3000
+sample_ms           : 239.3858
+gather_ms           : 1399.9711
+transfer_ms         : 172.0369
+compute_ms          : 352.0822
+wall_ms             : 2164.7380
+drift_pct           : 0.0029
+nodes_per_batch     : 1177236.5000
+mb_moved            : 1808.2353
+throughput_qps      : 7417.5862
+mean_power_w        : 40.7512
+energy_j            : 241982.2624
+energy_mj_per_seed  : 5.4939
+power_samples       : 118546
+peak_gpu_gb         : 16.7909
+------------------------------------------------------------
+  sample     11.1%  #####
+  gather     64.7%  ################################
+  transfer    8.0%  ###
+  compute    16.3%  ########
+============================================================
+wrote results to results/
+>>> 3000 iters SURVIVED
+### ended 11:58:42
+
+##############################################
+### sustained run, 6000 iterations
+### started 11:58:42
+##############################################
+[run] device=cuda  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (4s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 2.0 min)
+[run] 6 batches available, 2 warmup + 6000 measured
+[check] batch nodes=1,185,966 from 16384 seeds  (x72.4)
+[check] edges=1,662,986  x=(1185966, 768)  out=(1185966, 153)
+[check] first 10 predicted classes: [82, 87, 6, 6, 6, 87, 6, 6, 2, 114]
+
+============================================================
+attribution drift: median 0.00%  max 0.02%
+attribution OK
+------------------------------------------------------------
+tag                 : scenB_i6000_990026
+seeds_total         : 88092000
+batch_size          : 16384
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 6000
+sample_ms           : 257.2866
+gather_ms           : 1405.5233
+transfer_ms         : 174.9312
+compute_ms          : 351.5958
+wall_ms             : 2183.8412
+drift_pct           : 0.0033
+nodes_per_batch     : 1177214.0000
+mb_moved            : 1808.2007
+throughput_qps      : 7237.4345
+mean_power_w        : 40.5291
+energy_j            : 493309.3506
+energy_mj_per_seed  : 5.5999
+power_samples       : 242969
+peak_gpu_gb         : 16.7974
+------------------------------------------------------------
+  sample     11.8%  #####
+  gather     64.2%  ################################
+  transfer    8.0%  ###
+  compute    16.1%  ########
+============================================================
+wrote results to results/
+>>> 6000 iters SURVIVED
+### ended 15:24:21
+
+==============================================
+done Mon Oct  5 03:24:21 PM EDT 2026
+               total        used        free      shared  buff/cache   available
+Mem:            1007          35         353           0         624         972
+Swap:              3           0           3
+archived to /share/gupta/ak2877/gnn/results/scenB_990026
+total 1584
+drwxr-sr-x  2 ak2877 en-cc-unicorn-gupta-users   4096 Oct  5 15:24 .
+drwxr-sr-x 17 ak2877 en-cc-unicorn-gupta-users   4096 Oct  5 15:24 ..
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users    100 Oct  5 15:24 hardware.txt
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users    330 Oct  5 15:24 run.txt
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users  19731 Oct  5 15:24 sage_mag240m.py
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   7098 Oct  5 15:24 scenB_990026.err
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   6159 Oct  5 15:24 scenB_990026.out
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users 154628 Oct  5 15:24 scenB_i1000_990026_periter.csv
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users 465950 Oct  5 15:24 scenB_i3000_990026_periter.csv
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users 932356 Oct  5 15:24 scenB_i6000_990026_periter.csv
+-rw-r--r--  1 ak2877 en-cc-unicorn-gupta-users   8303 Oct  5 15:24 summary.csv
