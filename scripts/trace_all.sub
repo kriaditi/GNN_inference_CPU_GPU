@@ -1,0 +1,43 @@
+#!/bin/bash
+#SBATCH --job-name=trace_all
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/trace_all_%j.out
+#SBATCH -e logs/trace_all_%j.err
+#SBATCH --get-user-env
+#SBATCH --mem=400G
+#SBATCH -t 08:00:00
+#SBATCH --gres=gpu:1
+#SBATCH --partition=gupta
+#SBATCH --nodelist=rocky
+#SBATCH --cpus-per-task=8
+
+# Same as trace.sub but every seed is used once, drawn from all 121.75M
+# papers: 6000 batches x 16384 = 98.3M seeds, no recycling. Tests whether
+# the hot set found in trace_50297 is a graph property or an artefact of
+# cycling the 88k test-dev seeds.
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+
+echo "job $SLURM_JOB_ID on $(hostname)  $(date)"
+TAG=traceall_b16384_f15x10_${SLURM_JOB_ID}
+
+python sage_mag240m.py \
+  --seeds 98304000 --seed-mode all \
+  --fanout 15,10 --layers 2 \
+  --batch-size 16384 --iters 6000 --warmup 1 \
+  --in-memory --trace-nodes \
+  --out results --tag "$TAG"
+
+python analyze_locality.py results/$TAG /share/gupta/ak2877/gnn/csr/rowptr.npy \
+  | tee results/${TAG}_locality.txt
+
+ARCHIVE=/share/gupta/ak2877/gnn/results/trace_all_${SLURM_JOB_ID}
+mkdir -p "$ARCHIVE"
+cp results/${TAG}_* results/summary.csv logs/trace_all_${SLURM_JOB_ID}.* \
+   sage_mag240m.py analyze_locality.py "$ARCHIVE/" 2>/dev/null
+mv results/${TAG}_nodecount.npy "$ARCHIVE/"
+echo "archived to $ARCHIVE"

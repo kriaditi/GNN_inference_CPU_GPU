@@ -1,0 +1,42 @@
+#!/bin/bash
+#SBATCH --job-name=trace
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/trace_%j.out
+#SBATCH -e logs/trace_%j.err
+#SBATCH --get-user-env
+#SBATCH --mem=400G
+#SBATCH -t 06:00:00
+#SBATCH --gres=gpu:1
+#SBATCH --partition=gupta
+#SBATCH --nodelist=rocky
+#SBATCH --cpus-per-task=8
+
+# Same config as scenB (batch 16384, fanout 15,10, 8 cores, resident) with
+# node tracing on. Answers: how much reuse is there across 6000 batches,
+# and is there a hot set worth caching or partitioning around?
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+
+echo "job $SLURM_JOB_ID on $(hostname)  $(date)"
+nvidia-smi --query-gpu=name,memory.total,power.limit --format=csv
+
+TAG=trace_b16384_f15x10_${SLURM_JOB_ID}
+
+python sage_mag240m.py \
+  --seeds 88092 --fanout 15,10 --layers 2 \
+  --batch-size 16384 --iters 6000 --warmup 1 \
+  --in-memory --trace-nodes \
+  --out results --tag "$TAG"
+
+python analyze_locality.py results/$TAG | tee results/${TAG}_locality.txt
+
+# archive (nodecount.npy is ~490 MB, keep it on the share, not in git)
+ARCHIVE=/share/gupta/ak2877/gnn/results/trace_${SLURM_JOB_ID}
+mkdir -p "$ARCHIVE"
+cp results/${TAG}_* "$ARCHIVE/" 2>/dev/null
+cp results/summary.csv logs/trace_${SLURM_JOB_ID}.* sage_mag240m.py analyze_locality.py "$ARCHIVE/"
+mv results/${TAG}_nodecount.npy "$ARCHIVE/"   # too big for the repo
+echo "archived to $ARCHIVE"

@@ -161,6 +161,49 @@ class PowerSampler:
 
 
 # --------------------------------------------------------------------------
+class NodeTracer:
+    """Count how often each node is sampled across the run.
+
+    One int32 slot per paper (121.75M -> ~490 MB). Every batch does
+    count[node_id] += 1 and records what fraction of its nodes were seen
+    in the previous 1 / 10 / 100 batches. Answers: how much reuse does
+    batching give, and is there a hot set worth caching or partitioning
+    around?
+    """
+
+    def __init__(self, num_nodes, windows=(1, 10, 100)):
+        self.count = np.zeros(num_nodes, dtype=np.int32)
+        self.last_seen = np.full(num_nodes, -1, dtype=np.int32)
+        self.windows = windows
+        self.rows = []
+
+    def record(self, batch_idx, node_id):
+        idx = node_id.numpy()
+        n = idx.size
+        seen = self.last_seen[idx]
+        row = dict(batch=batch_idx, nodes=n,
+                   new=int((seen < 0).sum()))
+        for w in self.windows:
+            row[f"in_prev_{w}"] = int(((seen >= 0) &
+                                       (seen >= batch_idx - w)).sum())
+        self.rows.append(row)
+        np.add.at(self.count, idx, 1)
+        self.last_seen[idx] = batch_idx
+
+    def save(self, out_dir, tag):
+        np.save(os.path.join(out_dir, f"{tag}_nodecount.npy"), self.count)
+        with open(os.path.join(out_dir, f"{tag}_batchreuse.csv"),
+                  "w", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=list(self.rows[0]))
+            w.writeheader()
+            w.writerows(self.rows)
+        touched = int((self.count > 0).sum())
+        total = int(self.count.sum())
+        print(f"[trace] {touched:,} unique nodes touched, "
+              f"{total:,} total touches, reuse x{total/max(touched,1):.2f}")
+
+
+# --------------------------------------------------------------------------
 def load_graph(csr_dir, root, in_memory=False):
     """Load the graph and features.
 
@@ -231,6 +274,11 @@ def run(args):
                          "Are you on a login node? Pass --device cpu "
                          "if you meant to run on CPU.")
     dev = torch.device(args.device)
+    # match torch's thread pool to the Slurm allocation; otherwise torch
+    # defaults to all 48 cores even when the job was given 8 or 32
+    n_thr = int(os.environ.get("SLURM_CPUS_PER_TASK", torch.get_num_threads()))
+    torch.set_num_threads(n_thr)
+    print(f"[run] torch threads = {n_thr}")
     fanout = [int(v) for v in args.fanout.split(",")]
     if len(fanout) != args.layers:
         raise SystemExit(f"--fanout has {len(fanout)} hops but "
@@ -250,7 +298,14 @@ def run(args):
 
     # deterministic seed selection so runs are comparable
     rng = np.random.default_rng(0)
-    if args.seed_mode == "hub":
+    if args.seed_mode == "all":
+        # every paper is a candidate, each used at most once: no recycling.
+        # needs seeds >= batch_size * iters to never repeat a batch.
+        n_all = rowptr.numel() - 1
+        pool = rng.choice(n_all, size=min(args.seeds, n_all), replace=False)
+        print(f"[seeds] all mode: {len(pool):,} seeds drawn once from "
+              f"{n_all:,} papers")
+    elif args.seed_mode == "hub":
         deg = (rowptr[1:] - rowptr[:-1]).numpy()
         order = np.argsort(deg[split])[::-1][:args.seeds]
         pool = split[order]
@@ -267,6 +322,8 @@ def run(args):
     total = args.warmup + args.iters
     print(f"[run] {len(batches)} batches available, "
           f"{args.warmup} warmup + {args.iters} measured")
+
+    tracer = NodeTracer(rowptr.numel() - 1) if args.trace_nodes else None
 
     power = PowerSampler(args.power_interval)
     power.start()
@@ -285,6 +342,14 @@ def run(args):
             t0 = time.perf_counter()
             node_id, edge_index = sample_batch(rowptr, col, seeds, fanout)
             t1 = time.perf_counter()
+
+            # tracing happens outside the four timers so it does not
+            # pollute the phase breakdown; it costs a few ms per batch
+            if tracer is not None:
+                sample_s_pre = t1 - t0
+                tracer.record(i, node_id)
+                t1 = time.perf_counter()
+                t0 = t1 - sample_s_pre   # shift so sample_s is unchanged
 
             # ---- PHASE 2: GATHER (CPU + disk) -------------------------
             # feat[idx] with a scattered index array is the expensive line
@@ -427,6 +492,8 @@ def run(args):
         if not exists:
             w.writeheader()
         w.writerow(summary)
+    if tracer is not None:
+        tracer.save(args.out, summary["tag"])
     print(f"wrote results to {args.out}/")
 
 
@@ -443,9 +510,11 @@ def main():
                    help="neighbours per hop, comma separated; "
                         "must have exactly --layers entries")
     p.add_argument("--seed-mode", default="random",
-                   choices=["random", "hub"],
+                   choices=["random", "hub", "all"],
                    help="hub = seed on the highest-degree papers, the "
-                        "worst case for any real query distribution")    
+                        "worst case for any real query distribution; "
+                        "all = draw seeds once from every paper, no "
+                        "recycling (set --seeds >= batch_size * iters)")    
     p.add_argument("--layers", type=int, default=1)
     p.add_argument("--batch-size", type=int, default=100)
     p.add_argument("--in-memory", action="store_true",
@@ -457,6 +526,10 @@ def main():
     p.add_argument("--drift-tolerance", type=float, default=5.0)
     p.add_argument("--out", default="results")
     p.add_argument("--tag", default="")
+    p.add_argument("--trace-nodes", action="store_true",
+                   help="count every sampled node across the run and "
+                        "record per-batch reuse; writes <tag>_nodecount.npy "
+                        "(~490 MB) and <tag>_batchreuse.csv")
     run(p.parse_args())
 
 
