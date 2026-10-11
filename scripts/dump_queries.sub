@@ -1,0 +1,25 @@
+#!/bin/bash
+#SBATCH --job-name=dumpq
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/dumpq_%j.out
+#SBATCH -e logs/dumpq_%j.err
+#SBATCH --get-user-env
+#SBATCH --mem=64G
+#SBATCH -t 04:00:00
+#SBATCH --partition=gupta
+#SBATCH --cpus-per-task=8
+
+# Per-query neighbourhood dump for Michael: batch_id, query_id, node_id.
+# CSR only, no features, no GPU. First 100 batches of the test-dev config.
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+
+OUT=/share/gupta/ak2877/gnn/results/queries/queries_b16384_f15x10_${SLURM_JOB_ID}
+mkdir -p /share/gupta/ak2877/gnn/results/queries
+
+python dump_queries.py --batches 100 --batch-size 16384 --fanout 15,10 --out "$OUT"
+ls -lh "$OUT"*
