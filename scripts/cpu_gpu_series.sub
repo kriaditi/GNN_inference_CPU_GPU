@@ -1,0 +1,46 @@
+#!/bin/bash
+#SBATCH --job-name=series
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/series_%j.out
+#SBATCH -e logs/series_%j.err
+#SBATCH --get-user-env
+#SBATCH --mem=450G
+#SBATCH -t 06:00:00
+#SBATCH --gres=gpu:1
+#SBATCH --partition=gupta
+#SBATCH --nodelist=rocky
+#SBATCH --cpus-per-task=32
+
+# CPU vs GPU across batch size, one job, same core count (32), same
+# iteration count, alone on rocky. GPU stops at its ~1.2M-node ceiling
+# (batch 16384); CPU continues to 131072. This is the data for the
+# "GPU line stops, CPU line continues" plot. Replaces cpu48/gpu48/cpu32 rows.
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+
+echo "job $SLURM_JOB_ID on $(hostname)  $(date)"
+nvidia-smi --query-gpu=name,memory.total --format=csv
+free -g
+
+run () {   # device batch
+  echo "### $1 batch=$2  $(date +%T)"
+  python sage_mag240m.py \
+    --seeds 88092 --fanout 15,10 --layers 2 \
+    --batch-size $2 --iters 5 --warmup 1 \
+    --in-memory --device $1 \
+    --out results --tag "series_${1}_b${2}_c32_${SLURM_JOB_ID}"
+  echo "### exit $?  $(date +%T)"
+}
+
+for B in 1024 4096 8192 16384; do run cuda $B; done
+for B in 1024 4096 8192 16384 32768 65536 131072; do run cpu $B; done
+
+ARCHIVE=/share/gupta/ak2877/gnn/results/series_${SLURM_JOB_ID}
+mkdir -p "$ARCHIVE"
+cp results/series_*_${SLURM_JOB_ID}_periter.csv results/summary.csv \
+   logs/series_${SLURM_JOB_ID}.* sage_mag240m.py "$ARCHIVE/" 2>/dev/null
+echo "archived to $ARCHIVE"

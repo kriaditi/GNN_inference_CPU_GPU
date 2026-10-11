@@ -1,0 +1,47 @@
+#!/bin/bash
+#SBATCH --job-name=sustx
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/sustx_%j.out
+#SBATCH -e logs/sustx_%j.err
+#SBATCH --get-user-env
+#SBATCH --exclusive
+#SBATCH --mem=400G
+#SBATCH -t 06:00:00
+#SBATCH --gres=gpu:1
+#SBATCH --partition=gupta
+#SBATCH --nodelist=rocky
+#SBATCH --cpus-per-task=8
+
+# Sustained load with the node to ourselves (--exclusive). Settles whether
+# the 2.6x gather slowdown on recycled seeds (scenB, trace_50297) was
+# co-tenant contention or intrinsic, by running both seed modes back to
+# back under identical, exclusive conditions. Also the first run where
+# NVML power is unambiguously ours, so energy per paper is quotable.
+# 8 cores to match the earlier sustained runs.
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+
+echo "job $SLURM_JOB_ID on $(hostname)  $(date)  exclusive"
+nvidia-smi --query-gpu=name,memory.total,power.limit --format=csv
+
+echo "### recycled seeds (test-dev, 88k cycled)  $(date +%T)"
+python sage_mag240m.py \
+  --seeds 88092 --fanout 15,10 --layers 2 \
+  --batch-size 16384 --iters 1000 --warmup 1 \
+  --in-memory --out results --tag "sustx_recycled_b16384_${SLURM_JOB_ID}"
+
+echo "### fresh seeds (every seed once, all papers)  $(date +%T)"
+python sage_mag240m.py \
+  --seeds 16384000 --seed-mode all --fanout 15,10 --layers 2 \
+  --batch-size 16384 --iters 1000 --warmup 1 \
+  --in-memory --out results --tag "sustx_fresh_b16384_${SLURM_JOB_ID}"
+
+ARCHIVE=/share/gupta/ak2877/gnn/results/sustx_${SLURM_JOB_ID}
+mkdir -p "$ARCHIVE"
+cp results/sustx_*_${SLURM_JOB_ID}_periter.csv results/summary.csv \
+   logs/sustx_${SLURM_JOB_ID}.* sage_mag240m.py "$ARCHIVE/" 2>/dev/null
+echo "archived to $ARCHIVE"
