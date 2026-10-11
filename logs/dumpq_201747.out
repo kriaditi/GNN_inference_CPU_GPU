@@ -1,0 +1,15 @@
+[graph] CSR loaded (5s)
+[seeds] 88,092 seeds, 6 distinct batches, dumping 100
+[dump] batch 0: 1,852,979 rows (incl. duplicates across queries), 1,852,979 total, 16s
+[dump] batch 10: 1,847,165 rows (incl. duplicates across queries), 19,138,789 total, 112s
+[dump] batch 20: 1,839,072 rows (incl. duplicates across queries), 35,282,454 total, 201s
+[dump] batch 30: 1,852,863 rows (incl. duplicates across queries), 51,443,827 total, 290s
+[dump] batch 40: 1,847,088 rows (incl. duplicates across queries), 68,729,242 total, 385s
+[dump] batch 50: 1,839,665 rows (incl. duplicates across queries), 84,872,402 total, 474s
+[dump] batch 60: 1,852,572 rows (incl. duplicates across queries), 101,035,218 total, 563s
+[dump] batch 70: 1,847,095 rows (incl. duplicates across queries), 118,320,738 total, 658s
+[dump] batch 80: 1,839,620 rows (incl. duplicates across queries), 134,466,368 total, 747s
+[dump] batch 90: 1,853,163 rows (incl. duplicates across queries), 150,629,417 total, 836s
+[done] 166,067,493 rows -> /share/gupta/ak2877/gnn/results/queries/queries_b16384_f15x10_201747.csv.gz
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users  24M Oct 11 15:47 /share/gupta/ak2877/gnn/results/queries/queries_b16384_f15x10_201747_counts.csv
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users 925M Oct 11 15:47 /share/gupta/ak2877/gnn/results/queries/queries_b16384_f15x10_201747.csv.gz

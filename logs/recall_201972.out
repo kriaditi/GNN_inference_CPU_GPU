@@ -1,0 +1,25 @@
+job 201972 on rocky.tech.cornell.edu  Sun Oct 11 03:47:13 PM EDT 2026
+[graph] CSR loaded (4s)
+[seeds] 2,000 from test-dev
+[exact] 0/2000  seed 12068: 1-hop 34 2-hop 58,987  (0s)
+[exact] 500/2000  seed 32776223: 1-hop 0 2-hop 0  (1s)
+[exact] 1000/2000  seed 62461419: 1-hop 4 2-hop 502  (2s)
+[exact] 1500/2000  seed 91694484: 1-hop 46 2-hop 23,607  (3s)
+[exact] done (4s)
+[fanout    5,5] 1-hop recall mean 0.390  2-hop recall mean 0.119 median 0.006
+[fanout   10,5] 1-hop recall mean 0.560  2-hop recall mean 0.127 median 0.012
+[fanout  15,10] 1-hop recall mean 0.682  2-hop recall mean 0.157 median 0.028
+[fanout  25,15] 1-hop recall mean 0.833  2-hop recall mean 0.189 median 0.054
+[fanout  40,20] 1-hop recall mean 0.936  2-hop recall mean 0.218 median 0.080
+[fanout 100,50] 1-hop recall mean 0.993  2-hop recall mean 0.319 median 0.181
+
+fanout   recall1 mean  recall2 mean  recall2 median  recall2 p10  seeds fully covered
+    5,5         0.390         0.119           0.006        0.001                9.3%
+   10,5         0.560         0.127           0.012        0.001                9.3%
+  15,10         0.682         0.157           0.028        0.003                9.8%
+  25,15         0.833         0.189           0.054        0.006               10.1%
+  40,20         0.936         0.218           0.080        0.010               10.3%
+ 100,50         0.993         0.319           0.181        0.025               12.5%
+
+wrote results/recall_testdev2000_201972.csv
+archived to /share/gupta/ak2877/gnn/results/recall_201972
