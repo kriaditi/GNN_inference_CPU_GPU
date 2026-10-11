@@ -1,0 +1,46 @@
+graph nodes        : 121,751,666
+unique touched     : 112,197,826  (92.15% of graph)
+total touches      : 6,049,397,714
+reuse factor       : x53.92  (touches per touched node)
+touched once only  : 35.9% of touched nodes
+
+  top % of touched        nodes  share of touches  cache GB
+                1%    1,121,978             13.2%      1.72
+                5%    5,609,891             32.9%      8.62
+               10%   11,219,782             48.2%     17.23
+               15%   16,829,673             60.0%     25.85
+               25%   28,049,456             77.4%     43.08
+               50%   56,098,913             97.4%     86.17
+
+top-k individual nodes (of 6001 batches):
+     node id  batches seen  % of batches     degree
+   6,063,879         6,001        100.0%     31,542
+  35,059,165         6,001        100.0%     31,877
+  84,837,259         6,001        100.0%     37,455
+  17,685,798         6,001        100.0%     34,175
+  16,428,012         6,001        100.0%     34,694
+  45,288,658         6,001        100.0%     27,524
+  33,003,388         6,001        100.0%     48,373
+  45,356,399         6,001        100.0%     99,410
+  33,653,344         6,001        100.0%     58,973
+  46,881,481         6,001        100.0%     44,398
+  64,773,920         6,001        100.0%     28,519
+ 104,918,241         6,001        100.0%     26,752
+ 120,889,587         6,001        100.0%     22,686
+  65,151,528         6,001        100.0%     46,506
+  48,959,904         6,001        100.0%     26,624
+  36,055,553         6,001        100.0%     49,712
+  63,098,791         6,001        100.0%     41,025
+  14,964,434         6,001        100.0%     33,282
+  11,540,952         6,001        100.0%     86,136
+     177,273         6,001        100.0%     23,967
+  top     10 nodes appear in a median 100.0% of batches, absorb   0.0% of touches
+  top    100 nodes appear in a median 100.0% of batches, absorb   0.0% of touches
+  top  1,000 nodes appear in a median  96.3% of batches, absorb   0.1% of touches
+  top 10,000 nodes appear in a median  62.7% of batches, absorb   0.7% of touches
+
+per-batch overlap with earlier batches (median, as % of batch nodes):
+  in_prev_1       4.3%   (min 0.0, max 5.7)
+  in_prev_10     27.2%   (min 0.0, max 27.5)
+  in_prev_100    82.4%   (min 0.0, max 82.7)
+  never seen      0.7%   (first batch 100.0, last batch 0.0)

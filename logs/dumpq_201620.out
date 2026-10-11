@@ -1,0 +1,4 @@
+[graph] CSR loaded (5s)
+[seeds] 88,092 seeds, 6 distinct batches, dumping 100
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users 33 Oct 11 15:18 /share/gupta/ak2877/gnn/results/queries/queries_b16384_f15x10_201620_counts.csv
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users 82 Oct 11 15:18 /share/gupta/ak2877/gnn/results/queries/queries_b16384_f15x10_201620.csv.gz

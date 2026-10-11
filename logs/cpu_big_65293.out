@@ -1,0 +1,140 @@
+job 65293 on rocky.tech.cornell.edu  Wed Oct  7 07:49:29 PM EDT 2026
+               total        used        free      shared  buff/cache   available
+Mem:            1007          22         222           0         769         985
+Swap:              3           0           3
+### cpu batch=16384  19:49:29
+[run] torch threads = 32
+[run] device=cpu  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (52s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 9.3 min)
+[run] 6 batches available, 1 warmup + 3 measured
+[power] NVML unavailable: Invalid Argument
+[check] batch nodes=1,185,234 from 16384 seeds  (x72.3)
+[check] edges=1,664,328  x=(1185234, 768)  out=(1185234, 153)
+[check] first 10 predicted classes: [29, 60, 19, 29, 65, 128, 125, 134, 79, 109]
+
+============================================================
+attribution drift: median 0.00%  max 0.00%
+attribution OK
+------------------------------------------------------------
+tag                 : cpu32_b16384_f15x10_65293
+seeds_total         : 49152
+batch_size          : 16384
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 3
+sample_ms           : 274.5548
+gather_ms           : 6127.8586
+transfer_ms         : 200.7270
+compute_ms          : 2595.4167
+wall_ms             : 9272.7593
+drift_pct           : 0.0000
+nodes_per_batch     : 1175701.0000
+mb_moved            : 1805.8767
+throughput_qps      : 1765.7195
+mean_power_w        : nan
+energy_j            : nan
+energy_mj_per_seed  : nan
+power_samples       : 0
+peak_gpu_gb         : 0.0000
+------------------------------------------------------------
+  sample      3.0%  #
+  gather     66.6%  #################################
+  transfer    2.2%  #
+  compute    28.2%  ##############
+============================================================
+wrote results to results/
+### exit 0  20:00:55
+### cpu batch=32768  20:00:55
+[run] torch threads = 32
+[run] device=cpu  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (60s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 4.4 min)
+[run] 3 batches available, 1 warmup + 3 measured
+[power] NVML unavailable: Invalid Argument
+[check] batch nodes=1,947,221 from 32768 seeds  (x59.4)
+[check] edges=3,039,890  x=(1947221, 768)  out=(1947221, 153)
+[check] first 10 predicted classes: [104, 114, 122, 114, 8, 82, 122, 96, 133, 122]
+
+============================================================
+attribution drift: median 0.00%  max 0.00%
+attribution OK
+------------------------------------------------------------
+tag                 : cpu32_b32768_f15x10_65293
+seeds_total         : 88092
+batch_size          : 32768
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 3
+sample_ms           : 486.5768
+gather_ms           : 5370.7665
+transfer_ms         : 266.9969
+compute_ms          : 3522.9705
+wall_ms             : 10115.6970
+drift_pct           : 0.0000
+nodes_per_batch     : 1946487.0000
+mb_moved            : 2989.8040
+throughput_qps      : 3085.2554
+mean_power_w        : nan
+energy_j            : nan
+energy_mj_per_seed  : nan
+power_samples       : 0
+peak_gpu_gb         : 0.0000
+------------------------------------------------------------
+  sample      5.0%  ##
+  gather     55.7%  ###########################
+  transfer    2.8%  #
+  compute    36.5%  ##################
+============================================================
+wrote results to results/
+### exit 0  20:08:01
+### cpu batch=65536  20:08:01
+[run] torch threads = 32
+[run] device=cpu  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (39s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 0.8 min)
+[run] 2 batches available, 1 warmup + 3 measured
+[power] NVML unavailable: Invalid Argument
+[check] batch nodes=3,066,015 from 65536 seeds  (x46.8)
+[check] edges=5,432,140  x=(3066015, 768)  out=(3066015, 153)
+[check] first 10 predicted classes: [59, 38, 38, 40, 96, 80, 50, 90, 143, 40]
+
+============================================================
+attribution drift: median 0.00%  max 0.00%
+attribution OK
+------------------------------------------------------------
+tag                 : cpu32_b65536_f15x10_65293
+seeds_total         : 110648
+batch_size          : 65536
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 3
+sample_ms           : 369.1777
+gather_ms           : 2857.0620
+transfer_ms         : 436.9244
+compute_ms          : 3728.0078
+wall_ms             : 7391.1745
+drift_pct           : 0.0000
+nodes_per_batch     : 1501045.0000
+mb_moved            : 2305.6051
+throughput_qps      : 4563.8137
+mean_power_w        : nan
+energy_j            : nan
+energy_mj_per_seed  : nan
+power_samples       : 0
+peak_gpu_gb         : 0.0000
+------------------------------------------------------------
+  sample      5.0%  ##
+  gather     38.7%  ###################
+  transfer    5.9%  ##
+  compute    50.4%  #########################
+============================================================
+wrote results to results/
+### exit 0  20:10:10
+archived to /share/gupta/ak2877/gnn/results/cpu_big_65293

@@ -74,8 +74,11 @@ def main():
             csc=False, replace=False, directed=True,
             disjoint=True, return_edge_id=False,
         )
-        node_id = out[2].numpy()          # global paper ids
-        batch_vec = out[4].numpy()        # which seed (0..len(seeds)-1) each node belongs to
+        # pyg_lib 0.4 with disjoint=True returns out[2] as (N, 2):
+        # column 0 = seed index within the batch, column 1 = global paper id
+        pairs = out[2].numpy()
+        batch_vec = pairs[:, 0]
+        node_id = pairs[:, 1]
         query_id = seeds.numpy()[batch_vec]
 
         rows = np.column_stack([np.full(node_id.size, b, dtype=np.int64),

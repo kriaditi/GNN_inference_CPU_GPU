@@ -4,3 +4,4 @@ pyg_lib
 ogb
 numpy
 pynvml
+*.npy

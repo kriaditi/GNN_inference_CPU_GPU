@@ -1,0 +1,65 @@
+job 50297 on rocky.tech.cornell.edu  Wed Oct  7 01:04:36 PM EDT 2026
+name, memory.total [MiB], power.limit [W]
+NVIDIA L4, 23034 MiB, 72.00 W
+[run] device=cuda  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (4s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 27.4 min)
+[run] 6 batches available, 1 warmup + 6000 measured
+[check] batch nodes=1,185,921 from 16384 seeds  (x72.4)
+[check] edges=1,664,290  x=(1185921, 768)  out=(1185921, 153)
+[check] first 10 predicted classes: [61, 142, 120, 100, 142, 121, 24, 121, 142, 100]
+
+============================================================
+attribution drift: median 0.00%  max 0.08%
+attribution OK
+------------------------------------------------------------
+tag                 : trace_b16384_f15x10_50297
+seeds_total         : 88092000
+batch_size          : 16384
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 6000
+sample_ms           : 247.6778
+gather_ms           : 1498.9473
+transfer_ms         : 176.3637
+compute_ms          : 352.1622
+wall_ms             : 2281.3261
+drift_pct           : 0.0030
+nodes_per_batch     : 1177247.0000
+mb_moved            : 1808.2514
+throughput_qps      : 6232.8410
+mean_power_w        : 39.0439
+energy_j            : 551828.7024
+energy_mj_per_seed  : 6.2642
+power_samples       : 282165
+peak_gpu_gb         : 16.7978
+------------------------------------------------------------
+  sample     10.9%  #####
+  gather     65.9%  ################################
+  transfer    7.8%  ###
+  compute    15.5%  #######
+============================================================
+[trace] 24,509,611 unique nodes touched, 6,430,950,766 total touches, reuse x262.38
+wrote results to results/
+graph nodes        : 121,751,666
+unique touched     : 24,509,611  (20.13% of graph)
+total touches      : 6,430,950,766
+reuse factor       : x262.38  (touches per touched node)
+touched once only  : 4.2% of touched nodes
+
+  top % of touched        nodes  share of touches  cache GB
+                1%      245,096             16.0%      0.38
+                5%    1,225,480             46.2%      1.88
+               10%    2,450,961             64.9%      3.76
+               15%    3,676,441             75.7%      5.65
+               25%    6,127,402             87.3%      9.41
+               50%   12,254,805             97.2%     18.82
+
+per-batch overlap with earlier batches (median, as % of batch nodes):
+  in_prev_1      26.4%   (min 0.0, max 30.8)
+  in_prev_10     74.0%   (min 0.0, max 77.7)
+  in_prev_100    96.3%   (min 0.0, max 96.8)
+  never seen      0.0%   (first batch 100.0, last batch 0.0)
+archived to /share/gupta/ak2877/gnn/results/trace_50297
