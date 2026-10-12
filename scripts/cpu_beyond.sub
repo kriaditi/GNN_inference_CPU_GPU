@@ -1,0 +1,41 @@
+#!/bin/bash
+#SBATCH --job-name=cpubeyond
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/cpubeyond_%j.out
+#SBATCH -e logs/cpubeyond_%j.err
+#SBATCH --get-user-env
+#SBATCH --mem=450G
+#SBATCH -t 04:00:00
+#SBATCH --partition=gupta
+#SBATCH --nodelist=rocky
+#SBATCH --cpus-per-task=32
+
+# CPU-only beyond the GPU's ~1.2M-node ceiling. Seeds drawn once from all
+# 121.75M papers (--seed-mode all) so every batch is full; the test-dev
+# pool (88k) cannot fill a 131072 batch. 16384 is included from the same
+# pool as the anchor point for comparing with the test-dev series.
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+
+echo "job $SLURM_JOB_ID on $(hostname)  $(date)"
+free -g
+
+for B in 16384 32768 65536 131072; do
+  echo "### cpu batch=$B  $(date +%T)"
+  python sage_mag240m.py \
+    --seeds 1048576 --seed-mode all --fanout 15,10 --layers 2 \
+    --batch-size $B --iters 3 --warmup 1 \
+    --in-memory --device cpu \
+    --out results --tag "cpubeyond_b${B}_c32_${SLURM_JOB_ID}"
+  echo "### exit $?  $(date +%T)"
+done
+
+ARCHIVE=/share/gupta/ak2877/gnn/results/cpubeyond_${SLURM_JOB_ID}
+mkdir -p "$ARCHIVE"
+cp results/cpubeyond_*_${SLURM_JOB_ID}_periter.csv results/summary.csv \
+   logs/cpubeyond_${SLURM_JOB_ID}.* sage_mag240m.py "$ARCHIVE/" 2>/dev/null
+echo "archived to $ARCHIVE"

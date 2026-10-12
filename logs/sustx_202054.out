@@ -1,0 +1,94 @@
+job 202054 on rocky.tech.cornell.edu  Mon Oct 12 09:35:52 AM EDT 2026  exclusive
+name, memory.total [MiB], power.limit [W]
+NVIDIA L4, 23034 MiB, 72.00 W
+NVIDIA L4, 23034 MiB, 72.00 W
+NVIDIA L4, 23034 MiB, 72.00 W
+NVIDIA L4, 23034 MiB, 72.00 W
+### recycled seeds (test-dev, 88k cycled)  09:35:52
+[run] torch threads = 8
+[run] device=cuda  seeds=88092  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (182s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 0.7 min)
+[run] 6 batches available, 1 warmup + 1000 measured
+[check] batch nodes=1,185,268 from 16384 seeds  (x72.3)
+[check] edges=1,662,819  x=(1185268, 768)  out=(1185268, 153)
+[check] first 10 predicted classes: [66, 89, 66, 66, 75, 17, 66, 104, 115, 66]
+
+============================================================
+attribution drift: median 0.00%  max 0.03%
+attribution OK
+------------------------------------------------------------
+tag                 : sustx_recycled_b16384_202054
+seeds_total         : 14688808
+batch_size          : 16384
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 263.1985
+gather_ms           : 2935.0912
+transfer_ms         : 180.0858
+compute_ms          : 350.6633
+wall_ms             : 3728.1824
+drift_pct           : 0.0019
+nodes_per_batch     : 1177282.0000
+mb_moved            : 1808.3052
+throughput_qps      : 4503.1587
+mean_power_w        : 37.8215
+energy_j            : 123365.2432
+energy_mj_per_seed  : 8.3986
+power_samples       : 65128
+peak_gpu_gb         : 16.7884
+------------------------------------------------------------
+  sample      7.1%  ###
+  gather     78.7%  #######################################
+  transfer    4.8%  ##
+  compute     9.4%  ####
+============================================================
+wrote results to results/
+### fresh seeds (every seed once, all papers)  10:34:19
+[run] torch threads = 8
+[run] device=cuda  seeds=16384000  fanout=[15, 10]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (4s)
+[graph] reading 187 GB feature table into RAM, this takes a while ...
+[graph] features RESIDENT (121751666, 768) float16 (187.0 GB in RAM, 2.4 min)
+[seeds] all mode: 16,384,000 seeds drawn once from 121,751,666 papers
+[run] 1000 batches available, 1 warmup + 1000 measured
+[check] batch nodes=1,026,731 from 16384 seeds  (x62.7)
+[check] edges=1,136,511  x=(1026731, 768)  out=(1026731, 153)
+[check] first 10 predicted classes: [70, 68, 147, 145, 138, 136, 4, 149, 141, 56]
+
+============================================================
+attribution drift: median 0.00%  max 0.04%
+attribution OK
+------------------------------------------------------------
+tag                 : sustx_fresh_b16384_202054
+seeds_total         : 16384000
+batch_size          : 16384
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 237.7662
+gather_ms           : 2306.0613
+transfer_ms         : 153.6867
+compute_ms          : 280.8211
+wall_ms             : 2977.0293
+drift_pct           : 0.0021
+nodes_per_batch     : 1008863.5000
+mb_moved            : 1549.6143
+throughput_qps      : 5500.2354
+mean_power_w        : 37.8430
+energy_j            : 112722.0380
+energy_mj_per_seed  : 6.8800
+power_samples       : 59476
+peak_gpu_gb         : 13.9607
+------------------------------------------------------------
+  sample      8.0%  ###
+  gather     77.4%  ######################################
+  transfer    5.2%  ##
+  compute     9.4%  ####
+============================================================
+wrote results to results/
+archived to /share/gupta/ak2877/gnn/results/sustx_202054
