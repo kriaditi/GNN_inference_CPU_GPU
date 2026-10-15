@@ -5,17 +5,20 @@
 #SBATCH -o logs/fullfeat_%j.out
 #SBATCH -e logs/fullfeat_%j.err
 #SBATCH --get-user-env
-#SBATCH --mem=320G
+#SBATCH --mem=400G
 #SBATCH -t 24:00:00
 #SBATCH --partition=gupta
+
 #SBATCH --cpus-per-task=16
 
 # Build the full 244M-node MAG240M feature table (papers + authors +
 # institutions, OGB ordering) as float16: 375 GB at
 # /share/gupta/ak2877/gnn/data/full_feat.npy, plus a _meta.json.
 # Author = mean of written papers; institution = mean of affiliated authors.
-# No GPU. Paper table (187 GB) is loaded into RAM, hence --mem=320G.
-# Runs on yosemite so rocky stays free for the METIS runs.
+# No GPU. Paper table (187 GB) in RAM plus edge arrays and chunk buffers; output
+# is written with plain file writes (not a memmap) so page cache does not count
+# against the limit. 400G gives headroom.
+# Any gupta node with 400 GB free.
 
 source /share/apps/software/anaconda3/etc/profile.d/conda.sh
 conda activate gnn
