@@ -1,0 +1,35 @@
+#!/bin/bash
+#SBATCH --job-name=fullfeat
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/fullfeat_%j.out
+#SBATCH -e logs/fullfeat_%j.err
+#SBATCH --get-user-env
+#SBATCH --mem=320G
+#SBATCH -t 24:00:00
+#SBATCH --partition=gupta
+#SBATCH --cpus-per-task=16
+
+# Build the full 244M-node MAG240M feature table (papers + authors +
+# institutions, OGB ordering) as float16: 375 GB at
+# /share/gupta/ak2877/gnn/data/full_feat.npy, plus a _meta.json.
+# Author = mean of written papers; institution = mean of affiliated authors.
+# No GPU. Paper table (187 GB) is loaded into RAM, hence --mem=320G.
+# Runs on yosemite so rocky stays free for the METIS runs.
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+
+echo "job $SLURM_JOB_ID on $(hostname)  $(date)"
+free -g
+df -h /share/gupta | tail -1
+
+python build_full_feat.py \
+  --root /share/gupta/ak2877/gnn/data \
+  --out  /share/gupta/ak2877/gnn/data/full_feat.npy \
+  --chunk 2000000
+
+echo "exit $?  $(date)"
+ls -lh /share/gupta/ak2877/gnn/data/full_feat*
