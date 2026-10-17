@@ -1,0 +1,53 @@
+job 298648 on yosemite.tech.cornell.edu  Fri Oct 16 10:22:06 PM EDT 2026
+               total        used        free      shared  buff/cache   available
+Mem:            1007          36         590           0         388         970
+Swap:              3           2           1
+suh-nfs-02.ece.cornell.edu:/export/data/gupta   86T   57T   30T  66% /share/gupta
+[meta] papers 121,751,666  authors 122,383,112  institutions 25,721  total 244,160,499
+[load] reading 187 GB paper table into RAM ...
+[load] paper features (121751666, 768) float16 (12.5 min)
+[out] /share/gupta/ak2877/gnn/data/full_feat.npy  shape (244160499, 768)  375 GB
+[papers] 2,000,000/121,751,666  (31s)
+[papers] 22,000,000/121,751,666  (128s)
+[papers] 42,000,000/121,751,666  (202s)
+[papers] 62,000,000/121,751,666  (275s)
+[papers] 82,000,000/121,751,666  (348s)
+[papers] 102,000,000/121,751,666  (422s)
+[papers] 121,751,666/121,751,666  (494s)
+[papers] done (8.2 min)
+[edges] author-writes-paper 386,022,720
+[edges] author-institution 44,592,586
+[authors] 2,000,000/122,383,112  (3469s)
+[authors] 12,000,000/122,383,112  (4626s)
+[authors] 22,000,000/122,383,112  (5301s)
+[authors] 32,000,000/122,383,112  (5851s)
+[authors] 42,000,000/122,383,112  (6260s)
+[authors] 52,000,000/122,383,112  (6637s)
+[authors] 62,000,000/122,383,112  (7010s)
+[authors] 72,000,000/122,383,112  (7370s)
+[authors] 82,000,000/122,383,112  (7710s)
+[authors] 92,000,000/122,383,112  (8073s)
+[authors] 102,000,000/122,383,112  (8452s)
+[authors] 112,000,000/122,383,112  (8812s)
+[authors] 122,000,000/122,383,112  (9158s)
+[authors] done (152.9 min)
+[institutions] 25,721 written, 0 with no authors
+[check] author 0: 13 papers, max abs diff 0.0008
+[check] author 1: 14 papers, max abs diff 0.0008
+[check] author 2: 163 papers, max abs diff 0.0008
+[done] {
+  "num_papers": 121751666,
+  "num_authors": 122383112,
+  "num_institutions": 25721,
+  "num_nodes": 244160499,
+  "dim": 768,
+  "order": "papers, authors, institutions",
+  "dtype": "float16",
+  "author": "mean of written papers",
+  "institution": "mean of affiliated authors",
+  "source": "/share/gupta/ak2877/gnn/data/mag240m_kddcup2021/processed/paper/node_feat.npy",
+  "out": "/share/gupta/ak2877/gnn/data/full_feat.npy"
+}
+exit 0  Sat Oct 17 01:17:34 AM EDT 2026
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users  425 Oct 17 01:17 /share/gupta/ak2877/gnn/data/full_feat_meta.json
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users 350G Oct 17 01:16 /share/gupta/ak2877/gnn/data/full_feat.npy
