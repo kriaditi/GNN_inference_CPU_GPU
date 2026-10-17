@@ -1,0 +1,11 @@
+job 359911 on dutta-compute-01.cs.cornell.edu  Sat Oct 17 01:05:46 PM EDT 2026
+name, memory.total [MiB], power.limit [W]
+NVIDIA H100 NVL, 95830 MiB, 400.00 W
+pyg_lib 0.4.0+pt24cu121 torch 2.4.0+cu121 cuda True
+[run] torch threads = 4
+[run] device=cuda  seeds=2000  fanout=[40, 20]
+[graph] CSR resident: rowptr 121,751,667 col 2,595,497,852  (24s)
+[graph] features MEMMAPPED (244160499, 768) float16 (375.0 GB on disk)
+[seeds] all mode: 2,000 seeds drawn once from 121,751,666 papers
+
+[sweep] batch=64 fanout=[40, 20] iters=3 tag=smoke_h100_359911_b64_f40x20_i3

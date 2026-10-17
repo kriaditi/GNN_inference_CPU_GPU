@@ -1,0 +1,35 @@
+#!/bin/bash
+#SBATCH --job-name=h100smoke
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/h100smoke_%j.out
+#SBATCH -e logs/h100smoke_%j.err
+#SBATCH --get-user-env
+#SBATCH --mem=64G
+#SBATCH -t 00:30:00
+#SBATCH --cpus-per-task=4
+#SBATCH --partition=gpu
+#SBATCH --gres=gpu:nvidia_h100_nvl:1
+
+# Smoke test for the H100 baseline: checks that pyg_lib imports on the gpu
+# node, the GPU is visible, --feat opens the 375 GB table (memmapped, not
+# loaded), --sweep parses, and the summary lands in its own file.
+# Writes results/summary_smoke.csv so the real summary_h100.csv stays clean.
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+
+echo "job $SLURM_JOB_ID on $(hostname)  $(date)"
+nvidia-smi --query-gpu=name,memory.total,power.limit --format=csv
+python -c "import pyg_lib, torch; print('pyg_lib', pyg_lib.__version__, 'torch', torch.__version__, 'cuda', torch.cuda.is_available())"
+
+python sage_mag240m.py --seeds 2000 --seed-mode all --layers 2 --fanout 40,20 --batch-size 64 \
+  --feat /share/gupta/ak2877/gnn/data/full_feat.npy \
+  --sweep "64:40/20:3,64:5/5:3" --iters 3 --warmup 1 \
+  --out results --summary results/summary_smoke.csv --tag smoke_h100_${SLURM_JOB_ID}
+
+echo "exit $?  $(date)"
+echo "--- summary_smoke.csv ---"
+tail -3 results/summary_smoke.csv

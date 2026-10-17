@@ -1,0 +1,45 @@
+job 360782 on rocky.tech.cornell.edu  Sat Oct 17 01:25:29 PM EDT 2026
+[meta] papers 121,751,666 authors 122,383,112 institutions 25,721
+[load] author-writes-paper 386,022,720 edges (8s)
+[a2p] 386,022,720 edges, 122,383,112 rows, 0 rows empty, degree mean 3.2 max 4,724  (13s)
+[p2a] 386,022,720 edges, 121,751,666 rows, 0 rows empty, degree mean 3.2 max 6,760  (73s)
+[check] a2p/p2a: forward/reverse consistent on 5 samples
+[load] author-institution 44,592,586 edges (1s)
+[a2i] 44,592,586 edges, 122,383,112 rows, 83,712,566 rows empty, degree mean 1.2 max 78  (4s)
+[i2a] 44,592,586 edges, 25,721 rows, 0 rows empty, degree mean 1733.7 max 395,249  (6s)
+[check] a2i/i2a: forward/reverse consistent on 5 samples
+[done] papers with >=1 author: 121,751,666/121,751,666  authors with >=1 institution: 38,670,546/122,383,112
+{
+  "num_papers": 121751666,
+  "num_authors": 122383112,
+  "num_institutions": 25721,
+  "num_nodes": 244160499,
+  "offset": {
+    "paper": 0,
+    "author": 121751666,
+    "institution": 244134778
+  },
+  "relations": {
+    "p2p": "paper cites paper (symmetrised), in ../csr/{rowptr,col}.npy",
+    "a2p": "author writes paper",
+    "p2a": "paper written by author",
+    "a2i": "author affiliated with institution",
+    "i2a": "institution has author"
+  },
+  "papers_with_author": 121751666,
+  "authors_with_institution": 38670546,
+  "dtype": "int64",
+  "ids": "local per node type",
+  "feat": "/share/gupta/ak2877/gnn/data/full_feat.npy"
+}
+exit 0  Sat Oct 17 01:27:42 PM EDT 2026
+total 9.2G
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users 341M Oct 17 13:27 a2i_col.npy
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users 934M Oct 17 13:27 a2i_rowptr.npy
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users 2.9G Oct 17 13:26 a2p_col.npy
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users 934M Oct 17 13:26 a2p_rowptr.npy
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users 341M Oct 17 13:27 i2a_col.npy
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users 202K Oct 17 13:27 i2a_rowptr.npy
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users  637 Oct 17 13:27 meta.json
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users 2.9G Oct 17 13:27 p2a_col.npy
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users 929M Oct 17 13:27 p2a_rowptr.npy

@@ -1,0 +1,37 @@
+#!/bin/bash
+#SBATCH --job-name=hettrain
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/hettrain_%j.out
+#SBATCH -e logs/hettrain_%j.err
+#SBATCH --open-mode=append
+#SBATCH --requeue
+#SBATCH --get-user-env
+#SBATCH --mem=500G
+#SBATCH -t 48:00:00
+#SBATCH --cpus-per-task=32
+#SBATCH --partition=gupta
+#SBATCH --nodelist=yosemite
+#SBATCH --gres=gpu:1
+
+# Train R-GraphSAGE on MAG240M (hetero): 1.1M labelled papers, validation on
+# 139k, fanout 40,20, batch 1024, 40 epochs, 375 GB table in RAM.
+# --resume + --requeue: if the job is restarted it continues from last.pt.
+# Outputs in results/hetero/: hetero_train_log.csv, best.pt, last.pt
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+
+echo "job $SLURM_JOB_ID on $(hostname)  $(date)"
+nvidia-smi --query-gpu=name,memory.total --format=csv
+free -g | head -2
+
+python train_hetero.py \
+  --fanout 40,20 --batch-size 1024 --epochs 40 --hidden 256 --lr 1e-3 \
+  --in-memory --resume \
+  --out results/hetero
+
+echo "exit $?  $(date)"
+ls -lh results/hetero/

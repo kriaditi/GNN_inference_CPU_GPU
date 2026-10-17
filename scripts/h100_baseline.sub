@@ -1,0 +1,59 @@
+#!/bin/bash
+#SBATCH --job-name=h100base
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/h100base_%j.out
+#SBATCH -e logs/h100base_%j.err
+#SBATCH --open-mode=append
+#SBATCH --requeue
+#SBATCH --get-user-env
+#SBATCH --mem=500G
+#SBATCH -t 12:00:00
+#SBATCH --cpus-per-task=32
+#SBATCH --partition=gpu
+#SBATCH --gres=gpu:nvidia_h100_nvl:1
+
+# GPU baseline for the paper: H100 NVL (94 GB), 375 GB feature table in RAM.
+# One process, table loaded once, every config below measured in turn.
+# Anchor is batch 1024 / fanout 40,20 (agreed 15 Oct); fanout sweep at that
+# batch, plus one 6000-iteration sustained run at the anchor. Fresh seeds
+# throughout. A config that OOMs is logged and skipped. Results go to
+# results/summary_h100.csv (one summary file per system), not summary.csv.
+# --requeue + --open-mode=append: a preempted job restarts, skips configs
+# already in summary_h100.csv, and continues the same log.
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+
+echo "job $SLURM_JOB_ID on $(hostname)  $(date)"
+nvidia-smi --query-gpu=name,memory.total,power.limit --format=csv
+free -g
+
+FEAT=/share/gupta/ak2877/gnn/data/full_feat.npy
+
+# Batch 1024 throughout. 1000 iterations per fanout, 6000 for the sustained
+# anchor. Seeds are drawn once from all 121.75M papers (no recycling); 20M
+# covers the largest config (1024 x 6002). Every config starts from the top
+# of the same pool, so all fanouts see the same seeds.
+SWEEP="1024:40/20:1000"
+SWEEP+=",1024:5/5:1000,1024:10/5:1000,1024:15/10:1000,1024:25/15:1000,1024:60/30:1000"
+SWEEP+=",1024:40/20:6000"
+
+# SLURM_JOB_ID is stable across a requeue, so the tag and summary file match up.
+python sage_mag240m.py \
+  --seeds 20000000 --seed-mode all --layers 2 --fanout 40,20 --batch-size 1024 \
+  --in-memory --feat "$FEAT" \
+  --sweep "$SWEEP" \
+  --out results --summary results/summary_h100.csv \
+  --tag "h100_full_${SLURM_JOB_ID}"
+
+echo "exit $?  $(date)"
+
+ARCHIVE=/share/gupta/ak2877/gnn/results/h100base_${SLURM_JOB_ID}
+mkdir -p "$ARCHIVE"
+cp results/h100_full_${SLURM_JOB_ID}_*_periter.csv results/summary_h100.csv \
+   logs/h100base_${SLURM_JOB_ID}.* sage_mag240m.py "$ARCHIVE/" 2>/dev/null
+nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv > "$ARCHIVE/hardware.txt"
+echo "archived to $ARCHIVE"

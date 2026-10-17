@@ -204,7 +204,7 @@ class NodeTracer:
 
 
 # --------------------------------------------------------------------------
-def load_graph(csr_dir, root, in_memory=False):
+def load_graph(csr_dir, root, in_memory=False, feat_path=None):
     """Load the graph and features.
 
     in_memory=False  features stay on NFS, paged in per access (slow)
@@ -219,11 +219,12 @@ def load_graph(csr_dir, root, in_memory=False):
     print(f"[graph] CSR resident: rowptr {rowptr.numel():,} "
           f"col {col.numel():,}  ({time.time()-t0:.0f}s)")
 
-    feat_path = os.path.join(root, "mag240m_kddcup2021", "processed",
-                             "paper", "node_feat.npy")
+    if not feat_path:
+        feat_path = os.path.join(root, "mag240m_kddcup2021", "processed",
+                                 "paper", "node_feat.npy")
 
     if in_memory:
-        print("[graph] reading 187 GB feature table into RAM, "
+        print(f"[graph] reading feature table {feat_path} into RAM, "
               "this takes a while ...", flush=True)
         t0 = time.time()
         feat = np.load(feat_path)          # no mmap_mode = full read
@@ -286,7 +287,7 @@ def run(args):
 
     print(f"[run] device={dev}  seeds={args.seeds}  fanout={fanout}")
 
-    rowptr, col, feat = load_graph(args.csr, args.root, args.in_memory)
+    rowptr, col, feat = load_graph(args.csr, args.root, args.in_memory, args.feat)
 
     from ogb.lsc import MAG240MDataset
     ds = MAG240MDataset(root=args.root)
@@ -317,11 +318,41 @@ def run(args):
             rng.choice(split, size=args.seeds, replace=False)
     pool = torch.from_numpy(np.sort(np.asarray(pool))).long()
 
-    batches = [pool[i:i + args.batch_size]
-               for i in range(0, len(pool), args.batch_size)]
-    total = args.warmup + args.iters
+    if args.sweep:
+        configs = []
+        for item in args.sweep.split(","):
+            b, f, it = item.split(":")
+            configs.append((int(b), [int(v) for v in f.split("/")], int(it)))
+    else:
+        configs = [(args.batch_size, fanout, args.iters)]
+    # configs already in the summary file are skipped, so a requeued job resumes
+    done_tags = set()
+    sp = args.summary or os.path.join(args.out, "summary.csv")
+    if args.sweep and os.path.exists(sp):
+        with open(sp) as fh:
+            done_tags = {line.split(",")[0] for line in fh}
+    for b, f, it in configs:
+        if len(f) != args.layers:
+            print(f"[sweep] skipping fanout {f}: needs {args.layers} hops"); continue
+        tag = (args.tag + f"_b{b}_f{'x'.join(map(str, f))}_i{it}") if args.sweep else args.tag
+        if tag in done_tags:
+            print(f"[sweep] {tag} already in {sp}, skipping", flush=True); continue
+        print(f"\n[sweep] batch={b} fanout={f} iters={it} tag={tag}", flush=True)
+        try:
+            measure(args, dev, rowptr, col, feat, model, pool, n_classes, b, f, it, tag)
+        except torch.cuda.OutOfMemoryError as e:
+            print(f"[sweep] OOM at batch={b} fanout={f}: {str(e)[:120]}", flush=True)
+            torch.cuda.empty_cache()
+
+
+def measure(args, dev, rowptr, col, feat, model, pool, n_classes,
+            batch_size, fanout, iters, tag):
+    """One configuration: batches, timed loop, summary row. Table already loaded."""
+    batches = [pool[i:i + batch_size]
+               for i in range(0, len(pool), batch_size)]
+    total = args.warmup + iters
     print(f"[run] {len(batches)} batches available, "
-          f"{args.warmup} warmup + {args.iters} measured")
+          f"{args.warmup} warmup + {iters} measured")
 
     tracer = NodeTracer(rowptr.numel() - 1) if args.trace_nodes else None
 
@@ -447,9 +478,9 @@ def run(args):
     window = t_end - t_start
 
     summary = dict(
-        tag=args.tag or f"mag240m_s{args.seeds}_b{args.batch_size}_L{args.layers}",
-        seeds_total=n_seeds, batch_size=args.batch_size,
-        fanout=args.fanout, layers=args.layers, hidden=args.hidden,
+        tag=tag or f"mag240m_s{args.seeds}_b{batch_size}_L{args.layers}",
+        seeds_total=n_seeds, batch_size=batch_size,
+        fanout=",".join(map(str, fanout)), layers=args.layers, hidden=args.hidden,
         iters=len(rows),
         sample_ms=med("sample_s") * 1000,
         gather_ms=med("gather_s") * 1000,
@@ -485,7 +516,8 @@ def run(args):
         w = csv.DictWriter(f, fieldnames=list(rows[0]))
         w.writeheader()
         w.writerows(rows)
-    sp = os.path.join(args.out, "summary.csv")
+    sp = args.summary or os.path.join(args.out, "summary.csv")
+    os.makedirs(os.path.dirname(sp) or ".", exist_ok=True)
     exists = os.path.exists(sp)
     with open(sp, "a", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(summary))
@@ -495,6 +527,7 @@ def run(args):
     if tracer is not None:
         tracer.save(args.out, summary["tag"])
     print(f"wrote results to {args.out}/")
+
 
 
 def main():
@@ -526,6 +559,16 @@ def main():
     p.add_argument("--drift-tolerance", type=float, default=5.0)
     p.add_argument("--out", default="results")
     p.add_argument("--tag", default="")
+    p.add_argument("--summary", default="",
+                   help="summary CSV to append to; default <out>/summary.csv. "
+                        "One file per system, e.g. results/summary_h100.csv")
+    p.add_argument("--feat", default="",
+                   help="feature table .npy; default is the paper-only table. "
+                        "Use data/full_feat.npy for the 244M-node table")
+    p.add_argument("--sweep", default="",
+                   help="run several configs in one process (table loaded once): "
+                        "'batch:f1/f2:iters,batch:f1/f2:iters,...'. Tags get "
+                        "_b<batch>_f<f1>x<f2> appended")
     p.add_argument("--trace-nodes", action="store_true",
                    help="count every sampled node across the run and "
                         "record per-batch reuse; writes <tag>_nodecount.npy "
