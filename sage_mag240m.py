@@ -285,17 +285,52 @@ def run(args):
         raise SystemExit(f"--fanout has {len(fanout)} hops but "
                          f"--layers is {args.layers}; they must match")
 
-    print(f"[run] device={dev}  seeds={args.seeds}  fanout={fanout}")
-
-    rowptr, col, feat = load_graph(args.csr, args.root, args.in_memory, args.feat)
+    print(f"[run] device={dev}  seeds={args.seeds}  fanout={fanout}  "
+          f"hetero={args.hetero}")
+    if args.weights and not args.hetero:
+        raise SystemExit("--weights is only for --hetero (the trained model is "
+                         "R-GraphSAGE); the homogeneous path uses random weights")
 
     from ogb.lsc import MAG240MDataset
     ds = MAG240MDataset(root=args.root)
     split = ds.get_idx_split("test-dev")
     n_classes = ds.num_classes
-    feat_dim = feat.shape[1]
 
-    model = SAGE(feat_dim, args.hidden, n_classes, args.layers).to(dev).eval()
+    g = None
+    if args.hetero:
+        # heterogeneous: 5 relations, 3 node types, the full 375 GB table.
+        # sampler / gather / model come from hetero_common, the exact code
+        # that trained best.pt, so timing and accuracy describe one model.
+        import hetero_common as hc
+        g = hc.HeteroGraph(args.csr, args.hetero_dir)
+        feat = hc.load_features(args.feat or g.meta["feat"], args.in_memory)
+        rowptr = g.colptr[("paper", "cites", "paper")]   # for seed pool / degrees
+        col = g.row[("paper", "cites", "paper")]
+        model = hc.RSAGE(feat.shape[1], args.hidden, n_classes, args.layers).to(dev).eval()
+        if args.weights:
+            ck = torch.load(args.weights, map_location=dev)
+            model.load_state_dict(ck["model"])
+            print(f"[model] loaded {args.weights}: trained epoch {ck.get('epoch')}, "
+                  f"val acc {ck.get('val_acc', float('nan')):.4f}, "
+                  f"macro-F1 {ck.get('val_macro_f1', float('nan')):.4f}, "
+                  f"fanout {ck.get('fanout')}", flush=True)
+            if ck.get("hidden") not in (None, args.hidden):
+                raise SystemExit(f"checkpoint hidden={ck['hidden']} but --hidden={args.hidden}")
+    else:
+        rowptr, col, feat = load_graph(args.csr, args.root, args.in_memory, args.feat)
+        model = SAGE(feat.shape[1], args.hidden, n_classes, args.layers).to(dev).eval()
+
+    # accuracy pass (only meaningful with trained weights): the 139k labelled
+    # validation papers, scored separately from the timed loop so the timed
+    # loop keeps fresh seeds and the accuracy covers the whole labelled set
+    val = None
+    if args.weights and not args.no_val:
+        labels = torch.from_numpy(
+            np.nan_to_num(ds.paper_label, nan=-1).astype(np.int64))
+        val_idx = torch.from_numpy(ds.get_idx_split("valid")).long()
+        val = (val_idx, labels)
+        print(f"[val] accuracy pass on {val_idx.numel():,} validation papers "
+              f"after each timed config", flush=True)
 
     # deterministic seed selection so runs are comparable
     rng = np.random.default_rng(0)
@@ -339,15 +374,23 @@ def run(args):
             print(f"[sweep] {tag} already in {sp}, skipping", flush=True); continue
         print(f"\n[sweep] batch={b} fanout={f} iters={it} tag={tag}", flush=True)
         try:
-            measure(args, dev, rowptr, col, feat, model, pool, n_classes, b, f, it, tag)
+            measure(args, dev, rowptr, col, feat, model, pool, n_classes, b, f, it, tag,
+                    g=g, val=val)
         except torch.cuda.OutOfMemoryError as e:
             print(f"[sweep] OOM at batch={b} fanout={f}: {str(e)[:120]}", flush=True)
             torch.cuda.empty_cache()
 
 
 def measure(args, dev, rowptr, col, feat, model, pool, n_classes,
-            batch_size, fanout, iters, tag):
-    """One configuration: batches, timed loop, summary row. Table already loaded."""
+            batch_size, fanout, iters, tag, g=None, val=None):
+    """One configuration: batches, timed loop, summary row. Table already loaded.
+
+    g    HeteroGraph when --hetero, else None (homogeneous path)
+    val  (val_idx, labels) to run the accuracy pass afterwards, else None
+    """
+    hetero = g is not None
+    if hetero:
+        import hetero_common as hc
     batches = [pool[i:i + batch_size]
                for i in range(0, len(pool), batch_size)]
     total = args.warmup + iters
@@ -371,14 +414,18 @@ def measure(args, dev, rowptr, col, feat, model, pool, n_classes,
             # Walk the CSR to decide which nodes this batch needs.
             # Pointer chasing through rowptr and col. No features yet.
             t0 = time.perf_counter()
-            node_id, edge_index = sample_batch(rowptr, col, seeds, fanout)
+            if hetero:
+                # 5 relations at once; node_id / edge_index are dicts
+                node_id, edge_index = hc.sample_hetero(g, seeds, fanout)
+            else:
+                node_id, edge_index = sample_batch(rowptr, col, seeds, fanout)
             t1 = time.perf_counter()
 
             # tracing happens outside the four timers so it does not
             # pollute the phase breakdown; it costs a few ms per batch
             if tracer is not None:
                 sample_s_pre = t1 - t0
-                tracer.record(i, node_id)
+                tracer.record(i, node_id["paper"] if hetero else node_id)
                 t1 = time.perf_counter()
                 t0 = t1 - sample_s_pre   # shift so sample_s is unchanged
 
@@ -387,17 +434,30 @@ def measure(args, dev, rowptr, col, feat, model, pool, n_classes,
             # in this script. Each ID is a random jump into a 175 GB file,
             # so pages fault in from NFS on first touch. This is where
             # "features live in CPU memory, not GPU memory" costs you.
-            idx = node_id.numpy()
-            block = feat[idx]                     # disk -> RAM, fancy index
-            x_cpu = torch.from_numpy(np.ascontiguousarray(block))
+            if hetero:
+                # one fancy-index per node type, offset into the full table
+                x_cpu = hc.gather_features(feat, node_id, g)
+                n_nodes = sum(v.numel() for v in node_id.values())
+                n_edges = sum(v.size(1) for v in edge_index.values())
+                n_bytes = sum(v.numel() * v.element_size() for v in x_cpu.values())
+            else:
+                idx = node_id.numpy()
+                block = feat[idx]                     # disk -> RAM, fancy index
+                x_cpu = torch.from_numpy(np.ascontiguousarray(block))
+                n_nodes, n_edges = node_id.numel(), edge_index.size(1)
+                n_bytes = x_cpu.numel() * x_cpu.element_size()
             t2 = time.perf_counter()
 
             # ---- PHASE 3: TRANSFER (PCIe) -----------------------------
             # Still float16 here, so only half the bytes cross the link.
             # synchronize() because CUDA copies are async and without it
             # we would time the request, not the copy.
-            x = x_cpu.to(dev, non_blocking=False)
-            ei = edge_index.to(dev, non_blocking=False)
+            if hetero:
+                x = {k: v.to(dev, non_blocking=False) for k, v in x_cpu.items()}
+                ei = {k: v.to(dev, non_blocking=False) for k, v in edge_index.items()}
+            else:
+                x = x_cpu.to(dev, non_blocking=False)
+                ei = edge_index.to(dev, non_blocking=False)
             if dev.type == "cuda":
                 torch.cuda.synchronize()
             t3 = time.perf_counter()
@@ -406,27 +466,34 @@ def measure(args, dev, rowptr, col, feat, model, pool, n_classes,
             # CUDA events rather than perf_counter: kernel launches return
             # immediately, so a CPU timer here would measure the launch,
             # not the work, and report an impossibly fast GPU.
+            def _forward():
+                if hetero:
+                    return model({k: v.float() for k, v in x.items()}, ei)
+                return model(x.float(), ei)
+
             if dev.type == "cuda":
                 e0 = torch.cuda.Event(enable_timing=True)
                 e1 = torch.cuda.Event(enable_timing=True)
                 e0.record()
-                x = x.float()
-                out = model(x, ei)
+                out = _forward()
                 e1.record()
                 torch.cuda.synchronize()
                 compute_s = e0.elapsed_time(e1) / 1000.0
             else:
-                x = x.float()
-                out = model(x, ei)
+                out = _forward()
                 compute_s = time.perf_counter() - t3
             t4 = time.perf_counter()
 
             if i == 0:
                 pred = out[:len(seeds)].argmax(dim=1)
-                print(f"[check] batch nodes={node_id.numel():,} from "
-                      f"{len(seeds)} seeds  (x{node_id.numel()/len(seeds):.1f})")
-                print(f"[check] edges={edge_index.size(1):,}  "
-                      f"x={tuple(x.shape)}  out={tuple(out.shape)}")
+                print(f"[check] batch nodes={n_nodes:,} from "
+                      f"{len(seeds)} seeds  (x{n_nodes/len(seeds):.1f})")
+                if hetero:
+                    print("[check] per type: " + ", ".join(
+                        f"{k} {v.numel():,}" for k, v in node_id.items()))
+                    hc.check_directions(g, seeds, node_id, edge_index)
+                print(f"[check] edges={n_edges:,}  "
+                      f"features={n_bytes/1e6:.1f} MB  out={tuple(out.shape)}")
                 print(f"[check] first 10 predicted classes: "
                       f"{pred[:10].tolist()}")
 
@@ -446,21 +513,41 @@ def measure(args, dev, rowptr, col, feat, model, pool, n_classes,
             sample_s, gather_s, transfer_s = t1 - t0, t2 - t1, t3 - t2
             wall_s = t4 - t0
             attributed = sample_s + gather_s + transfer_s + compute_s
-            rows.append(dict(
+            row = dict(
                 iter=i - args.warmup,
                 seeds=len(seeds),
-                nodes=int(node_id.numel()),
-                edges=int(edge_index.size(1)),
-                bytes_moved=int(x_cpu.numel() * x_cpu.element_size()),
+                nodes=int(n_nodes),
+                edges=int(n_edges),
+                bytes_moved=int(n_bytes),
                 sample_s=sample_s, gather_s=gather_s,
                 transfer_s=transfer_s, compute_s=compute_s,
                 wall_s=wall_s,
                 drift_pct=abs(wall_s - attributed) / wall_s * 100,
-            ))
+            )
+            if hetero:
+                row.update(n_paper=int(node_id["paper"].numel()),
+                           n_author=int(node_id["author"].numel()),
+                           n_inst=int(node_id["institution"].numel()))
+            rows.append(row)
 
     power.stop()
     if not rows:
         raise SystemExit("no measured iterations")
+
+    # ---------------- accuracy pass (trained weights only) ----------------
+    # Not timed, not in the energy window. Scores every labelled validation
+    # paper at this fanout with the loaded checkpoint.
+    val_acc, val_f1 = float("nan"), float("nan")
+    if val is not None:
+        from train_hetero import evaluate
+        val_idx, labels = val
+        tv = time.time()
+        val_acc, val_f1, n_eval = evaluate(model, g, feat, val_idx, labels, fanout,
+                                           dev, batch_size, n_classes,
+                                           max_batches=args.val_batches or None)
+        model.eval()
+        print(f"[val] fanout {fanout}: accuracy {val_acc:.4f}  macro-F1 {val_f1:.4f} "
+              f"on {n_eval:,} papers ({time.time()-tv:.0f}s)", flush=True)
 
     # ---------------- sanity gate ----------------
     drift = np.array([r["drift_pct"] for r in rows])
@@ -498,6 +585,15 @@ def measure(args, dev, rowptr, col, feat, model, pool, n_classes,
         peak_gpu_gb=(torch.cuda.max_memory_allocated() / 1e9
                      if dev.type == "cuda" else 0.0),
     )
+    if hetero:
+        # extra columns only in hetero mode so old summary.csv files keep
+        # their column set; a hetero summary file always has them
+        summary.update(
+            model="rsage", weights=os.path.basename(args.weights) if args.weights else "random",
+            papers_per_batch=med("n_paper"), authors_per_batch=med("n_author"),
+            insts_per_batch=med("n_inst"),
+            val_acc=val_acc, val_macro_f1=val_f1,
+        )
 
     print("-" * 60)
     for k, v in summary.items():
@@ -569,6 +665,18 @@ def main():
                    help="run several configs in one process (table loaded once): "
                         "'batch:f1/f2:iters,batch:f1/f2:iters,...'. Tags get "
                         "_b<batch>_f<f1>x<f2> appended")
+    p.add_argument("--hetero", action="store_true",
+                   help="heterogeneous mode: sample over paper/author/institution "
+                        "relations (csr_hetero), gather from the full 375 GB table, "
+                        "R-GraphSAGE model. --feat defaults to full_feat.npy")
+    p.add_argument("--hetero-dir", default="/share/gupta/ak2877/gnn/csr_hetero")
+    p.add_argument("--weights", default="",
+                   help="trained checkpoint (results/hetero/best.pt); hetero only. "
+                        "Also runs an accuracy pass on the validation papers")
+    p.add_argument("--no-val", action="store_true",
+                   help="skip the validation accuracy pass even with --weights")
+    p.add_argument("--val-batches", type=int, default=0,
+                   help="limit the accuracy pass to N batches (smoke tests); 0 = all")
     p.add_argument("--trace-nodes", action="store_true",
                    help="count every sampled node across the run and "
                         "record per-batch reuse; writes <tag>_nodecount.npy "

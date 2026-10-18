@@ -1,0 +1,56 @@
+#!/bin/bash
+#SBATCH --job-name=h100het
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/h100het_%j.out
+#SBATCH -e logs/h100het_%j.err
+#SBATCH --open-mode=append
+#SBATCH --requeue
+#SBATCH --get-user-env
+#SBATCH --mem=500G
+#SBATCH -t 12:00:00
+#SBATCH --cpus-per-task=32
+#SBATCH --partition=gpu
+#SBATCH --gres=gpu:nvidia_h100_nvl:1
+
+# GPU baseline for the paper, heterogeneous: H100 NVL (94 GB), R-GraphSAGE
+# with trained weights (results/hetero/best.pt), full 375 GB table in RAM.
+# Batch 1024 throughout. Fanout sweep at 1000 iterations each, plus a 6000-
+# iteration sustained run at the anchor 40,20. Timed loop uses fresh seeds
+# drawn once from all 121.75M papers; after each config an untimed accuracy
+# pass scores all 138,949 labelled validation papers at that fanout.
+# One row per config in results/summary_h100.csv: phase latencies, QPS,
+# energy, nodes per type, val accuracy, val macro-F1.
+# --requeue + --open-mode=append: preempted job restarts, skips configs
+# already in summary_h100.csv, continues the same log.
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+
+echo "job $SLURM_JOB_ID on $(hostname)  $(date)"
+nvidia-smi --query-gpu=name,memory.total,power.limit --format=csv
+free -g | head -2
+
+SWEEP="1024:40/20:1000"
+SWEEP+=",1024:5/5:1000,1024:10/5:1000,1024:15/10:1000,1024:25/15:1000,1024:60/30:1000"
+SWEEP+=",1024:40/20:6000"
+
+python sage_mag240m.py \
+  --hetero --weights results/hetero/best.pt \
+  --seeds 20000000 --seed-mode all --layers 2 --fanout 40,20 --batch-size 1024 --hidden 256 \
+  --in-memory \
+  --sweep "$SWEEP" \
+  --out results --summary results/summary_h100.csv \
+  --tag "h100_het_${SLURM_JOB_ID}"
+
+echo "exit $?  $(date)"
+
+ARCHIVE=/share/gupta/ak2877/gnn/results/h100het_${SLURM_JOB_ID}
+mkdir -p "$ARCHIVE"
+cp results/h100_het_${SLURM_JOB_ID}_*_periter.csv results/summary_h100.csv \
+   logs/h100het_${SLURM_JOB_ID}.* sage_mag240m.py hetero_common.py results/hetero/best.pt \
+   "$ARCHIVE/" 2>/dev/null
+nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv > "$ARCHIVE/hardware.txt"
+echo "archived to $ARCHIVE"

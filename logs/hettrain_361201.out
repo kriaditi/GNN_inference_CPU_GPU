@@ -1,0 +1,506 @@
+job 361201 on yosemite.tech.cornell.edu  Sat Oct 17 02:10:22 PM EDT 2026
+name, memory.total [MiB]
+NVIDIA RTX 6000 Ada Generation, 49140 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1007          58         820           0         136         948
+[train] fanout=[40, 20] batch=1024 epochs=40 threads=32 gpu=NVIDIA RTX 6000 Ada Generation
+[hetero] 5 relations, 3,456,728,464 directed edges resident (38s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 11.5 min)
+[data] train 1,112,392  valid 138,949  classes 153
+[model] 2,663,321 parameters
+[check] ('paper', 'cites', 'paper'): 40 sampled sources of seed 12257946 all real (seed has 57)
+[check] ('author', 'writes', 'paper'): 1 sampled sources of seed 12257946 all real (seed has 1)
+[check] nodes per type in first batch: author 35,285, institution 1,763, paper 224,355  (x255 per seed)
+[check] peak GPU after first batch: 4.1 GB
+[epoch 0] step 0/1087  loss 5.078  nodes 261,403  3.03 s/step
+[epoch 0] step 100/1087  loss 1.494  nodes 272,385  0.41 s/step
+[epoch 0] step 200/1087  loss 1.355  nodes 268,699  0.37 s/step
+[epoch 0] step 300/1087  loss 1.307  nodes 253,554  0.40 s/step
+[epoch 0] step 400/1087  loss 1.259  nodes 259,402  0.43 s/step
+[epoch 0] step 500/1087  loss 1.206  nodes 277,582  0.43 s/step
+[epoch 0] step 600/1087  loss 1.166  nodes 266,471  0.41 s/step
+[epoch 0] step 700/1087  loss 1.210  nodes 249,483  0.41 s/step
+[epoch 0] step 800/1087  loss 1.064  nodes 265,518  0.41 s/step
+[epoch 0] step 900/1087  loss 1.174  nodes 270,093  0.41 s/step
+[epoch 0] step 1000/1087  loss 1.187  nodes 269,030  0.41 s/step
+[epoch 0] loss 1.3136  val acc 0.6226  val macro-F1 0.4640 (on 138,949)  8.9 min
+[ckpt] new best macro-F1 0.4640 -> results/hetero/best.pt
+[epoch 1] step 0/1087  loss 1.156  nodes 262,734  0.31 s/step
+[epoch 1] step 100/1087  loss 1.133  nodes 252,408  0.37 s/step
+[epoch 1] step 200/1087  loss 1.077  nodes 256,163  0.34 s/step
+[epoch 1] step 300/1087  loss 1.083  nodes 257,552  0.36 s/step
+[epoch 1] step 400/1087  loss 1.001  nodes 267,883  0.39 s/step
+[epoch 1] step 500/1087  loss 1.096  nodes 255,751  0.40 s/step
+[epoch 1] step 600/1087  loss 1.198  nodes 260,929  0.40 s/step
+[epoch 1] step 700/1087  loss 1.124  nodes 266,625  0.39 s/step
+[epoch 1] step 800/1087  loss 1.114  nodes 274,340  0.37 s/step
+[epoch 1] step 900/1087  loss 1.088  nodes 269,254  0.36 s/step
+[epoch 1] step 1000/1087  loss 1.139  nodes 258,842  0.35 s/step
+[epoch 1] loss 1.1093  val acc 0.6442  val macro-F1 0.5052 (on 138,949)  7.9 min
+[ckpt] new best macro-F1 0.5052 -> results/hetero/best.pt
+[epoch 2] step 0/1087  loss 1.016  nodes 256,616  0.93 s/step
+[epoch 2] step 100/1087  loss 1.094  nodes 256,259  0.59 s/step
+[epoch 2] step 200/1087  loss 1.105  nodes 271,943  0.62 s/step
+[epoch 2] step 300/1087  loss 1.111  nodes 259,446  0.68 s/step
+[epoch 2] step 400/1087  loss 1.051  nodes 265,243  0.71 s/step
+[epoch 2] step 500/1087  loss 1.101  nodes 258,095  0.71 s/step
+[epoch 2] step 600/1087  loss 1.098  nodes 267,438  0.66 s/step
+[epoch 2] step 700/1087  loss 1.098  nodes 277,544  0.68 s/step
+[epoch 2] step 800/1087  loss 0.997  nodes 265,242  0.67 s/step
+[epoch 2] step 900/1087  loss 1.052  nodes 258,946  0.68 s/step
+[epoch 2] step 1000/1087  loss 1.029  nodes 263,016  0.69 s/step
+[epoch 2] loss 1.0634  val acc 0.6450  val macro-F1 0.5043 (on 138,949)  14.9 min
+[epoch 3] step 0/1087  loss 1.066  nodes 259,327  0.81 s/step
+[epoch 3] step 100/1087  loss 1.021  nodes 257,876  0.80 s/step
+[epoch 3] step 200/1087  loss 0.992  nodes 262,507  0.73 s/step
+[epoch 3] step 300/1087  loss 1.008  nodes 263,093  0.77 s/step
+[epoch 3] step 400/1087  loss 0.957  nodes 272,268  0.77 s/step
+[epoch 3] step 500/1087  loss 1.027  nodes 254,221  0.71 s/step
+[epoch 3] step 600/1087  loss 1.074  nodes 267,618  0.72 s/step
+[epoch 3] step 700/1087  loss 1.127  nodes 243,929  0.71 s/step
+[epoch 3] step 800/1087  loss 1.008  nodes 266,034  0.71 s/step
+[epoch 3] step 900/1087  loss 1.093  nodes 263,881  0.67 s/step
+[epoch 3] step 1000/1087  loss 1.031  nodes 270,567  0.69 s/step
+[epoch 3] loss 1.0362  val acc 0.6500  val macro-F1 0.4957 (on 138,949)  14.9 min
+[epoch 4] step 0/1087  loss 1.014  nodes 265,620  1.06 s/step
+[epoch 4] step 100/1087  loss 0.977  nodes 269,604  0.63 s/step
+[epoch 4] step 200/1087  loss 1.020  nodes 258,775  0.71 s/step
+[epoch 4] step 300/1087  loss 1.044  nodes 266,120  0.74 s/step
+[epoch 4] step 400/1087  loss 1.085  nodes 267,233  0.76 s/step
+[epoch 4] step 500/1087  loss 1.059  nodes 271,213  0.73 s/step
+[epoch 4] step 600/1087  loss 1.027  nodes 261,152  0.74 s/step
+[epoch 4] step 700/1087  loss 1.069  nodes 267,232  0.74 s/step
+[epoch 4] step 800/1087  loss 1.099  nodes 253,203  0.73 s/step
+[epoch 4] step 900/1087  loss 1.062  nodes 267,209  0.71 s/step
+[epoch 4] step 1000/1087  loss 1.114  nodes 266,733  0.69 s/step
+[epoch 4] loss 1.0160  val acc 0.6532  val macro-F1 0.5058 (on 138,949)  14.8 min
+[ckpt] new best macro-F1 0.5058 -> results/hetero/best.pt
+[epoch 5] step 0/1087  loss 0.956  nodes 258,533  0.81 s/step
+[epoch 5] step 100/1087  loss 1.016  nodes 253,623  0.81 s/step
+[epoch 5] step 200/1087  loss 0.949  nodes 262,250  0.79 s/step
+[epoch 5] step 300/1087  loss 1.008  nodes 266,616  0.79 s/step
+[epoch 5] step 400/1087  loss 0.934  nodes 255,902  0.80 s/step
+[epoch 5] step 500/1087  loss 1.022  nodes 255,241  0.80 s/step
+[epoch 5] step 600/1087  loss 0.995  nodes 264,619  0.80 s/step
+[epoch 5] step 700/1087  loss 0.969  nodes 266,382  0.80 s/step
+[epoch 5] step 800/1087  loss 0.992  nodes 279,561  0.75 s/step
+[epoch 5] step 900/1087  loss 1.027  nodes 259,958  0.71 s/step
+[epoch 5] step 1000/1087  loss 1.061  nodes 250,927  0.70 s/step
+[epoch 5] loss 1.0010  val acc 0.6478  val macro-F1 0.5098 (on 138,949)  14.6 min
+[ckpt] new best macro-F1 0.5098 -> results/hetero/best.pt
+[epoch 6] step 0/1087  loss 0.888  nodes 263,276  0.96 s/step
+[epoch 6] step 100/1087  loss 0.935  nodes 257,197  0.77 s/step
+[epoch 6] step 200/1087  loss 1.103  nodes 254,909  0.75 s/step
+[epoch 6] step 300/1087  loss 1.015  nodes 267,018  0.75 s/step
+[epoch 6] step 400/1087  loss 0.934  nodes 265,942  0.75 s/step
+[epoch 6] step 500/1087  loss 0.989  nodes 263,183  0.74 s/step
+[epoch 6] step 600/1087  loss 1.072  nodes 250,672  0.73 s/step
+[epoch 6] step 700/1087  loss 0.972  nodes 274,536  0.73 s/step
+[epoch 6] step 800/1087  loss 1.019  nodes 252,306  0.73 s/step
+[epoch 6] step 900/1087  loss 1.048  nodes 251,960  0.74 s/step
+[epoch 6] step 1000/1087  loss 0.987  nodes 247,668  0.74 s/step
+[epoch 6] loss 0.9846  val acc 0.6455  val macro-F1 0.5116 (on 138,949)  15.3 min
+[ckpt] new best macro-F1 0.5116 -> results/hetero/best.pt
+[epoch 7] step 0/1087  loss 0.915  nodes 264,662  0.77 s/step
+[epoch 7] step 100/1087  loss 0.945  nodes 260,903  0.75 s/step
+[epoch 7] step 200/1087  loss 0.958  nodes 250,484  0.75 s/step
+[epoch 7] step 300/1087  loss 0.968  nodes 272,150  0.74 s/step
+[epoch 7] step 400/1087  loss 0.998  nodes 265,909  0.74 s/step
+[epoch 7] step 500/1087  loss 0.962  nodes 258,284  0.74 s/step
+[epoch 7] step 600/1087  loss 1.009  nodes 256,887  0.74 s/step
+[epoch 7] step 700/1087  loss 0.927  nodes 260,574  0.74 s/step
+[epoch 7] step 800/1087  loss 1.079  nodes 274,140  0.74 s/step
+[epoch 7] step 900/1087  loss 0.994  nodes 266,113  0.75 s/step
+[epoch 7] step 1000/1087  loss 0.992  nodes 257,766  0.76 s/step
+[epoch 7] loss 0.9731  val acc 0.6572  val macro-F1 0.5087 (on 138,949)  15.9 min
+[epoch 8] step 0/1087  loss 0.930  nodes 256,596  0.75 s/step
+[epoch 8] step 100/1087  loss 0.944  nodes 265,333  0.74 s/step
+[epoch 8] step 200/1087  loss 0.944  nodes 260,200  0.74 s/step
+[epoch 8] step 300/1087  loss 0.912  nodes 267,727  0.74 s/step
+[epoch 8] step 400/1087  loss 0.964  nodes 257,342  0.74 s/step
+[epoch 8] step 500/1087  loss 0.993  nodes 260,621  0.74 s/step
+[epoch 8] step 600/1087  loss 0.928  nodes 261,658  0.70 s/step
+[epoch 8] step 700/1087  loss 0.931  nodes 253,204  0.71 s/step
+[epoch 8] step 800/1087  loss 0.958  nodes 273,333  0.71 s/step
+[epoch 8] step 900/1087  loss 1.018  nodes 275,060  0.71 s/step
+[epoch 8] step 1000/1087  loss 0.909  nodes 271,348  0.72 s/step
+[epoch 8] loss 0.9605  val acc 0.6519  val macro-F1 0.5205 (on 138,949)  15.2 min
+[ckpt] new best macro-F1 0.5205 -> results/hetero/best.pt
+[epoch 9] step 0/1087  loss 1.003  nodes 252,095  0.85 s/step
+[epoch 9] step 100/1087  loss 0.964  nodes 263,853  0.75 s/step
+[epoch 9] step 200/1087  loss 0.977  nodes 266,296  0.75 s/step
+[epoch 9] step 300/1087  loss 0.921  nodes 255,235  0.74 s/step
+[epoch 9] step 400/1087  loss 0.934  nodes 261,297  0.75 s/step
+[epoch 9] step 500/1087  loss 0.906  nodes 258,849  0.75 s/step
+[epoch 9] step 600/1087  loss 0.951  nodes 273,382  0.75 s/step
+[epoch 9] step 700/1087  loss 0.968  nodes 267,400  0.75 s/step
+[epoch 9] step 800/1087  loss 1.035  nodes 259,986  0.75 s/step
+[epoch 9] step 900/1087  loss 0.941  nodes 260,193  0.75 s/step
+[epoch 9] step 1000/1087  loss 1.087  nodes 257,796  0.75 s/step
+[epoch 9] loss 0.9501  val acc 0.6437  val macro-F1 0.5041 (on 138,949)  15.8 min
+[epoch 10] step 0/1087  loss 0.954  nodes 259,892  0.84 s/step
+[epoch 10] step 100/1087  loss 0.906  nodes 251,212  0.74 s/step
+[epoch 10] step 200/1087  loss 0.829  nodes 253,937  0.75 s/step
+[epoch 10] step 300/1087  loss 0.907  nodes 259,861  0.75 s/step
+[epoch 10] step 400/1087  loss 0.919  nodes 259,666  0.75 s/step
+[epoch 10] step 500/1087  loss 1.023  nodes 253,412  0.75 s/step
+[epoch 10] step 600/1087  loss 0.898  nodes 260,102  0.75 s/step
+[epoch 10] step 700/1087  loss 0.909  nodes 275,360  0.75 s/step
+[epoch 10] step 800/1087  loss 0.939  nodes 264,059  0.75 s/step
+[epoch 10] step 900/1087  loss 0.928  nodes 268,371  0.75 s/step
+[epoch 10] step 1000/1087  loss 0.923  nodes 270,056  0.75 s/step
+[epoch 10] loss 0.9394  val acc 0.6593  val macro-F1 0.5201 (on 138,949)  15.5 min
+[epoch 11] step 0/1087  loss 0.866  nodes 269,738  0.44 s/step
+[epoch 11] step 100/1087  loss 0.932  nodes 263,202  0.31 s/step
+[epoch 11] step 200/1087  loss 0.927  nodes 261,634  0.32 s/step
+[epoch 11] step 300/1087  loss 0.928  nodes 258,858  0.38 s/step
+[epoch 11] step 400/1087  loss 0.957  nodes 264,128  0.42 s/step
+[epoch 11] step 500/1087  loss 0.959  nodes 259,067  0.48 s/step
+[epoch 11] step 600/1087  loss 0.954  nodes 241,443  0.52 s/step
+[epoch 11] step 700/1087  loss 0.943  nodes 257,644  0.49 s/step
+[epoch 11] step 800/1087  loss 0.984  nodes 253,661  0.47 s/step
+[epoch 11] step 900/1087  loss 0.927  nodes 278,288  0.44 s/step
+[epoch 11] step 1000/1087  loss 0.910  nodes 266,329  0.43 s/step
+[epoch 11] loss 0.9316  val acc 0.6509  val macro-F1 0.5103 (on 138,949)  9.1 min
+[epoch 12] step 0/1087  loss 0.955  nodes 257,065  0.91 s/step
+[epoch 12] step 100/1087  loss 0.895  nodes 275,466  0.71 s/step
+[epoch 12] step 200/1087  loss 0.845  nodes 263,775  0.54 s/step
+[epoch 12] step 300/1087  loss 1.033  nodes 266,679  0.56 s/step
+[epoch 12] step 400/1087  loss 0.949  nodes 256,556  0.60 s/step
+[epoch 12] step 500/1087  loss 0.918  nodes 257,882  0.54 s/step
+[epoch 12] step 600/1087  loss 0.946  nodes 256,957  0.50 s/step
+[epoch 12] step 700/1087  loss 0.986  nodes 266,864  0.47 s/step
+[epoch 12] step 800/1087  loss 0.955  nodes 273,247  0.45 s/step
+[epoch 12] step 900/1087  loss 0.943  nodes 257,678  0.44 s/step
+[epoch 12] step 1000/1087  loss 0.949  nodes 260,872  0.45 s/step
+[epoch 12] loss 0.9220  val acc 0.6589  val macro-F1 0.5166 (on 138,949)  10.3 min
+[epoch 13] step 0/1087  loss 0.913  nodes 254,285  0.88 s/step
+[epoch 13] step 100/1087  loss 0.931  nodes 267,136  0.70 s/step
+[epoch 13] step 200/1087  loss 0.948  nodes 246,335  0.60 s/step
+[epoch 13] step 300/1087  loss 0.893  nodes 261,238  0.49 s/step
+[epoch 13] step 400/1087  loss 0.909  nodes 260,492  0.46 s/step
+[epoch 13] step 500/1087  loss 0.916  nodes 256,430  0.44 s/step
+[epoch 13] step 600/1087  loss 0.905  nodes 273,155  0.43 s/step
+[epoch 13] step 700/1087  loss 0.964  nodes 256,211  0.46 s/step
+[epoch 13] step 800/1087  loss 0.904  nodes 252,279  0.49 s/step
+[epoch 13] step 900/1087  loss 0.887  nodes 270,657  0.50 s/step
+[epoch 13] step 1000/1087  loss 0.921  nodes 275,099  0.48 s/step
+[epoch 13] loss 0.9130  val acc 0.6608  val macro-F1 0.5146 (on 138,949)  9.5 min
+[epoch 14] step 0/1087  loss 0.976  nodes 252,706  0.37 s/step
+[epoch 14] step 100/1087  loss 0.903  nodes 268,774  0.34 s/step
+[epoch 14] step 200/1087  loss 0.895  nodes 265,835  0.42 s/step
+[epoch 14] step 300/1087  loss 0.924  nodes 260,370  0.44 s/step
+[epoch 14] step 400/1087  loss 0.874  nodes 251,242  0.43 s/step
+[epoch 14] step 500/1087  loss 0.927  nodes 257,946  0.40 s/step
+[epoch 14] step 600/1087  loss 0.898  nodes 245,768  0.43 s/step
+[epoch 14] step 700/1087  loss 0.886  nodes 274,799  0.46 s/step
+[epoch 14] step 800/1087  loss 0.895  nodes 257,759  0.46 s/step
+[epoch 14] step 900/1087  loss 0.900  nodes 266,319  0.44 s/step
+[epoch 14] step 1000/1087  loss 0.946  nodes 275,181  0.44 s/step
+[epoch 14] loss 0.9064  val acc 0.6579  val macro-F1 0.5140 (on 138,949)  8.9 min
+[epoch 15] step 0/1087  loss 0.885  nodes 258,837  0.56 s/step
+[epoch 15] step 100/1087  loss 0.910  nodes 267,206  0.58 s/step
+[epoch 15] step 200/1087  loss 0.909  nodes 259,761  0.62 s/step
+[epoch 15] step 300/1087  loss 0.964  nodes 263,952  0.54 s/step
+[epoch 15] step 400/1087  loss 0.866  nodes 258,118  0.50 s/step
+[epoch 15] step 500/1087  loss 0.834  nodes 254,563  0.47 s/step
+[epoch 15] step 600/1087  loss 0.935  nodes 258,902  0.44 s/step
+[epoch 15] step 700/1087  loss 0.919  nodes 256,704  0.42 s/step
+[epoch 15] step 800/1087  loss 0.957  nodes 260,222  0.46 s/step
+[epoch 15] step 900/1087  loss 0.880  nodes 254,428  0.48 s/step
+[epoch 15] step 1000/1087  loss 0.943  nodes 262,475  0.47 s/step
+[epoch 15] loss 0.9001  val acc 0.6646  val macro-F1 0.5187 (on 138,949)  10.2 min
+[epoch 16] step 0/1087  loss 0.837  nodes 264,312  0.37 s/step
+[epoch 16] step 100/1087  loss 0.879  nodes 253,963  0.37 s/step
+[epoch 16] step 200/1087  loss 0.887  nodes 263,515  0.41 s/step
+[epoch 16] step 300/1087  loss 0.862  nodes 249,313  0.38 s/step
+[epoch 16] step 400/1087  loss 0.909  nodes 262,749  0.36 s/step
+[epoch 16] step 500/1087  loss 0.938  nodes 252,782  0.35 s/step
+[epoch 16] step 600/1087  loss 0.875  nodes 263,326  0.33 s/step
+[epoch 16] step 700/1087  loss 0.931  nodes 266,736  0.33 s/step
+[epoch 16] step 800/1087  loss 0.875  nodes 251,070  0.32 s/step
+[epoch 16] step 900/1087  loss 0.906  nodes 264,338  0.32 s/step
+[epoch 16] step 1000/1087  loss 0.921  nodes 268,160  0.31 s/step
+[epoch 16] loss 0.8941  val acc 0.6439  val macro-F1 0.5040 (on 138,949)  7.8 min
+[epoch 17] step 0/1087  loss 0.924  nodes 271,686  0.44 s/step
+[epoch 17] step 100/1087  loss 0.889  nodes 248,737  0.28 s/step
+[epoch 17] step 200/1087  loss 0.887  nodes 264,235  0.27 s/step
+[epoch 17] step 300/1087  loss 0.815  nodes 269,784  0.34 s/step
+[epoch 17] step 400/1087  loss 0.939  nodes 256,310  0.43 s/step
+[epoch 17] step 500/1087  loss 0.963  nodes 262,346  0.47 s/step
+[epoch 17] step 600/1087  loss 0.879  nodes 262,892  0.51 s/step
+[epoch 17] step 700/1087  loss 0.966  nodes 249,550  0.53 s/step
+[epoch 17] step 800/1087  loss 0.886  nodes 246,769  0.55 s/step
+[epoch 17] step 900/1087  loss 0.862  nodes 254,549  0.55 s/step
+[epoch 17] step 1000/1087  loss 0.904  nodes 266,501  0.54 s/step
+[epoch 17] loss 0.8862  val acc 0.6581  val macro-F1 0.5133 (on 138,949)  11.5 min
+[epoch 18] step 0/1087  loss 0.856  nodes 255,391  0.31 s/step
+[epoch 18] step 100/1087  loss 0.839  nodes 264,245  0.26 s/step
+[epoch 18] step 200/1087  loss 0.837  nodes 264,953  0.32 s/step
+[epoch 18] step 300/1087  loss 0.851  nodes 261,246  0.31 s/step
+[epoch 18] step 400/1087  loss 0.895  nodes 262,786  0.33 s/step
+[epoch 18] step 500/1087  loss 0.835  nodes 258,062  0.39 s/step
+[epoch 18] step 600/1087  loss 0.857  nodes 267,665  0.44 s/step
+[epoch 18] step 700/1087  loss 0.868  nodes 257,010  0.47 s/step
+[epoch 18] step 800/1087  loss 0.917  nodes 257,691  0.50 s/step
+[epoch 18] step 900/1087  loss 0.835  nodes 254,754  0.52 s/step
+[epoch 18] step 1000/1087  loss 0.896  nodes 267,285  0.53 s/step
+[epoch 18] loss 0.8797  val acc 0.6591  val macro-F1 0.5176 (on 138,949)  11.0 min
+[epoch 19] step 0/1087  loss 0.833  nodes 254,381  0.61 s/step
+[epoch 19] step 100/1087  loss 0.934  nodes 259,718  0.66 s/step
+[epoch 19] step 200/1087  loss 0.840  nodes 258,619  0.59 s/step
+[epoch 19] step 300/1087  loss 0.905  nodes 267,784  0.52 s/step
+[epoch 19] step 400/1087  loss 0.875  nodes 268,440  0.51 s/step
+[epoch 19] step 500/1087  loss 0.851  nodes 265,887  0.51 s/step
+[epoch 19] step 600/1087  loss 0.847  nodes 269,010  0.49 s/step
+[epoch 19] step 700/1087  loss 0.843  nodes 261,253  0.46 s/step
+[epoch 19] step 800/1087  loss 0.893  nodes 261,054  0.45 s/step
+[epoch 19] step 900/1087  loss 0.895  nodes 266,700  0.44 s/step
+[epoch 19] step 1000/1087  loss 0.938  nodes 268,249  0.43 s/step
+[epoch 19] loss 0.8732  val acc 0.6546  val macro-F1 0.5080 (on 138,949)  9.6 min
+[epoch 20] step 0/1087  loss 0.815  nodes 265,755  0.35 s/step
+[epoch 20] step 100/1087  loss 0.840  nodes 268,674  0.29 s/step
+[epoch 20] step 200/1087  loss 0.899  nodes 250,122  0.29 s/step
+[epoch 20] step 300/1087  loss 0.830  nodes 270,370  0.28 s/step
+[epoch 20] step 400/1087  loss 0.858  nodes 259,511  0.29 s/step
+[epoch 20] step 500/1087  loss 0.854  nodes 272,673  0.31 s/step
+[epoch 20] step 600/1087  loss 0.964  nodes 271,721  0.32 s/step
+[epoch 20] step 700/1087  loss 0.929  nodes 251,608  0.31 s/step
+[epoch 20] step 800/1087  loss 0.905  nodes 273,600  0.31 s/step
+[epoch 20] step 900/1087  loss 0.916  nodes 264,496  0.31 s/step
+[epoch 20] step 1000/1087  loss 0.911  nodes 260,091  0.32 s/step
+[epoch 20] loss 0.8674  val acc 0.6540  val macro-F1 0.5154 (on 138,949)  7.6 min
+[epoch 21] step 0/1087  loss 0.916  nodes 255,214  0.32 s/step
+[epoch 21] step 100/1087  loss 0.842  nodes 265,760  0.28 s/step
+[epoch 21] step 200/1087  loss 0.822  nodes 267,031  0.28 s/step
+[epoch 21] step 300/1087  loss 0.878  nodes 263,793  0.37 s/step
+[epoch 21] step 400/1087  loss 0.838  nodes 255,958  0.40 s/step
+[epoch 21] step 500/1087  loss 0.844  nodes 261,641  0.39 s/step
+[epoch 21] step 600/1087  loss 0.861  nodes 276,314  0.38 s/step
+[epoch 21] step 700/1087  loss 0.892  nodes 274,232  0.37 s/step
+[epoch 21] step 800/1087  loss 0.910  nodes 253,150  0.36 s/step
+[epoch 21] step 900/1087  loss 0.863  nodes 268,890  0.36 s/step
+[epoch 21] step 1000/1087  loss 0.902  nodes 260,884  0.38 s/step
+[epoch 21] loss 0.8615  val acc 0.6498  val macro-F1 0.5077 (on 138,949)  8.5 min
+[epoch 22] step 0/1087  loss 0.777  nodes 263,525  0.39 s/step
+[epoch 22] step 100/1087  loss 0.822  nodes 253,101  0.29 s/step
+[epoch 22] step 200/1087  loss 0.897  nodes 264,686  0.29 s/step
+[epoch 22] step 300/1087  loss 0.914  nodes 260,497  0.29 s/step
+[epoch 22] step 400/1087  loss 0.853  nodes 253,986  0.29 s/step
+[epoch 22] step 500/1087  loss 0.876  nodes 270,348  0.32 s/step
+[epoch 22] step 600/1087  loss 0.875  nodes 259,579  0.37 s/step
+[epoch 22] step 700/1087  loss 0.788  nodes 270,773  0.41 s/step
+[epoch 22] step 800/1087  loss 0.851  nodes 266,222  0.40 s/step
+[epoch 22] step 900/1087  loss 0.916  nodes 254,608  0.39 s/step
+[epoch 22] step 1000/1087  loss 0.869  nodes 262,167  0.38 s/step
+[epoch 22] loss 0.8569  val acc 0.6620  val macro-F1 0.5153 (on 138,949)  8.0 min
+[epoch 23] step 0/1087  loss 0.775  nodes 267,755  0.34 s/step
+[epoch 23] step 100/1087  loss 0.857  nodes 248,202  0.31 s/step
+[epoch 23] step 200/1087  loss 0.746  nodes 273,465  0.47 s/step
+[epoch 23] step 300/1087  loss 0.847  nodes 252,633  0.50 s/step
+[epoch 23] step 400/1087  loss 0.864  nodes 259,670  0.45 s/step
+[epoch 23] step 500/1087  loss 0.804  nodes 259,280  0.41 s/step
+[epoch 23] step 600/1087  loss 0.855  nodes 257,184  0.45 s/step
+[epoch 23] step 700/1087  loss 0.878  nodes 252,489  0.44 s/step
+[epoch 23] step 800/1087  loss 0.846  nodes 259,798  0.44 s/step
+[epoch 23] step 900/1087  loss 0.878  nodes 256,268  0.45 s/step
+[epoch 23] step 1000/1087  loss 0.834  nodes 258,375  0.45 s/step
+[epoch 23] loss 0.8514  val acc 0.6548  val macro-F1 0.5166 (on 138,949)  9.9 min
+[epoch 24] step 0/1087  loss 0.809  nodes 260,370  0.52 s/step
+[epoch 24] step 100/1087  loss 0.803  nodes 264,236  0.52 s/step
+[epoch 24] step 200/1087  loss 0.863  nodes 254,256  0.45 s/step
+[epoch 24] step 300/1087  loss 0.843  nodes 261,673  0.41 s/step
+[epoch 24] step 400/1087  loss 0.893  nodes 259,428  0.39 s/step
+[epoch 24] step 500/1087  loss 0.825  nodes 265,931  0.38 s/step
+[epoch 24] step 600/1087  loss 0.911  nodes 256,626  0.37 s/step
+[epoch 24] step 700/1087  loss 0.870  nodes 275,580  0.41 s/step
+[epoch 24] step 800/1087  loss 0.856  nodes 259,407  0.43 s/step
+[epoch 24] step 900/1087  loss 0.835  nodes 267,914  0.41 s/step
+[epoch 24] step 1000/1087  loss 0.809  nodes 264,178  0.40 s/step
+[epoch 24] loss 0.8467  val acc 0.6589  val macro-F1 0.5108 (on 138,949)  8.1 min
+[epoch 25] step 0/1087  loss 0.846  nodes 260,287  0.53 s/step
+[epoch 25] step 100/1087  loss 0.890  nodes 260,906  0.32 s/step
+[epoch 25] step 200/1087  loss 0.862  nodes 272,125  0.33 s/step
+[epoch 25] step 300/1087  loss 0.870  nodes 266,650  0.34 s/step
+[epoch 25] step 400/1087  loss 0.814  nodes 256,932  0.33 s/step
+[epoch 25] step 500/1087  loss 0.816  nodes 260,705  0.32 s/step
+[epoch 25] step 600/1087  loss 0.847  nodes 261,003  0.33 s/step
+[epoch 25] step 700/1087  loss 0.851  nodes 262,676  0.33 s/step
+[epoch 25] step 800/1087  loss 0.864  nodes 267,847  0.34 s/step
+[epoch 25] step 900/1087  loss 0.910  nodes 262,905  0.34 s/step
+[epoch 25] step 1000/1087  loss 0.933  nodes 252,643  0.34 s/step
+[epoch 25] loss 0.8417  val acc 0.6572  val macro-F1 0.5143 (on 138,949)  7.9 min
+[epoch 26] step 0/1087  loss 0.840  nodes 253,960  0.62 s/step
+[epoch 26] step 100/1087  loss 0.862  nodes 262,423  0.51 s/step
+[epoch 26] step 200/1087  loss 0.804  nodes 271,006  0.50 s/step
+[epoch 26] step 300/1087  loss 0.900  nodes 271,105  0.50 s/step
+[epoch 26] step 400/1087  loss 0.854  nodes 261,086  0.50 s/step
+[epoch 26] step 500/1087  loss 0.817  nodes 254,344  0.50 s/step
+[epoch 26] step 600/1087  loss 0.857  nodes 261,908  0.50 s/step
+[epoch 26] step 700/1087  loss 0.813  nodes 264,197  0.51 s/step
+[epoch 26] step 800/1087  loss 0.824  nodes 257,251  0.51 s/step
+[epoch 26] step 900/1087  loss 0.827  nodes 260,367  0.51 s/step
+[epoch 26] step 1000/1087  loss 0.828  nodes 263,003  0.51 s/step
+[epoch 26] loss 0.8368  val acc 0.6602  val macro-F1 0.5137 (on 138,949)  10.8 min
+[epoch 27] step 0/1087  loss 0.773  nodes 263,065  0.53 s/step
+[epoch 27] step 100/1087  loss 0.836  nodes 273,886  0.51 s/step
+[epoch 27] step 200/1087  loss 0.790  nodes 256,870  0.40 s/step
+[epoch 27] step 300/1087  loss 0.855  nodes 269,509  0.36 s/step
+[epoch 27] step 400/1087  loss 0.788  nodes 278,127  0.34 s/step
+[epoch 27] step 500/1087  loss 0.854  nodes 249,302  0.36 s/step
+[epoch 27] step 600/1087  loss 0.818  nodes 271,732  0.40 s/step
+[epoch 27] step 700/1087  loss 0.804  nodes 255,954  0.43 s/step
+[epoch 27] step 800/1087  loss 0.810  nodes 262,310  0.45 s/step
+[epoch 27] step 900/1087  loss 0.845  nodes 252,571  0.47 s/step
+[epoch 27] step 1000/1087  loss 0.845  nodes 257,300  0.48 s/step
+[epoch 27] loss 0.8320  val acc 0.6564  val macro-F1 0.5157 (on 138,949)  10.7 min
+[epoch 28] step 0/1087  loss 0.808  nodes 263,923  0.64 s/step
+[epoch 28] step 100/1087  loss 0.784  nodes 269,504  0.62 s/step
+[epoch 28] step 200/1087  loss 0.848  nodes 257,508  0.61 s/step
+[epoch 28] step 300/1087  loss 0.805  nodes 270,830  0.62 s/step
+[epoch 28] step 400/1087  loss 0.798  nodes 255,739  0.57 s/step
+[epoch 28] step 500/1087  loss 0.817  nodes 269,958  0.57 s/step
+[epoch 28] step 600/1087  loss 0.742  nodes 270,151  0.57 s/step
+[epoch 28] step 700/1087  loss 0.805  nodes 260,998  0.57 s/step
+[epoch 28] step 800/1087  loss 0.875  nodes 267,134  0.55 s/step
+[epoch 28] step 900/1087  loss 0.838  nodes 263,729  0.52 s/step
+[epoch 28] step 1000/1087  loss 0.831  nodes 261,550  0.50 s/step
+[epoch 28] loss 0.8269  val acc 0.6502  val macro-F1 0.5097 (on 138,949)  9.5 min
+[epoch 29] step 0/1087  loss 0.813  nodes 256,069  0.28 s/step
+[epoch 29] step 100/1087  loss 0.804  nodes 258,286  0.26 s/step
+[epoch 29] step 200/1087  loss 0.795  nodes 252,707  0.27 s/step
+[epoch 29] step 300/1087  loss 0.922  nodes 249,693  0.31 s/step
+[epoch 29] step 400/1087  loss 0.818  nodes 252,401  0.38 s/step
+[epoch 29] step 500/1087  loss 0.866  nodes 253,665  0.43 s/step
+[epoch 29] step 600/1087  loss 0.804  nodes 253,968  0.43 s/step
+[epoch 29] step 700/1087  loss 0.830  nodes 264,658  0.45 s/step
+[epoch 29] step 800/1087  loss 0.821  nodes 254,732  0.47 s/step
+[epoch 29] step 900/1087  loss 0.819  nodes 268,480  0.47 s/step
+[epoch 29] step 1000/1087  loss 0.881  nodes 253,896  0.48 s/step
+[epoch 29] loss 0.8229  val acc 0.6534  val macro-F1 0.5146 (on 138,949)  10.5 min
+[epoch 30] step 0/1087  loss 0.777  nodes 250,316  0.60 s/step
+[epoch 30] step 100/1087  loss 0.742  nodes 262,289  0.59 s/step
+[epoch 30] step 200/1087  loss 0.756  nodes 267,635  0.61 s/step
+[epoch 30] step 300/1087  loss 0.789  nodes 268,877  0.60 s/step
+[epoch 30] step 400/1087  loss 0.842  nodes 257,556  0.60 s/step
+[epoch 30] step 500/1087  loss 0.822  nodes 261,788  0.60 s/step
+[epoch 30] step 600/1087  loss 0.904  nodes 263,362  0.60 s/step
+[epoch 30] step 700/1087  loss 0.846  nodes 263,746  0.58 s/step
+[epoch 30] step 800/1087  loss 0.869  nodes 257,849  0.57 s/step
+[epoch 30] step 900/1087  loss 0.852  nodes 249,983  0.57 s/step
+[epoch 30] step 1000/1087  loss 0.809  nodes 272,632  0.58 s/step
+[epoch 30] loss 0.8192  val acc 0.6585  val macro-F1 0.5204 (on 138,949)  12.0 min
+[epoch 31] step 0/1087  loss 0.723  nodes 257,695  0.30 s/step
+[epoch 31] step 100/1087  loss 0.791  nodes 262,089  0.54 s/step
+[epoch 31] step 200/1087  loss 0.833  nodes 272,606  0.57 s/step
+[epoch 31] step 300/1087  loss 0.808  nodes 270,574  0.54 s/step
+[epoch 31] step 400/1087  loss 0.808  nodes 267,313  0.55 s/step
+[epoch 31] step 500/1087  loss 0.885  nodes 255,422  0.56 s/step
+[epoch 31] step 600/1087  loss 0.786  nodes 265,495  0.56 s/step
+[epoch 31] step 700/1087  loss 0.833  nodes 269,709  0.57 s/step
+[epoch 31] step 800/1087  loss 0.833  nodes 262,196  0.57 s/step
+[epoch 31] step 900/1087  loss 0.790  nodes 249,672  0.55 s/step
+[epoch 31] step 1000/1087  loss 0.818  nodes 270,926  0.55 s/step
+[epoch 31] loss 0.8153  val acc 0.6527  val macro-F1 0.5116 (on 138,949)  11.1 min
+[epoch 32] step 0/1087  loss 0.870  nodes 270,663  0.46 s/step
+[epoch 32] step 100/1087  loss 0.726  nodes 263,797  0.28 s/step
+[epoch 32] step 200/1087  loss 0.835  nodes 264,756  0.34 s/step
+[epoch 32] step 300/1087  loss 0.745  nodes 268,366  0.36 s/step
+[epoch 32] step 400/1087  loss 0.777  nodes 262,394  0.39 s/step
+[epoch 32] step 500/1087  loss 0.792  nodes 265,700  0.42 s/step
+[epoch 32] step 600/1087  loss 0.852  nodes 256,349  0.43 s/step
+[epoch 32] step 700/1087  loss 0.753  nodes 271,593  0.44 s/step
+[epoch 32] step 800/1087  loss 0.872  nodes 269,013  0.45 s/step
+[epoch 32] step 900/1087  loss 0.815  nodes 265,297  0.45 s/step
+[epoch 32] step 1000/1087  loss 0.757  nodes 263,590  0.46 s/step
+[epoch 32] loss 0.8099  val acc 0.6503  val macro-F1 0.5102 (on 138,949)  9.9 min
+[epoch 33] step 0/1087  loss 0.758  nodes 253,838  0.52 s/step
+[epoch 33] step 100/1087  loss 0.765  nodes 253,762  0.51 s/step
+[epoch 33] step 200/1087  loss 0.752  nodes 265,735  0.51 s/step
+[epoch 33] step 300/1087  loss 0.800  nodes 254,912  0.51 s/step
+[epoch 33] step 400/1087  loss 0.807  nodes 255,794  0.51 s/step
+[epoch 33] step 500/1087  loss 0.834  nodes 264,966  0.51 s/step
+[epoch 33] step 600/1087  loss 0.805  nodes 255,918  0.51 s/step
+[epoch 33] step 700/1087  loss 0.815  nodes 259,285  0.51 s/step
+[epoch 33] step 800/1087  loss 0.778  nodes 255,774  0.51 s/step
+[epoch 33] step 900/1087  loss 0.746  nodes 263,035  0.51 s/step
+[epoch 33] step 1000/1087  loss 0.877  nodes 255,497  0.51 s/step
+[epoch 33] loss 0.8068  val acc 0.6580  val macro-F1 0.5095 (on 138,949)  10.8 min
+[epoch 34] step 0/1087  loss 0.789  nodes 258,960  0.53 s/step
+[epoch 34] step 100/1087  loss 0.703  nodes 261,794  0.50 s/step
+[epoch 34] step 200/1087  loss 0.821  nodes 264,361  0.46 s/step
+[epoch 34] step 300/1087  loss 0.846  nodes 270,395  0.40 s/step
+[epoch 34] step 400/1087  loss 0.809  nodes 266,799  0.38 s/step
+[epoch 34] step 500/1087  loss 0.757  nodes 266,824  0.41 s/step
+[epoch 34] step 600/1087  loss 0.813  nodes 246,761  0.44 s/step
+[epoch 34] step 700/1087  loss 0.790  nodes 268,516  0.46 s/step
+[epoch 34] step 800/1087  loss 0.844  nodes 274,174  0.48 s/step
+[epoch 34] step 900/1087  loss 0.841  nodes 263,644  0.49 s/step
+[epoch 34] step 1000/1087  loss 0.790  nodes 262,613  0.49 s/step
+[epoch 34] loss 0.8025  val acc 0.6566  val macro-F1 0.5107 (on 138,949)  9.7 min
+[epoch 35] step 0/1087  loss 0.771  nodes 274,551  0.30 s/step
+[epoch 35] step 100/1087  loss 0.821  nodes 263,564  0.27 s/step
+[epoch 35] step 200/1087  loss 0.770  nodes 258,345  0.36 s/step
+[epoch 35] step 300/1087  loss 0.821  nodes 256,965  0.45 s/step
+[epoch 35] step 400/1087  loss 0.848  nodes 257,921  0.49 s/step
+[epoch 35] step 500/1087  loss 0.818  nodes 256,051  0.49 s/step
+[epoch 35] step 600/1087  loss 0.818  nodes 254,897  0.45 s/step
+[epoch 35] step 700/1087  loss 0.846  nodes 253,457  0.43 s/step
+[epoch 35] step 800/1087  loss 0.764  nodes 261,471  0.41 s/step
+[epoch 35] step 900/1087  loss 0.743  nodes 258,316  0.40 s/step
+[epoch 35] step 1000/1087  loss 0.770  nodes 258,852  0.40 s/step
+[epoch 35] loss 0.7993  val acc 0.6602  val macro-F1 0.5089 (on 138,949)  8.1 min
+[epoch 36] step 0/1087  loss 0.773  nodes 264,195  0.33 s/step
+[epoch 36] step 100/1087  loss 0.768  nodes 270,758  0.33 s/step
+[epoch 36] step 200/1087  loss 0.753  nodes 263,728  0.32 s/step
+[epoch 36] step 300/1087  loss 0.767  nodes 250,241  0.31 s/step
+[epoch 36] step 400/1087  loss 0.793  nodes 265,669  0.30 s/step
+[epoch 36] step 500/1087  loss 0.781  nodes 256,014  0.30 s/step
+[epoch 36] step 600/1087  loss 0.816  nodes 267,099  0.30 s/step
+[epoch 36] step 700/1087  loss 0.807  nodes 257,808  0.30 s/step
+[epoch 36] step 800/1087  loss 0.819  nodes 264,670  0.33 s/step
+[epoch 36] step 900/1087  loss 0.779  nodes 263,373  0.34 s/step
+[epoch 36] step 1000/1087  loss 0.782  nodes 270,185  0.36 s/step
+[epoch 36] loss 0.7954  val acc 0.6607  val macro-F1 0.5126 (on 138,949)  8.3 min
+[epoch 37] step 0/1087  loss 0.796  nodes 262,984  0.40 s/step
+[epoch 37] step 100/1087  loss 0.768  nodes 266,344  0.34 s/step
+[epoch 37] step 200/1087  loss 0.765  nodes 254,770  0.41 s/step
+[epoch 37] step 300/1087  loss 0.730  nodes 258,654  0.44 s/step
+[epoch 37] step 400/1087  loss 0.764  nodes 262,246  0.45 s/step
+[epoch 37] step 500/1087  loss 0.744  nodes 268,391  0.47 s/step
+[epoch 37] step 600/1087  loss 0.821  nodes 253,960  0.47 s/step
+[epoch 37] step 700/1087  loss 0.790  nodes 259,865  0.48 s/step
+[epoch 37] step 800/1087  loss 0.763  nodes 269,033  0.49 s/step
+[epoch 37] step 900/1087  loss 0.804  nodes 256,735  0.49 s/step
+[epoch 37] step 1000/1087  loss 0.780  nodes 252,348  0.49 s/step
+[epoch 37] loss 0.7914  val acc 0.6477  val macro-F1 0.5072 (on 138,949)  10.6 min
+[epoch 38] step 0/1087  loss 0.770  nodes 274,002  0.62 s/step
+[epoch 38] step 100/1087  loss 0.699  nodes 265,618  0.53 s/step
+[epoch 38] step 200/1087  loss 0.791  nodes 271,228  0.52 s/step
+[epoch 38] step 300/1087  loss 0.697  nodes 258,883  0.47 s/step
+[epoch 38] step 400/1087  loss 0.809  nodes 263,581  0.48 s/step
+[epoch 38] step 500/1087  loss 0.795  nodes 261,991  0.48 s/step
+[epoch 38] step 600/1087  loss 0.742  nodes 271,618  0.48 s/step
+[epoch 38] step 700/1087  loss 0.831  nodes 255,897  0.46 s/step
+[epoch 38] step 800/1087  loss 0.833  nodes 255,868  0.44 s/step
+[epoch 38] step 900/1087  loss 0.788  nodes 268,667  0.42 s/step
+[epoch 38] step 1000/1087  loss 0.798  nodes 266,204  0.42 s/step
+[epoch 38] loss 0.7876  val acc 0.6504  val macro-F1 0.5083 (on 138,949)  9.2 min
+[epoch 39] step 0/1087  loss 0.719  nodes 251,537  0.58 s/step
+[epoch 39] step 100/1087  loss 0.797  nodes 258,196  0.53 s/step
+[epoch 39] step 200/1087  loss 0.729  nodes 260,983  0.52 s/step
+[epoch 39] step 300/1087  loss 0.897  nodes 254,941  0.54 s/step
+[epoch 39] step 400/1087  loss 0.743  nodes 259,702  0.53 s/step
+[epoch 39] step 500/1087  loss 0.699  nodes 264,154  0.53 s/step
+[epoch 39] step 600/1087  loss 0.797  nodes 256,892  0.53 s/step
+[epoch 39] step 700/1087  loss 0.778  nodes 265,885  0.53 s/step
+[epoch 39] step 800/1087  loss 0.793  nodes 270,423  0.53 s/step
+[epoch 39] step 900/1087  loss 0.815  nodes 256,100  0.52 s/step
+[epoch 39] step 1000/1087  loss 0.820  nodes 257,214  0.52 s/step
+[epoch 39] loss 0.7851  val acc 0.6535  val macro-F1 0.5098 (on 138,949)  11.0 min
+exit 0  Sat Oct 17 09:37:36 PM EDT 2026
+total 35M
+-rw-r--r-- 1 ak2877 pug-ak2877  11M Oct 17 16:25 best.pt
+-rw-r--r-- 1 ak2877 pug-ak2877 1.6K Oct 17 21:37 hetero_train_log.csv
+-rw-r--r-- 1 ak2877 pug-ak2877  25M Oct 17 21:37 last.pt
