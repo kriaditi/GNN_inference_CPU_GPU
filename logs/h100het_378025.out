@@ -1,0 +1,414 @@
+job 378025 on dutta-compute-01.cs.cornell.edu  Sun Oct 18 01:45:29 PM EDT 2026
+name, memory.total [MiB], power.limit [W]
+NVIDIA H100 NVL, 95830 MiB, 400.00 W
+               total        used        free      shared  buff/cache   available
+Mem:            1511         209         277          76        1117        1302
+[run] torch threads = 32
+[run] device=cuda  seeds=20000000  fanout=[40, 20]  hetero=True
+[hetero] 5 relations, 3,456,728,464 directed edges resident (114s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+job 378025 on dutta-compute-01.cs.cornell.edu  Sun Oct 18 04:38:30 PM EDT 2026
+name, memory.total [MiB], power.limit [W]
+NVIDIA H100 NVL, 95830 MiB, 400.00 W
+               total        used        free      shared  buff/cache   available
+Mem:            1511         242         592          76         762        1269
+[run] torch threads = 32
+[run] device=cuda  seeds=20000000  fanout=[40, 20]  hetero=True
+[hetero] 5 relations, 3,456,728,464 directed edges resident (126s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 40.0 min)
+[model] loaded results/hetero/best.pt: trained epoch 8, val acc 0.6519, macro-F1 0.5205, fanout [40, 20]
+[val] accuracy pass on 138,949 validation papers after each timed config
+[seeds] all mode: 20,000,000 seeds drawn once from 121,751,666 papers
+
+[sweep] batch=1024 fanout=[40, 20] iters=1000 tag=h100_het_378025_b1024_f40x20_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[check] batch nodes=323,838 from 1024 seeds  (x316.2)
+[check] per type: paper 277,221, author 44,571, institution 2,046
+[check] ('paper', 'cites', 'paper'): 37 sampled sources of seed 3 all real (seed has 37)
+[check] ('author', 'writes', 'paper'): 3 sampled sources of seed 3 all real (seed has 3)
+[check] edges=438,152  features=497.4 MB  out=(277221, 153)
+[check] first 10 predicted classes: [58, 17, 41, 59, 92, 1, 23, 136, 58, 23]
+[val] fanout [40, 20]: accuracy 0.6518  macro-F1 0.5203 on 138,949 papers (586s)
+
+============================================================
+attribution drift: median 0.01%  max 0.03%
+attribution OK
+------------------------------------------------------------
+tag                 : h100_het_378025_b1024_f40x20_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 40,20
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 133.9045
+gather_ms           : 1729.3052
+transfer_ms         : 64.1951
+compute_ms          : 23.3256
+wall_ms             : 2107.5252
+drift_pct           : 0.0076
+nodes_per_batch     : 274020.0000
+mb_moved            : 420.8947
+throughput_qps      : 460.8245
+mean_power_w        : 90.9311
+energy_j            : 202054.9854
+energy_mj_per_seed  : 197.3193
+power_samples       : 44295
+peak_gpu_gb         : 5.2161
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 226918.0000
+authors_per_batch   : 45055.5000
+insts_per_batch     : 1691.5000
+val_acc             : 0.6518
+val_macro_f1        : 0.5203
+------------------------------------------------------------
+  sample      6.9%  ###
+  gather     88.6%  ############################################
+  transfer    3.3%  #
+  compute     1.2%  
+============================================================
+wrote results to results/
+
+[sweep] batch=1024 fanout=[5, 5] iters=1000 tag=h100_het_378025_b1024_f5x5_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[check] batch nodes=37,711 from 1024 seeds  (x36.8)
+[check] per type: paper 25,558, author 10,360, institution 1,793
+[check] ('paper', 'cites', 'paper'): 5 sampled sources of seed 3 all real (seed has 37)
+[check] ('author', 'writes', 'paper'): 3 sampled sources of seed 3 all real (seed has 3)
+[check] edges=49,860  features=57.9 MB  out=(25558, 153)
+[check] first 10 predicted classes: [58, 17, 41, 59, 92, 1, 23, 136, 58, 23]
+[val] fanout [5, 5]: accuracy 0.6353  macro-F1 0.5034 on 138,949 papers (54s)
+
+============================================================
+attribution drift: median 0.10%  max 0.27%
+attribution OK
+------------------------------------------------------------
+tag                 : h100_het_378025_b1024_f5x5_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 5,5
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 17.0353
+gather_ms           : 32.9506
+transfer_ms         : 5.7710
+compute_ms          : 4.5786
+wall_ms             : 61.8873
+drift_pct           : 0.1011
+nodes_per_batch     : 32603.0000
+mb_moved            : 50.0782
+throughput_qps      : 8687.6072
+mean_power_w        : 98.0323
+energy_j            : 11550.3400
+energy_mj_per_seed  : 11.2796
+power_samples       : 2345
+peak_gpu_gb         : 0.5903
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 21178.5000
+authors_per_batch   : 10049.0000
+insts_per_batch     : 1425.0000
+val_acc             : 0.6353
+val_macro_f1        : 0.5034
+------------------------------------------------------------
+  sample     28.2%  ##############
+  gather     54.6%  ###########################
+  transfer    9.6%  ####
+  compute     7.6%  ###
+============================================================
+wrote results to results/
+
+[sweep] batch=1024 fanout=[10, 5] iters=1000 tag=h100_het_378025_b1024_f10x5_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[check] batch nodes=57,075 from 1024 seeds  (x55.7)
+[check] per type: paper 38,541, author 16,638, institution 1,896
+[check] ('paper', 'cites', 'paper'): 10 sampled sources of seed 3 all real (seed has 37)
+[check] ('author', 'writes', 'paper'): 3 sampled sources of seed 3 all real (seed has 3)
+[check] edges=76,459  features=87.7 MB  out=(38541, 153)
+[check] first 10 predicted classes: [58, 17, 41, 59, 92, 1, 23, 136, 58, 23]
+[val] fanout [10, 5]: accuracy 0.6444  macro-F1 0.5139 on 138,949 papers (85s)
+
+============================================================
+attribution drift: median 0.02%  max 0.22%
+attribution OK
+------------------------------------------------------------
+tag                 : h100_het_378025_b1024_f10x5_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 10,5
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 25.2462
+gather_ms           : 391.3347
+transfer_ms         : 10.1878
+compute_ms          : 6.3251
+wall_ms             : 435.7729
+drift_pct           : 0.0190
+nodes_per_batch     : 50246.5000
+mb_moved            : 77.1786
+throughput_qps      : 2566.3169
+mean_power_w        : 92.9259
+energy_j            : 37073.8889
+energy_mj_per_seed  : 36.2050
+power_samples       : 7952
+peak_gpu_gb         : 0.9089
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 32552.5000
+authors_per_batch   : 16146.0000
+insts_per_batch     : 1553.0000
+val_acc             : 0.6444
+val_macro_f1        : 0.5139
+------------------------------------------------------------
+  sample      5.8%  ##
+  gather     90.4%  #############################################
+  transfer    2.4%  #
+  compute     1.5%  
+============================================================
+wrote results to results/
+
+[sweep] batch=1024 fanout=[15, 10] iters=1000 tag=h100_het_378025_b1024_f15x10_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[check] batch nodes=119,625 from 1024 seeds  (x116.8)
+[check] per type: paper 93,309, author 24,301, institution 2,015
+[check] ('paper', 'cites', 'paper'): 15 sampled sources of seed 3 all real (seed has 37)
+[check] ('author', 'writes', 'paper'): 3 sampled sources of seed 3 all real (seed has 3)
+[check] edges=153,377  features=183.7 MB  out=(93309, 153)
+[check] first 10 predicted classes: [58, 17, 41, 59, 92, 1, 23, 136, 58, 23]
+[val] fanout [15, 10]: accuracy 0.6487  macro-F1 0.5163 on 138,949 papers (236s)
+
+============================================================
+attribution drift: median 0.01%  max 0.02%
+attribution OK
+------------------------------------------------------------
+tag                 : h100_het_378025_b1024_f15x10_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 59.1557
+gather_ms           : 1129.3447
+transfer_ms         : 19.8237
+compute_ms          : 9.7732
+wall_ms             : 1214.8068
+drift_pct           : 0.0069
+nodes_per_batch     : 101008.5000
+mb_moved            : 155.1491
+throughput_qps      : 847.5033
+mean_power_w        : 91.7330
+energy_j            : 110829.4947
+energy_mj_per_seed  : 108.2319
+power_samples       : 24096
+peak_gpu_gb         : 1.9189
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 75102.0000
+authors_per_batch   : 24296.0000
+insts_per_batch     : 1653.0000
+val_acc             : 0.6487
+val_macro_f1        : 0.5163
+------------------------------------------------------------
+  sample      4.9%  ##
+  gather     92.7%  ##############################################
+  transfer    1.6%  
+  compute     0.8%  
+============================================================
+wrote results to results/
+
+[sweep] batch=1024 fanout=[25, 15] iters=1000 tag=h100_het_378025_b1024_f25x15_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[check] batch nodes=210,507 from 1024 seeds  (x205.6)
+[check] per type: paper 174,250, author 34,211, institution 2,046
+[check] ('paper', 'cites', 'paper'): 25 sampled sources of seed 3 all real (seed has 37)
+[check] ('author', 'writes', 'paper'): 3 sampled sources of seed 3 all real (seed has 3)
+[check] edges=275,465  features=323.3 MB  out=(174250, 153)
+[check] first 10 predicted classes: [58, 17, 41, 59, 92, 1, 23, 136, 58, 23]
+[val] fanout [25, 15]: accuracy 0.6506  macro-F1 0.5187 on 138,949 papers (395s)
+
+============================================================
+attribution drift: median 0.00%  max 0.08%
+attribution OK
+------------------------------------------------------------
+tag                 : h100_het_378025_b1024_f25x15_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 25,15
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 93.5668
+gather_ms           : 2006.8738
+transfer_ms         : 35.0359
+compute_ms          : 15.9267
+wall_ms             : 2135.8930
+drift_pct           : 0.0040
+nodes_per_batch     : 177867.0000
+mb_moved            : 273.2037
+throughput_qps      : 474.3757
+mean_power_w        : 91.5604
+energy_j            : 197641.0668
+energy_mj_per_seed  : 193.0089
+power_samples       : 43060
+peak_gpu_gb         : 3.4596
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 141573.0000
+authors_per_batch   : 34536.0000
+insts_per_batch     : 1681.0000
+val_acc             : 0.6506
+val_macro_f1        : 0.5187
+------------------------------------------------------------
+  sample      4.3%  ##
+  gather     93.3%  ##############################################
+  transfer    1.6%  
+  compute     0.7%  
+============================================================
+wrote results to results/
+
+[sweep] batch=1024 fanout=[60, 30] iters=1000 tag=h100_het_378025_b1024_f60x30_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[check] batch nodes=497,145 from 1024 seeds  (x485.5)
+[check] per type: paper 441,414, author 53,680, institution 2,051
+[check] ('paper', 'cites', 'paper'): 37 sampled sources of seed 3 all real (seed has 37)
+[check] ('author', 'writes', 'paper'): 3 sampled sources of seed 3 all real (seed has 3)
+[check] edges=711,272  features=763.6 MB  out=(441414, 153)
+[check] first 10 predicted classes: [58, 17, 41, 59, 92, 1, 23, 136, 58, 23]
+[val] fanout [60, 30]: accuracy 0.6517  macro-F1 0.5204 on 138,949 papers (822s)
+
+============================================================
+attribution drift: median 0.00%  max 0.03%
+attribution OK
+------------------------------------------------------------
+tag                 : h100_het_378025_b1024_f60x30_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 60,30
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 144.6390
+gather_ms           : 4385.7300
+transfer_ms         : 72.8623
+compute_ms          : 35.6844
+wall_ms             : 4620.4877
+drift_pct           : 0.0019
+nodes_per_batch     : 423343.5000
+mb_moved            : 650.2556
+throughput_qps      : 218.7447
+mean_power_w        : 91.6271
+energy_j            : 428929.8890
+energy_mj_per_seed  : 418.8768
+power_samples       : 93404
+peak_gpu_gb         : 7.9611
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 367898.5000
+authors_per_batch   : 53941.0000
+insts_per_batch     : 1697.0000
+val_acc             : 0.6517
+val_macro_f1        : 0.5204
+------------------------------------------------------------
+  sample      3.1%  #
+  gather     94.5%  ###############################################
+  transfer    1.6%  
+  compute     0.8%  
+============================================================
+wrote results to results/
+
+[sweep] batch=1024 fanout=[40, 20] iters=6000 tag=h100_het_378025_b1024_f40x20_i6000
+[run] 19532 batches available, 2 warmup + 6000 measured
+[check] batch nodes=322,149 from 1024 seeds  (x314.6)
+[check] per type: paper 275,488, author 44,610, institution 2,051
+[check] ('paper', 'cites', 'paper'): 37 sampled sources of seed 3 all real (seed has 37)
+[check] ('author', 'writes', 'paper'): 3 sampled sources of seed 3 all real (seed has 3)
+job 378025 on dutta-compute-01.cs.cornell.edu  Mon Oct 19 02:06:06 AM EDT 2026
+name, memory.total [MiB], power.limit [W]
+NVIDIA H100 NVL, 95830 MiB, 400.00 W
+               total        used        free      shared  buff/cache   available
+Mem:            1511         168         865          76         562        1342
+job 378025 on dutta-compute-01.cs.cornell.edu  Mon Oct 19 02:39:32 AM EDT 2026
+name, memory.total [MiB], power.limit [W]
+NVIDIA H100 NVL, 95830 MiB, 400.00 W
+               total        used        free      shared  buff/cache   available
+Mem:            1511         168         929          76         499        1342
+[run] torch threads = 32
+[run] device=cuda  seeds=20000000  fanout=[40, 20]  hetero=True
+[hetero] 5 relations, 3,456,728,464 directed edges resident (73s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+job 378025 on dutta-compute-01.cs.cornell.edu  Mon Oct 19 03:13:48 AM EDT 2026
+name, memory.total [MiB], power.limit [W]
+NVIDIA H100 NVL, 95830 MiB, 400.00 W
+               total        used        free      shared  buff/cache   available
+Mem:            1511         232         822          76         541        1278
+[run] torch threads = 32
+[run] device=cuda  seeds=20000000  fanout=[40, 20]  hetero=True
+[hetero] 5 relations, 3,456,728,464 directed edges resident (88s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 34.6 min)
+[model] loaded results/hetero/best.pt: trained epoch 8, val acc 0.6519, macro-F1 0.5205, fanout [40, 20]
+[val] accuracy pass on 138,949 validation papers after each timed config
+[seeds] all mode: 20,000,000 seeds drawn once from 121,751,666 papers
+[sweep] h100_het_378025_b1024_f40x20_i1000 already in results/summary_h100.csv, skipping
+[sweep] h100_het_378025_b1024_f5x5_i1000 already in results/summary_h100.csv, skipping
+[sweep] h100_het_378025_b1024_f10x5_i1000 already in results/summary_h100.csv, skipping
+[sweep] h100_het_378025_b1024_f15x10_i1000 already in results/summary_h100.csv, skipping
+[sweep] h100_het_378025_b1024_f25x15_i1000 already in results/summary_h100.csv, skipping
+[sweep] h100_het_378025_b1024_f60x30_i1000 already in results/summary_h100.csv, skipping
+
+[sweep] batch=1024 fanout=[40, 20] iters=6000 tag=h100_het_378025_b1024_f40x20_i6000
+[run] 19532 batches available, 2 warmup + 6000 measured
+[check] batch nodes=320,019 from 1024 seeds  (x312.5)
+[check] per type: author 44,312, paper 273,658, institution 2,049
+[check] ('paper', 'cites', 'paper'): 37 sampled sources of seed 3 all real (seed has 37)
+[check] ('author', 'writes', 'paper'): 3 sampled sources of seed 3 all real (seed has 3)
+[check] edges=438,617  features=491.5 MB  out=(273658, 153)
+[check] first 10 predicted classes: [58, 17, 41, 59, 92, 1, 23, 136, 58, 23]
+[val] fanout [40, 20]: accuracy 0.6518  macro-F1 0.5204 on 138,949 papers (461s)
+
+============================================================
+attribution drift: median 0.00%  max 0.03%
+attribution OK
+------------------------------------------------------------
+tag                 : h100_het_378025_b1024_f40x20_i6000
+seeds_total         : 6144000
+batch_size          : 1024
+fanout              : 40,20
+layers              : 2
+hidden              : 256
+iters               : 6000
+sample_ms           : 27.8414
+gather_ms           : 2501.7909
+transfer_ms         : 21.4991
+compute_ms          : 23.4858
+wall_ms             : 2582.7670
+drift_pct           : 0.0024
+nodes_per_batch     : 275563.5000
+mb_moved            : 423.2655
+throughput_qps      : 413.6006
+mean_power_w        : 101.4756
+energy_j            : 1507396.8922
+energy_mj_per_seed  : 245.3445
+power_samples       : 296444
+peak_gpu_gb         : 5.2646
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 228603.5000
+authors_per_batch   : 45203.5000
+insts_per_batch     : 1694.0000
+val_acc             : 0.6518
+val_macro_f1        : 0.5204
+------------------------------------------------------------
+  sample      1.1%  
+  gather     97.2%  ################################################
+  transfer    0.8%  
+  compute     0.9%  
+============================================================
+wrote results to results/
+exit 0  Mon Oct 19 08:07:40 AM EDT 2026
+archived to /share/gupta/ak2877/gnn/results/h100het_378025
