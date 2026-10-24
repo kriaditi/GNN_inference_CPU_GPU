@@ -1,0 +1,8 @@
+job 574784 on rocky.tech.cornell.edu  Sat Oct 24 04:03:25 PM EDT 2026
+[hetero] 5 relations, 3,456,728,464 directed edges resident (11s)
+[load] graph ready (11s)
+[k=16] papers per part: [7617876, 9275886, 7417377, 8603896, 7116279, 7036665, 8396537, 7887550, 8573700, 7359253, 6806427, 6754411, 7042360, 7554470, 7486321, 6822658]
+  k=16  fanout 5x5    grouped  nodes    34,529  local  79.0%  +inst repl  82.0%  top1  79.0%  paper  81.2%  author  80.1%  inst  19.3%  parts touched 16  for 90% 4
+  k=16  fanout 5x5    random   nodes    33,746  local   9.7%  +inst repl  13.6%  top1   9.7%  paper   9.7%  author   9.6%  inst   8.4%  parts touched 16  for 90% 13
+  k=16  fanout 15x10  grouped  nodes   104,978  local  78.7%  +inst repl  79.8%  top1  78.7%  paper  79.4%  author  77.5%  inst  18.3%  parts touched 16  for 90% 4
+  k=16  fanout 15x10  random   nodes   102,564  local  10.3%  +inst repl  11.8%  top1  10.3%  paper  10.3%  author  10.5%  inst   9.3%  parts touched 16  for 90% 13
