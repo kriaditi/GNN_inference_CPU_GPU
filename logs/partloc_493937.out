@@ -1,0 +1,20 @@
+job 493937 on rocky.tech.cornell.edu  Thu Oct 22 02:39:59 PM EDT 2026
+[hetero] 5 relations, 3,456,728,464 directed edges resident (73s)
+[load] graph ready (73s)
+[k=4] papers per part: [32564335, 30001422, 29395462, 29790447]
+  k=4   fanout 5x5    grouped  nodes    33,006  local  86.0%  +inst repl  88.3%  top1  86.0%  paper  87.6%  author  88.1%  inst  46.3%  parts touched 4  for 90% 2
+  k=4   fanout 5x5    random   nodes    33,664  local  32.4%  +inst repl  35.2%  top1  32.4%  paper  31.7%  author  33.6%  inst  36.9%  parts touched 4  for 90% 4
+  k=4   fanout 15x10  grouped  nodes    98,264  local  86.5%  +inst repl  87.3%  top1  86.5%  paper  87.2%  author  87.0%  inst  45.5%  parts touched 4  for 90% 2
+  k=4   fanout 15x10  random   nodes   102,883  local  35.1%  +inst repl  36.2%  top1  35.1%  paper  34.1%  author  37.9%  inst  37.1%  parts touched 4  for 90% 4
+  k=4   fanout 40x20  grouped  nodes   257,420  local  86.6%  +inst repl  86.9%  top1  86.6%  paper  86.8%  author  86.8%  inst  45.6%  parts touched 4  for 90% 2
+  k=4   fanout 40x20  random   nodes   274,938  local  38.0%  +inst repl  38.4%  top1  38.0%  paper  37.3%  author  41.7%  inst  37.0%  parts touched 4  for 90% 4
+[k=5] papers per part: [24918613, 24394341, 26568192, 23677614, 22192906]
+  k=5   fanout 5x5    grouped  nodes    36,170  local  85.3%  +inst repl  87.3%  top1  85.3%  paper  86.9%  author  87.2%  inst  36.6%  parts touched 5  for 90% 2
+  k=5   fanout 5x5    random   nodes    33,508  local  26.5%  +inst repl  29.1%  top1  26.5%  paper  25.2%  author  27.9%  inst  37.9%  parts touched 5  for 90% 5
+  k=5   fanout 15x10  grouped  nodes   109,208  local  84.8%  +inst repl  85.7%  top1  84.8%  paper  86.0%  author  86.1%  inst  35.4%  parts touched 5  for 90% 2
+  k=5   fanout 15x10  random   nodes   102,680  local  28.3%  +inst repl  29.4%  top1  28.3%  paper  26.8%  author  32.7%  inst  39.4%  parts touched 5  for 90% 5
+  k=5   fanout 40x20  grouped  nodes   282,310  local  84.7%  +inst repl  85.1%  top1  84.7%  paper  84.9%  author  86.4%  inst  34.9%  parts touched 5  for 90% 2
+  k=5   fanout 40x20  random   nodes   273,722  local  29.7%  +inst repl  30.1%  top1  29.7%  paper  28.3%  author  35.9%  inst  39.7%  parts touched 5  for 90% 5
+[skip] /share/gupta/ak2877/gnn/metis/part_k8.npy not found
+[done] 12 configs, 1.9 min -> results/partition/
+exit 0  Thu Oct 22 02:43:04 PM EDT 2026

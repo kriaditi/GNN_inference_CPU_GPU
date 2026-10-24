@@ -1,0 +1,4 @@
+job 445094 k=16 on yosemite.tech.cornell.edu  Thu Oct 22 11:37:42 AM EDT 2026
+[metis] /home/ak2877/local/lib/libmetis.so  idx 64-bit  real 64-bit  35 options
+[part] graph loaded: 244,160,499 vertices, 1,727,235,912 edges (9s); METIS k=16 ...
+exit 137  Thu Oct 22 11:53:59 AM EDT 2026

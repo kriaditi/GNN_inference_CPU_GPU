@@ -1,0 +1,29 @@
+job 445091 on yosemite.tech.cornell.edu  Thu Oct 22 10:17:43 AM EDT 2026
+[metis] /home/ak2877/local/lib/libmetis.so  idx 64-bit  real 64-bit  35 options
+[build] inputs loaded (90s)
+[build] 244,160,499 vertices, 3,456,728,464 adjacency entries before cleanup (27.7 GB)
+[build] adjacency filled (146s)
+[build] removed 0 self-loops and 2,256,640 duplicates; 3,454,471,824 entries = 1,727,235,912 undirected edges (277s)
+[build] symmetry spot check OK (200 vertices)
+[build] saved to /share/gupta/ak2877/gnn/metis (5.6 min)
+{
+  "num_vertices": 244160499,
+  "num_papers": 121751666,
+  "num_authors": 122383112,
+  "num_institutions": 25721,
+  "offset": {
+    "paper": 0,
+    "author": 121751666,
+    "institution": 244134778
+  },
+  "undirected_edges": 1727235912,
+  "self_loops_removed": 0,
+  "duplicates_removed": 2256640,
+  "smoke": false,
+  "isolated_vertices": 0
+}
+exit 0  Thu Oct 22 10:23:29 AM EDT 2026
+total 28G
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users  26G Oct 22 10:23 graph_adjncy.npy
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users  342 Oct 22 10:23 graph_meta.json
+-rw-r--r-- 1 ak2877 en-cc-unicorn-gupta-users 1.9G Oct 22 10:22 graph_xadj.npy

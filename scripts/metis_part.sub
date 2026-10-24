@@ -5,12 +5,12 @@
 #SBATCH -o logs/metispart_k%a_%j.out
 #SBATCH -e logs/metispart_k%a_%j.err
 #SBATCH --get-user-env
-#SBATCH --mem=400G
+#SBATCH --mem=500G
 #SBATCH -t 48:00:00
 #SBATCH --cpus-per-task=8
 #SBATCH --partition=gupta
 #SBATCH --nodelist=yosemite
-#SBATCH --array=4,5,8,16%2
+#SBATCH --array=8,16%1
 
 # Stage 2 of METIS: one array task per k (k = SLURM_ARRAY_TASK_ID), two at a
 # time on yosemite. Loads the saved graph (30 GB) and runs METIS_PartGraphKway
@@ -27,6 +27,6 @@ export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
 K=$SLURM_ARRAY_TASK_ID
 echo "job $SLURM_JOB_ID k=$K on $(hostname)  $(date)"
-python metis_partition.py --k $K --out /share/gupta/ak2877/gnn/metis
+mkdir -p /share/gupta/ak2877/gnn/metis_tmp && cd /share/gupta/ak2877/gnn/metis_tmp && python ~/gnn/metis_partition.py --k $K --out /share/gupta/ak2877/gnn/metis
 echo "exit $?  $(date)"
 cat /share/gupta/ak2877/gnn/metis/part_k${K}.json | head -40
