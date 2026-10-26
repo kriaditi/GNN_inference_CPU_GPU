@@ -1,1 +1,68 @@
-[]
+[
+  {
+    "k": 6,
+    "fanout": "5x5",
+    "mode": "grouped",
+    "nodes": 31314.0,
+    "frac_local": 0.8438798851386914,
+    "frac_local_inst_repl": 0.8680880315669084,
+    "frac_top1": 0.8438798851386914,
+    "parts_touched": 6.0,
+    "parts_for_90pct": 2.0
+  },
+  {
+    "k": 6,
+    "fanout": "5x5",
+    "mode": "random",
+    "nodes": 33564.5,
+    "frac_local": 0.23636348086531492,
+    "frac_local_inst_repl": 0.2643982064509699,
+    "frac_top1": 0.23636348086531492,
+    "parts_touched": 6.0,
+    "parts_for_90pct": 5.0
+  },
+  {
+    "k": 6,
+    "fanout": "15x10",
+    "mode": "grouped",
+    "nodes": 92996.5,
+    "frac_local": 0.8428227878445689,
+    "frac_local_inst_repl": 0.8531759413659012,
+    "frac_top1": 0.8428227878445689,
+    "parts_touched": 6.0,
+    "parts_for_90pct": 2.0
+  },
+  {
+    "k": 6,
+    "fanout": "15x10",
+    "mode": "random",
+    "nodes": 102707.0,
+    "frac_local": 0.2509443750188052,
+    "frac_local_inst_repl": 0.2615465697377628,
+    "frac_top1": 0.2509443750188052,
+    "parts_touched": 6.0,
+    "parts_for_90pct": 5.0
+  },
+  {
+    "k": 6,
+    "fanout": "40x20",
+    "mode": "grouped",
+    "nodes": 247892.0,
+    "frac_local": 0.8427396253022987,
+    "frac_local_inst_repl": 0.8466164888058367,
+    "frac_top1": 0.8427396253022987,
+    "parts_touched": 6.0,
+    "parts_for_90pct": 2.0
+  },
+  {
+    "k": 6,
+    "fanout": "40x20",
+    "mode": "random",
+    "nodes": 275004.5,
+    "frac_local": 0.26574579477445937,
+    "frac_local_inst_repl": 0.2697604901906897,
+    "frac_top1": 0.26574579477445937,
+    "parts_touched": 6.0,
+    "parts_for_90pct": 5.0
+  }
+]

@@ -1,1 +1,12 @@
 job 658493 on acadia.tech.cornell.edu  Mon Oct 26 10:51:16 AM EDT 2026
+[hetero] 5 relations, 3,456,728,464 directed edges resident (102s)
+[load] graph ready (102s)
+[k=6] papers per part: [22329753, 19443030, 21142514, 20294672, 18392926, 20148771]
+  k=6   fanout 5x5    grouped  nodes    31,314  local  84.4%  +inst repl  86.8%  top1  84.4%  paper  86.2%  author  86.2%  inst  26.8%  parts touched 6  for 90% 2
+  k=6   fanout 5x5    random   nodes    33,564  local  23.6%  +inst repl  26.4%  top1  23.6%  paper  22.5%  author  24.4%  inst  35.2%  parts touched 6  for 90% 5
+  k=6   fanout 15x10  grouped  nodes    92,996  local  84.3%  +inst repl  85.3%  top1  84.3%  paper  85.0%  author  85.0%  inst  27.0%  parts touched 6  for 90% 2
+  k=6   fanout 15x10  random   nodes   102,707  local  25.1%  +inst repl  26.2%  top1  25.1%  paper  23.7%  author  28.8%  inst  36.4%  parts touched 6  for 90% 5
+  k=6   fanout 40x20  grouped  nodes   247,892  local  84.3%  +inst repl  84.7%  top1  84.3%  paper  84.3%  author  84.7%  inst  26.3%  parts touched 6  for 90% 2
+  k=6   fanout 40x20  random   nodes   275,004  local  26.6%  +inst repl  27.0%  top1  26.6%  paper  25.4%  author  32.3%  inst  36.4%  parts touched 6  for 90% 5
+[done] 6 configs, 2.1 min -> results/partition/
+exit 0  Mon Oct 26 10:55:40 AM EDT 2026
