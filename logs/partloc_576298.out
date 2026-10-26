@@ -1,0 +1,6 @@
+job 576298 on rocky.tech.cornell.edu  Sat Oct 24 04:13:37 PM EDT 2026
+[hetero] 5 relations, 3,456,728,464 directed edges resident (7s)
+[load] graph ready (7s)
+[skip] /share/gupta/ak2877/gnn/metis/part_k6.npy not found
+[done] 0 configs, 0.1 min -> results/partition/
+exit 0  Sat Oct 24 04:14:08 PM EDT 2026

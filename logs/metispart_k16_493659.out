@@ -1,3 +1,62 @@
 job 493659 k=16 on yosemite.tech.cornell.edu  Sat Oct 24 12:29:13 PM EDT 2026
 [metis] /home/ak2877/local/lib/libmetis.so  idx 64-bit  real 64-bit  35 options
 [part] graph loaded: 244,160,499 vertices, 1,727,235,912 edges (42s); METIS k=16 ...
+[part] METIS done in 183.1 min, edge cut 271,579,625
+[part] k=16: max part 23.7 GB, imbalance 1.009, edge cut 15.72%, within-part edges: paper_paper 84.6%, paper_author 88.0%, author_institution 43.8%, all 84.3%
+        part 0:   23.3 GB  papers 7,617,876  authors 7,527,671  inst 1,062
+        part 1:   23.7 GB  papers 9,275,886  authors 6,119,942  inst 2,559
+        part 2:   23.4 GB  papers 7,417,377  authors 7,817,611  inst 791
+        part 3:   23.7 GB  papers 8,603,896  authors 6,791,804  inst 2,686
+        part 4:   23.0 GB  papers 7,116,279  authors 7,852,029  inst 1,445
+        part 5:   23.2 GB  papers 7,036,665  authors 8,061,350  inst 1,119
+        part 6:   23.7 GB  papers 8,396,537  authors 7,000,780  inst 1,123
+        part 7:   23.7 GB  papers 7,887,550  authors 7,509,455  inst 1,331
+        part 8:   23.7 GB  papers 8,573,700  authors 6,820,539  inst 4,146
+        part 9:   22.8 GB  papers 7,359,253  authors 7,454,276  inst 1,317
+        part 10:   23.4 GB  papers 6,806,427  authors 8,427,732  inst 1,480
+        part 11:   23.4 GB  papers 6,754,411  authors 8,480,056  inst 1,286
+        part 12:   23.7 GB  papers 7,042,360  authors 8,354,998  inst 1,027
+        part 13:   23.7 GB  papers 7,554,470  authors 7,843,068  inst 909
+        part 14:   23.7 GB  papers 7,486,321  authors 7,909,978  inst 2,151
+        part 15:   23.4 GB  papers 6,822,658  authors 8,411,823  inst 1,289
+exit 0  Sat Oct 24 03:37:08 PM EDT 2026
+{
+  "k": 16,
+  "seed": 0,
+  "edge_cut": 271579625,
+  "edge_cut_fraction": 0.15723366050531723,
+  "imbalance": 1.0091,
+  "max_part_gb": 23.7,
+  "within_part_edge_fraction": {
+    "paper_paper": 0.8455327463768534,
+    "paper_author": 0.8802555688950122,
+    "author_institution": 0.43779600492332965,
+    "all": 0.8427663394946827
+  },
+  "parts": [
+    {
+      "part": 0,
+      "nodes": 15146609,
+      "papers": 7617876,
+      "authors": 7527671,
+      "institutions": 1062,
+      "feature_gb": 23.3
+    },
+    {
+      "part": 1,
+      "nodes": 15398387,
+      "papers": 9275886,
+      "authors": 6119942,
+      "institutions": 2559,
+      "feature_gb": 23.7
+    },
+    {
+      "part": 2,
+      "nodes": 15235779,
+      "papers": 7417377,
+      "authors": 7817611,
+      "institutions": 791,
+      "feature_gb": 23.4
+    },
+    {
+      "part": 3,

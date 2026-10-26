@@ -1,0 +1,50 @@
+{
+  "k": 4,
+  "seed": 0,
+  "edge_cut": 152906844,
+  "edge_cut_fraction": 0.08852690181907241,
+  "imbalance": 1.03,
+  "max_part_gb": 96.6,
+  "within_part_edge_fraction": {
+    "paper_paper": 0.9172820518942146,
+    "paper_author": 0.9328738629684802,
+    "author_institution": 0.5573068132895455,
+    "all": 0.9114730981809276
+  },
+  "parts": [
+    {
+      "part": 0,
+      "nodes": 60589442,
+      "papers": 32564335,
+      "authors": 28018246,
+      "institutions": 6861,
+      "feature_gb": 93.1
+    },
+    {
+      "part": 1,
+      "nodes": 60589428,
+      "papers": 30001422,
+      "authors": 30582904,
+      "institutions": 5102,
+      "feature_gb": 93.1
+    },
+    {
+      "part": 2,
+      "nodes": 60107271,
+      "papers": 29395462,
+      "authors": 30703338,
+      "institutions": 8471,
+      "feature_gb": 92.3
+    },
+    {
+      "part": 3,
+      "nodes": 62874358,
+      "papers": 29790447,
+      "authors": 33078624,
+      "institutions": 5287,
+      "feature_gb": 96.6
+    }
+  ],
+  "metis_minutes": 61.0,
+  "smoke": false
+}

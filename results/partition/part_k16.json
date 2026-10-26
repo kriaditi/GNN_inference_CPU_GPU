@@ -1,0 +1,146 @@
+{
+  "k": 16,
+  "seed": 0,
+  "edge_cut": 271579625,
+  "edge_cut_fraction": 0.15723366050531723,
+  "imbalance": 1.0091,
+  "max_part_gb": 23.7,
+  "within_part_edge_fraction": {
+    "paper_paper": 0.8455327463768534,
+    "paper_author": 0.8802555688950122,
+    "author_institution": 0.43779600492332965,
+    "all": 0.8427663394946827
+  },
+  "parts": [
+    {
+      "part": 0,
+      "nodes": 15146609,
+      "papers": 7617876,
+      "authors": 7527671,
+      "institutions": 1062,
+      "feature_gb": 23.3
+    },
+    {
+      "part": 1,
+      "nodes": 15398387,
+      "papers": 9275886,
+      "authors": 6119942,
+      "institutions": 2559,
+      "feature_gb": 23.7
+    },
+    {
+      "part": 2,
+      "nodes": 15235779,
+      "papers": 7417377,
+      "authors": 7817611,
+      "institutions": 791,
+      "feature_gb": 23.4
+    },
+    {
+      "part": 3,
+      "nodes": 15398386,
+      "papers": 8603896,
+      "authors": 6791804,
+      "institutions": 2686,
+      "feature_gb": 23.7
+    },
+    {
+      "part": 4,
+      "nodes": 14969753,
+      "papers": 7116279,
+      "authors": 7852029,
+      "institutions": 1445,
+      "feature_gb": 23.0
+    },
+    {
+      "part": 5,
+      "nodes": 15099134,
+      "papers": 7036665,
+      "authors": 8061350,
+      "institutions": 1119,
+      "feature_gb": 23.2
+    },
+    {
+      "part": 6,
+      "nodes": 15398440,
+      "papers": 8396537,
+      "authors": 7000780,
+      "institutions": 1123,
+      "feature_gb": 23.7
+    },
+    {
+      "part": 7,
+      "nodes": 15398336,
+      "papers": 7887550,
+      "authors": 7509455,
+      "institutions": 1331,
+      "feature_gb": 23.7
+    },
+    {
+      "part": 8,
+      "nodes": 15398385,
+      "papers": 8573700,
+      "authors": 6820539,
+      "institutions": 4146,
+      "feature_gb": 23.7
+    },
+    {
+      "part": 9,
+      "nodes": 14814846,
+      "papers": 7359253,
+      "authors": 7454276,
+      "institutions": 1317,
+      "feature_gb": 22.8
+    },
+    {
+      "part": 10,
+      "nodes": 15235639,
+      "papers": 6806427,
+      "authors": 8427732,
+      "institutions": 1480,
+      "feature_gb": 23.4
+    },
+    {
+      "part": 11,
+      "nodes": 15235753,
+      "papers": 6754411,
+      "authors": 8480056,
+      "institutions": 1286,
+      "feature_gb": 23.4
+    },
+    {
+      "part": 12,
+      "nodes": 15398385,
+      "papers": 7042360,
+      "authors": 8354998,
+      "institutions": 1027,
+      "feature_gb": 23.7
+    },
+    {
+      "part": 13,
+      "nodes": 15398447,
+      "papers": 7554470,
+      "authors": 7843068,
+      "institutions": 909,
+      "feature_gb": 23.7
+    },
+    {
+      "part": 14,
+      "nodes": 15398450,
+      "papers": 7486321,
+      "authors": 7909978,
+      "institutions": 2151,
+      "feature_gb": 23.7
+    },
+    {
+      "part": 15,
+      "nodes": 15235770,
+      "papers": 6822658,
+      "authors": 8411823,
+      "institutions": 1289,
+      "feature_gb": 23.4
+    }
+  ],
+  "metis_minutes": 187.1,
+  "smoke": false
+}

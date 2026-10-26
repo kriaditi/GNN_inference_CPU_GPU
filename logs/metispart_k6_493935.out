@@ -1,0 +1,52 @@
+job 493935 k=6 on yosemite.tech.cornell.edu  Sat Oct 24 03:37:29 PM EDT 2026
+[metis] /home/ak2877/local/lib/libmetis.so  idx 64-bit  real 64-bit  35 options
+[part] graph loaded: 244,160,499 vertices, 1,727,235,912 edges (74s); METIS k=6 ...
+[part] METIS done in 190.1 min, edge cut 167,149,253
+[part] k=6: max part 64.4 GB, imbalance 1.030, edge cut 9.68%, within-part edges: paper_paper 90.7%, paper_author 92.9%, author_institution 56.2%, all 90.3%
+        part 0:   61.8 GB  papers 22,329,753  authors 17,927,996  inst 5,396
+        part 1:   61.3 GB  papers 19,443,030  authors 20,449,324  inst 2,288
+        part 2:   63.8 GB  papers 21,142,514  authors 20,413,635  inst 4,042
+        part 3:   61.8 GB  papers 20,294,672  authors 19,961,963  inst 6,489
+        part 4:   61.8 GB  papers 18,392,926  authors 21,866,133  inst 4,089
+        part 5:   64.4 GB  papers 20,148,771  authors 21,764,061  inst 3,417
+exit 0  Sat Oct 24 06:54:55 PM EDT 2026
+{
+  "k": 6,
+  "seed": 0,
+  "edge_cut": 167149253,
+  "edge_cut_fraction": 0.09677268278104213,
+  "imbalance": 1.03,
+  "max_part_gb": 64.4,
+  "within_part_edge_fraction": {
+    "paper_paper": 0.9072172087630698,
+    "paper_author": 0.9292351548634236,
+    "author_institution": 0.5620721345920597,
+    "all": 0.9032273172189579
+  },
+  "parts": [
+    {
+      "part": 0,
+      "nodes": 40263145,
+      "papers": 22329753,
+      "authors": 17927996,
+      "institutions": 5396,
+      "feature_gb": 61.8
+    },
+    {
+      "part": 1,
+      "nodes": 39894642,
+      "papers": 19443030,
+      "authors": 20449324,
+      "institutions": 2288,
+      "feature_gb": 61.3
+    },
+    {
+      "part": 2,
+      "nodes": 41560191,
+      "papers": 21142514,
+      "authors": 20413635,
+      "institutions": 4042,
+      "feature_gb": 63.8
+    },
+    {
+      "part": 3,
