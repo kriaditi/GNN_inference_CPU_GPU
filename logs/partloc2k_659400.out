@@ -1,0 +1,40 @@
+job 659400 on acadia.tech.cornell.edu  Mon Oct 26 11:22:32 AM EDT 2026
+[hetero] 5 relations, 3,456,728,464 directed edges resident (7s)
+[load] graph ready (7s)
+[k=4] papers per part: [32564335, 30001422, 29395462, 29790447]
+  k=4   fanout 5x5    grouped  nodes    33,040  local  86.0%  +inst repl  88.4%  top1  86.0%  top2  94.4%  top3  98.6%  paper  87.7%  author  88.2%  inst  46.2%  parts touched 4  for 90% 2
+  k=4   fanout 5x5    random   nodes    33,670  local  32.4%  +inst repl  35.1%  top1  32.4%  top2  57.7%  top3  80.7%  paper  31.6%  author  33.6%  inst  37.0%  parts touched 4  for 90% 4
+  k=4   fanout 15x10  grouped  nodes    98,172  local  86.4%  +inst repl  87.3%  top1  86.4%  top2  94.6%  top3  98.9%  paper  87.1%  author  86.9%  inst  45.5%  parts touched 4  for 90% 2
+  k=4   fanout 15x10  random   nodes   102,561  local  35.0%  +inst repl  36.0%  top1  35.0%  top2  59.7%  top3  82.3%  paper  34.1%  author  37.8%  inst  37.0%  parts touched 4  for 90% 4
+  k=4   fanout 40x20  grouped  nodes   255,306  local  86.6%  +inst repl  87.0%  top1  86.6%  top2  94.8%  top3  99.0%  paper  87.0%  author  86.7%  inst  45.1%  parts touched 4  for 90% 2
+  k=4   fanout 40x20  random   nodes   275,584  local  37.8%  +inst repl  38.2%  top1  37.8%  top2  62.0%  top3  83.9%  paper  37.0%  author  41.4%  inst  37.0%  parts touched 4  for 90% 4
+[k=5] papers per part: [24918613, 24394341, 26568192, 23677614, 22192906]
+  k=5   fanout 5x5    grouped  nodes    36,040  local  85.1%  +inst repl  87.1%  top1  85.1%  top2  92.1%  top3  96.1%  paper  86.9%  author  87.0%  inst  36.5%  parts touched 5  for 90% 2
+  k=5   fanout 5x5    random   nodes    33,656  local  26.7%  +inst repl  29.4%  top1  26.7%  top2  49.4%  top3  69.2%  paper  25.4%  author  28.1%  inst  38.0%  parts touched 5  for 90% 5
+  k=5   fanout 15x10  grouped  nodes   108,810  local  85.0%  +inst repl  85.7%  top1  85.0%  top2  92.3%  top3  96.5%  paper  85.9%  author  86.3%  inst  35.3%  parts touched 5  for 90% 2
+  k=5   fanout 15x10  random   nodes   102,490  local  28.3%  +inst repl  29.3%  top1  28.3%  top2  50.7%  top3  70.9%  paper  26.7%  author  32.5%  inst  39.4%  parts touched 5  for 90% 5
+  k=5   fanout 40x20  grouped  nodes   282,741  local  84.8%  +inst repl  85.2%  top1  84.8%  top2  92.5%  top3  96.7%  paper  85.2%  author  86.4%  inst  35.1%  parts touched 5  for 90% 2
+  k=5   fanout 40x20  random   nodes   275,450  local  29.6%  +inst repl  30.0%  top1  29.6%  top2  52.2%  top3  72.6%  paper  28.3%  author  35.8%  inst  39.5%  parts touched 5  for 90% 5
+[k=6] papers per part: [22329753, 19443030, 21142514, 20294672, 18392926, 20148771]
+  k=6   fanout 5x5    grouped  nodes    31,848  local  84.4%  +inst repl  86.8%  top1  84.4%  top2  90.9%  top3  95.3%  paper  86.2%  author  86.0%  inst  28.1%  parts touched 6  for 90% 2
+  k=6   fanout 5x5    random   nodes    33,586  local  23.5%  +inst repl  26.3%  top1  23.5%  top2  44.5%  top3  62.1%  paper  22.5%  author  24.3%  inst  35.0%  parts touched 6  for 90% 5
+  k=6   fanout 15x10  grouped  nodes    96,174  local  84.4%  +inst repl  85.3%  top1  84.4%  top2  91.3%  top3  95.6%  paper  85.0%  author  84.7%  inst  28.4%  parts touched 6  for 90% 2
+  k=6   fanout 15x10  random   nodes   102,717  local  25.1%  +inst repl  26.1%  top1  25.1%  top2  46.0%  top3  64.1%  paper  23.7%  author  28.7%  inst  36.4%  parts touched 6  for 90% 5
+  k=6   fanout 40x20  grouped  nodes   254,410  local  84.2%  +inst repl  84.6%  top1  84.2%  top2  91.4%  top3  95.7%  paper  84.3%  author  84.4%  inst  27.1%  parts touched 6  for 90% 2
+  k=6   fanout 40x20  random   nodes   275,452  local  26.6%  +inst repl  27.0%  top1  26.6%  top2  47.3%  top3  65.8%  paper  25.4%  author  32.2%  inst  36.6%  parts touched 6  for 90% 5
+[k=8] papers per part: [14739844, 16070273, 15517834, 16649470, 15087603, 14342125, 15989672, 13354845]
+  k=8   fanout 5x5    grouped  nodes    33,916  local  82.1%  +inst repl  84.7%  top1  82.1%  top2  89.3%  top3  93.2%  paper  84.2%  author  84.2%  inst  30.5%  parts touched 8  for 90% 3
+  k=8   fanout 5x5    random   nodes    33,672  local  18.1%  +inst repl  21.5%  top1  18.1%  top2  34.7%  top3  48.8%  paper  17.7%  author  18.3%  inst  22.4%  parts touched 8  for 90% 7
+  k=8   fanout 15x10  grouped  nodes   100,052  local  81.3%  +inst repl  82.3%  top1  81.3%  top2  89.3%  top3  93.7%  paper  82.3%  author  81.3%  inst  29.4%  parts touched 8  for 90% 3
+  k=8   fanout 15x10  random   nodes   102,437  local  19.6%  +inst repl  20.9%  top1  19.6%  top2  36.7%  top3  51.1%  paper  19.0%  author  21.5%  inst  23.2%  parts touched 8  for 90% 7
+  k=8   fanout 40x20  grouped  nodes   257,683  local  80.4%  +inst repl  80.8%  top1  80.4%  top2  89.1%  top3  93.9%  paper  81.0%  author  79.4%  inst  29.1%  parts touched 8  for 90% 3
+  k=8   fanout 40x20  random   nodes   275,928  local  21.5%  +inst repl  22.0%  top1  21.5%  top2  38.7%  top3  53.6%  paper  20.9%  author  24.9%  inst  23.3%  parts touched 8  for 90% 7
+[k=16] papers per part: [7617876, 9275886, 7417377, 8603896, 7116279, 7036665, 8396537, 7887550, 8573700, 7359253, 6806427, 6754411, 7042360, 7554470, 7486321, 6822658]
+  k=16  fanout 5x5    grouped  nodes    34,912  local  78.6%  +inst repl  81.6%  top1  78.6%  top2  84.0%  top3  87.1%  paper  80.7%  author  79.9%  inst  19.3%  parts touched 16  for 90% 4
+  k=16  fanout 5x5    random   nodes    33,608  local   9.7%  +inst repl  13.6%  top1   9.7%  top2  18.6%  top3  27.1%  paper   9.7%  author   9.6%  inst   8.5%  parts touched 16  for 90% 13
+  k=16  fanout 15x10  grouped  nodes   105,688  local  77.9%  +inst repl  79.2%  top1  77.9%  top2  83.6%  top3  87.4%  paper  78.8%  author  77.2%  inst  18.6%  parts touched 16  for 90% 4
+  k=16  fanout 15x10  random   nodes   102,595  local  10.3%  +inst repl  11.7%  top1  10.3%  top2  19.7%  top3  28.4%  paper  10.2%  author  10.4%  inst   9.0%  parts touched 16  for 90% 13
+  k=16  fanout 40x20  grouped  nodes   258,128  local  76.9%  +inst repl  77.3%  top1  76.9%  top2  82.9%  top3  87.2%  paper  76.8%  author  75.3%  inst  18.2%  parts touched 16  for 90% 4
+  k=16  fanout 40x20  random   nodes   275,308  local  11.2%  +inst repl  11.8%  top1  11.2%  top2  21.4%  top3  30.5%  paper  11.2%  author  11.3%  inst  10.4%  parts touched 16  for 90% 13
+[done] 30 configs, 16.9 min -> results/partition_2000/
+exit 0  Mon Oct 26 11:39:52 AM EDT 2026

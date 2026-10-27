@@ -1,0 +1,26 @@
+#!/bin/bash
+#SBATCH --job-name=partloc2k
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/partloc2k_%j.out
+#SBATCH -e logs/partloc2k_%j.err
+#SBATCH --get-user-env
+#SBATCH --mem=100G
+#SBATCH -t 12:00:00
+#SBATCH --cpus-per-task=8
+#SBATCH --partition=gupta
+
+# Batch-level partition locality, 2,000 batches per configuration (10x the first
+# run): k = 4, 5, 6, 8, 16; fanouts 5,5 / 15,10 / 40,20; grouped vs random seeds.
+# Adds frac_top2 / frac_top3 columns. CPU only. Writes results/partition_2000/
+# (the 200-batch run in results/partition/ is left as is).
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+
+echo "job $SLURM_JOB_ID on $(hostname)  $(date)"
+python partition_locality.py --ks ${KS:-4,5,6,8,16} --fanouts 5/5,15/10,40/20 \
+  --batches 2000 --batch-size 1024 --out results/partition_2000
+echo "exit $?  $(date)"

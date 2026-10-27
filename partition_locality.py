@@ -58,6 +58,8 @@ def run_one(g, part, k, fanout, mode, batches, batch_size, rng, paper_by_part, w
         top1 = int(counts.argmax())
         ref = p if mode == "grouped" else top1          # "resident" partition
         n_local = int(counts[ref])
+        srt = np.sort(counts)[::-1]
+        top2, top3 = int(srt[:2].sum()), int(srt[:3].sum())
         n_inst = pid["institution"].size
         n_local_inst_repl = n_local + n_inst - int((pid["institution"] == ref).sum())
 
@@ -67,6 +69,7 @@ def run_one(g, part, k, fanout, mode, batches, batch_size, rng, paper_by_part, w
                    frac_local=n_local / n,
                    frac_local_inst_repl=n_local_inst_repl / n,
                    frac_top1=int(counts.max()) / n,
+                   frac_top2=top2 / n, frac_top3=top3 / n,
                    frac_local_paper=float((pid["paper"] == ref).mean()),
                    frac_local_author=float((pid["author"] == ref).mean()) if pid["author"].size else float("nan"),
                    frac_local_inst=float((pid["institution"] == ref).mean()) if n_inst else float("nan"),
@@ -77,7 +80,7 @@ def run_one(g, part, k, fanout, mode, batches, batch_size, rng, paper_by_part, w
     med = lambda key: float(np.median([r[key] for r in rows]))  # noqa: E731
     print(f"  k={k:<3} fanout {row['fanout']:<6} {mode:<8} nodes {med('nodes'):>9,.0f}  "
           f"local {med('frac_local')*100:5.1f}%  +inst repl {med('frac_local_inst_repl')*100:5.1f}%  "
-          f"top1 {med('frac_top1')*100:5.1f}%  paper {med('frac_local_paper')*100:5.1f}%  "
+          f"top1 {med('frac_top1')*100:5.1f}%  top2 {med('frac_top2')*100:5.1f}%  top3 {med('frac_top3')*100:5.1f}%  paper {med('frac_local_paper')*100:5.1f}%  "
           f"author {med('frac_local_author')*100:5.1f}%  inst {med('frac_local_inst')*100:5.1f}%  "
           f"parts touched {med('parts_touched'):.0f}  for 90% {med('parts_for_90pct'):.0f}", flush=True)
     return rows
@@ -122,7 +125,8 @@ def main():
                     summary.append(dict(k=k, fanout="x".join(map(str, fanout)), mode=mode,
                                         **{key: float(np.median([r[key] for r in rows]))
                                            for key in ("nodes", "frac_local", "frac_local_inst_repl",
-                                                       "frac_top1", "parts_touched", "parts_for_90pct")}))
+                                                       "frac_top1", "frac_top2", "frac_top3",
+                                                       "parts_touched", "parts_for_90pct")}))
         del part, paper_by_part
     with open(os.path.join(a.out, "locality_summary.json"), "w") as f:
         json.dump(summary, f, indent=2)
