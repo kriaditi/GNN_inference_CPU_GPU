@@ -6,3 +6,4 @@ numpy
 pynvml
 *.npy
 *.pt
+__pycache__/
