@@ -1,0 +1,137 @@
+[hetero] 5 relations, 3,456,728,464 directed edges resident (8s)
+[feat] reading /unicorn/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 2.3 min)
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/unicorn/code/stream_infer.py:171: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  model.load_state_dict(torch.load(a.weights, map_location=dev)["model"])
+
+[gh200_stream_c8gb_G1_f60x30] chunk 8 GB (5,208,333 rows), G=1, 1001 passes (1 warmup)
+[gh200_stream_c8gb_G1_f60x30] check: first 3 batches bit-exact vs CPU gather
+[gh200_stream_c8gb_G1_f60x30] pass 0: wall 1.30 s, stream transfer 1.15 s, union 0.7 GB, drift 0.02%
+[gh200_stream_c8gb_G1_f60x30] pass 100: wall 1.23 s, stream transfer 1.12 s, union 0.7 GB, drift 0.02%
+[gh200_stream_c8gb_G1_f60x30] pass 200: wall 1.21 s, stream transfer 1.11 s, union 0.6 GB, drift 0.02%
+[gh200_stream_c8gb_G1_f60x30] pass 300: wall 1.34 s, stream transfer 1.24 s, union 0.6 GB, drift 0.02%
+[gh200_stream_c8gb_G1_f60x30] pass 400: wall 1.43 s, stream transfer 1.33 s, union 0.6 GB, drift 0.02%
+[gh200_stream_c8gb_G1_f60x30] pass 500: wall 1.42 s, stream transfer 1.32 s, union 0.7 GB, drift 0.02%
+[gh200_stream_c8gb_G1_f60x30] pass 600: wall 1.35 s, stream transfer 1.21 s, union 0.6 GB, drift 0.02%
+[gh200_stream_c8gb_G1_f60x30] pass 700: wall 1.33 s, stream transfer 1.23 s, union 0.6 GB, drift 0.02%
+[gh200_stream_c8gb_G1_f60x30] pass 800: wall 1.37 s, stream transfer 1.26 s, union 0.6 GB, drift 0.02%
+[gh200_stream_c8gb_G1_f60x30] pass 900: wall 1.34 s, stream transfer 1.23 s, union 0.6 GB, drift 0.02%
+[summary] gh200_stream_c8gb_G1_f60x30: 1309.5 ms/batch, pass 1310 ms, stream 311.6 GB/s, qps 779, drift 0.02%
+
+[gh200_stream_c8gb_G8_f60x30] chunk 8 GB (5,208,333 rows), G=8, 126 passes (1 warmup)
+[gh200_stream_c8gb_G8_f60x30] check: first 3 batches bit-exact vs CPU gather
+[gh200_stream_c8gb_G8_f60x30] pass 0: wall 2.30 s, stream transfer 1.49 s, union 4.7 GB, drift 0.03%
+[gh200_stream_c8gb_G8_f60x30] pass 12: wall 2.13 s, stream transfer 1.34 s, union 4.7 GB, drift 0.03%
+[gh200_stream_c8gb_G8_f60x30] pass 24: wall 2.03 s, stream transfer 1.19 s, union 4.8 GB, drift 0.03%
+[gh200_stream_c8gb_G8_f60x30] pass 36: wall 2.11 s, stream transfer 1.28 s, union 4.9 GB, drift 0.03%
+[gh200_stream_c8gb_G8_f60x30] pass 48: wall 2.05 s, stream transfer 1.21 s, union 4.9 GB, drift 0.04%
+[gh200_stream_c8gb_G8_f60x30] pass 60: wall 2.07 s, stream transfer 1.26 s, union 4.8 GB, drift 0.03%
+[gh200_stream_c8gb_G8_f60x30] pass 72: wall 2.02 s, stream transfer 1.17 s, union 4.8 GB, drift 0.04%
+[gh200_stream_c8gb_G8_f60x30] pass 84: wall 1.93 s, stream transfer 1.12 s, union 4.8 GB, drift 0.04%
+[gh200_stream_c8gb_G8_f60x30] pass 96: wall 2.13 s, stream transfer 1.26 s, union 5.0 GB, drift 0.03%
+[gh200_stream_c8gb_G8_f60x30] pass 108: wall 2.02 s, stream transfer 1.19 s, union 4.9 GB, drift 0.04%
+[gh200_stream_c8gb_G8_f60x30] pass 120: wall 2.02 s, stream transfer 1.23 s, union 4.7 GB, drift 0.04%
+[summary] gh200_stream_c8gb_G8_f60x30: 259.6 ms/batch, pass 2077 ms, stream 297.6 GB/s, qps 3863, drift 0.03%
+
+[gh200_stream_c8gb_G64_f60x30] chunk 8 GB (5,208,333 rows), G=64, 17 passes (1 warmup)
+[gh200_stream_c8gb_G64_f60x30] check: first 3 batches bit-exact vs CPU gather
+[gh200_stream_c8gb_G64_f60x30] pass 0: wall 8.55 s, stream transfer 1.29 s, union 27.1 GB, drift 0.04%
+[gh200_stream_c8gb_G64_f60x30] pass 1: wall 11.67 s, stream transfer 1.38 s, union 27.4 GB, drift 0.03%
+[gh200_stream_c8gb_G64_f60x30] pass 2: wall 8.73 s, stream transfer 1.33 s, union 27.4 GB, drift 0.04%
+[gh200_stream_c8gb_G64_f60x30] pass 3: wall 8.69 s, stream transfer 1.38 s, union 27.2 GB, drift 0.04%
+[gh200_stream_c8gb_G64_f60x30] pass 4: wall 8.92 s, stream transfer 1.45 s, union 27.4 GB, drift 0.04%
+[gh200_stream_c8gb_G64_f60x30] pass 5: wall 8.89 s, stream transfer 1.47 s, union 27.3 GB, drift 0.04%
+[gh200_stream_c8gb_G64_f60x30] pass 6: wall 8.93 s, stream transfer 1.47 s, union 27.3 GB, drift 0.04%
+[gh200_stream_c8gb_G64_f60x30] pass 7: wall 10.89 s, stream transfer 1.31 s, union 27.5 GB, drift 0.03%
+[gh200_stream_c8gb_G64_f60x30] pass 8: wall 8.77 s, stream transfer 1.31 s, union 27.3 GB, drift 0.04%
+[gh200_stream_c8gb_G64_f60x30] pass 9: wall 8.70 s, stream transfer 1.36 s, union 27.2 GB, drift 0.04%
+[gh200_stream_c8gb_G64_f60x30] pass 10: wall 8.80 s, stream transfer 1.43 s, union 27.4 GB, drift 0.04%
+[gh200_stream_c8gb_G64_f60x30] pass 11: wall 8.84 s, stream transfer 1.33 s, union 27.4 GB, drift 0.04%
+[gh200_stream_c8gb_G64_f60x30] pass 12: wall 8.93 s, stream transfer 1.48 s, union 27.4 GB, drift 0.04%
+[gh200_stream_c8gb_G64_f60x30] pass 13: wall 9.45 s, stream transfer 1.46 s, union 27.5 GB, drift 0.04%
+[gh200_stream_c8gb_G64_f60x30] pass 14: wall 8.70 s, stream transfer 1.29 s, union 27.2 GB, drift 0.04%
+[gh200_stream_c8gb_G64_f60x30] pass 15: wall 8.78 s, stream transfer 1.28 s, union 27.3 GB, drift 0.04%
+[summary] gh200_stream_c8gb_G64_f60x30: 137.8 ms/batch, pass 8821 ms, stream 273.9 GB/s, qps 7169, drift 0.04%
+[gh200_stream] auto: free after margin -7.2 GB, per-batch 762.8 MB (496,613 rows) -> G=1
+
+[gh200_stream_c8gb_G1auto_f60x30] chunk 8 GB (5,208,333 rows), G=1, 1001 passes (1 warmup)
+[gh200_stream_c8gb_G1auto_f60x30] check: first 3 batches bit-exact vs CPU gather
+[gh200_stream_c8gb_G1auto_f60x30] pass 0: wall 1.32 s, stream transfer 1.21 s, union 0.7 GB, drift 0.02%
+[gh200_stream_c8gb_G1auto_f60x30] pass 100: wall 1.15 s, stream transfer 1.04 s, union 0.7 GB, drift 0.02%
+[gh200_stream_c8gb_G1auto_f60x30] pass 200: wall 1.16 s, stream transfer 1.06 s, union 0.6 GB, drift 0.02%
+[gh200_stream_c8gb_G1auto_f60x30] pass 300: wall 1.26 s, stream transfer 1.16 s, union 0.7 GB, drift 0.02%
+[gh200_stream_c8gb_G1auto_f60x30] pass 400: wall 1.22 s, stream transfer 1.12 s, union 0.6 GB, drift 0.02%
+[gh200_stream_c8gb_G1auto_f60x30] pass 500: wall 1.30 s, stream transfer 1.20 s, union 0.7 GB, drift 0.02%
+[gh200_stream_c8gb_G1auto_f60x30] pass 600: wall 1.24 s, stream transfer 1.14 s, union 0.6 GB, drift 0.02%
+[gh200_stream_c8gb_G1auto_f60x30] pass 700: wall 1.38 s, stream transfer 1.28 s, union 0.6 GB, drift 0.02%
+[gh200_stream_c8gb_G1auto_f60x30] pass 800: wall 1.25 s, stream transfer 1.12 s, union 0.6 GB, drift 0.02%
+[gh200_stream_c8gb_G1auto_f60x30] pass 900: wall 1.24 s, stream transfer 1.14 s, union 0.6 GB, drift 0.02%
+[summary] gh200_stream_c8gb_G1auto_f60x30: 1292.1 ms/batch, pass 1292 ms, stream 316.5 GB/s, qps 788, drift 0.02%
+
+[gh200_stream_c24gb_G1_f60x30] chunk 24 GB (15,625,000 rows), G=1, 1001 passes (1 warmup)
+[gh200_stream_c24gb_G1_f60x30] check: first 3 batches bit-exact vs CPU gather
+[gh200_stream_c24gb_G1_f60x30] pass 0: wall 1.36 s, stream transfer 1.25 s, union 0.7 GB, drift 0.01%
+[gh200_stream_c24gb_G1_f60x30] pass 100: wall 1.08 s, stream transfer 0.98 s, union 0.7 GB, drift 0.01%
+[gh200_stream_c24gb_G1_f60x30] pass 200: wall 1.14 s, stream transfer 1.04 s, union 0.6 GB, drift 0.01%
+[gh200_stream_c24gb_G1_f60x30] pass 300: wall 1.20 s, stream transfer 1.10 s, union 0.6 GB, drift 0.01%
+[gh200_stream_c24gb_G1_f60x30] pass 400: wall 1.17 s, stream transfer 1.07 s, union 0.6 GB, drift 0.01%
+[gh200_stream_c24gb_G1_f60x30] pass 500: wall 1.07 s, stream transfer 0.98 s, union 0.7 GB, drift 0.01%
+[gh200_stream_c24gb_G1_f60x30] pass 600: wall 1.24 s, stream transfer 1.14 s, union 0.6 GB, drift 0.01%
+[gh200_stream_c24gb_G1_f60x30] pass 700: wall 1.06 s, stream transfer 0.98 s, union 0.6 GB, drift 0.01%
+[gh200_stream_c24gb_G1_f60x30] pass 800: wall 1.24 s, stream transfer 1.15 s, union 0.6 GB, drift 0.01%
+[gh200_stream_c24gb_G1_f60x30] pass 900: wall 1.07 s, stream transfer 0.98 s, union 0.6 GB, drift 0.01%
+[summary] gh200_stream_c24gb_G1_f60x30: 1168.2 ms/batch, pass 1168 ms, stream 350.1 GB/s, qps 848, drift 0.01%
+
+[gh200_stream_c24gb_G8_f60x30] chunk 24 GB (15,625,000 rows), G=8, 126 passes (1 warmup)
+[gh200_stream_c24gb_G8_f60x30] check: first 3 batches bit-exact vs CPU gather
+[gh200_stream_c24gb_G8_f60x30] pass 0: wall 1.99 s, stream transfer 1.20 s, union 4.7 GB, drift 0.03%
+[gh200_stream_c24gb_G8_f60x30] pass 12: wall 1.82 s, stream transfer 1.04 s, union 4.7 GB, drift 0.03%
+[gh200_stream_c24gb_G8_f60x30] pass 24: wall 1.94 s, stream transfer 1.14 s, union 4.8 GB, drift 0.03%
+[gh200_stream_c24gb_G8_f60x30] pass 36: wall 1.80 s, stream transfer 0.98 s, union 4.9 GB, drift 0.03%
+[gh200_stream_c24gb_G8_f60x30] pass 48: wall 2.06 s, stream transfer 1.22 s, union 4.9 GB, drift 0.02%
+[gh200_stream_c24gb_G8_f60x30] pass 60: wall 2.17 s, stream transfer 1.35 s, union 4.8 GB, drift 0.03%
+[gh200_stream_c24gb_G8_f60x30] pass 72: wall 2.07 s, stream transfer 1.22 s, union 4.8 GB, drift 0.03%
+[gh200_stream_c24gb_G8_f60x30] pass 84: wall 2.03 s, stream transfer 1.22 s, union 4.8 GB, drift 0.03%
+[gh200_stream_c24gb_G8_f60x30] pass 96: wall 2.10 s, stream transfer 1.24 s, union 5.0 GB, drift 0.03%
+[gh200_stream_c24gb_G8_f60x30] pass 108: wall 1.99 s, stream transfer 1.15 s, union 4.9 GB, drift 0.03%
+[gh200_stream_c24gb_G8_f60x30] pass 120: wall 1.91 s, stream transfer 1.11 s, union 4.7 GB, drift 0.03%
+[summary] gh200_stream_c24gb_G8_f60x30: 246.6 ms/batch, pass 1973 ms, stream 324.9 GB/s, qps 4101, drift 0.03%
+
+[gh200_stream_c24gb_G64_f60x30] chunk 24 GB (15,625,000 rows), G=64, 17 passes (1 warmup)
+[gh200_stream_c24gb_G64_f60x30] check: first 3 batches bit-exact vs CPU gather
+[gh200_stream_c24gb_G64_f60x30] pass 0: wall 8.91 s, stream transfer 1.56 s, union 27.1 GB, drift 0.04%
+[gh200_stream_c24gb_G64_f60x30] pass 1: wall 8.94 s, stream transfer 1.15 s, union 27.3 GB, drift 0.04%
+[gh200_stream_c24gb_G64_f60x30] pass 2: wall 8.56 s, stream transfer 0.98 s, union 27.4 GB, drift 0.04%
+[gh200_stream_c24gb_G64_f60x30] pass 3: wall 8.60 s, stream transfer 1.12 s, union 27.2 GB, drift 0.04%
+[gh200_stream_c24gb_G64_f60x30] pass 4: wall 9.09 s, stream transfer 1.26 s, union 27.4 GB, drift 0.04%
+[gh200_stream_c24gb_G64_f60x30] pass 5: wall 8.97 s, stream transfer 1.47 s, union 27.3 GB, drift 0.04%
+[gh200_stream_c24gb_G64_f60x30] pass 6: wall 9.05 s, stream transfer 1.64 s, union 27.3 GB, drift 0.04%
+[gh200_stream_c24gb_G64_f60x30] pass 7: wall 9.29 s, stream transfer 1.52 s, union 27.4 GB, drift 0.04%
+[gh200_stream_c24gb_G64_f60x30] pass 8: wall 8.36 s, stream transfer 0.98 s, union 27.3 GB, drift 0.04%
+[gh200_stream_c24gb_G64_f60x30] pass 9: wall 8.89 s, stream transfer 1.54 s, union 27.3 GB, drift 0.04%
+[gh200_stream_c24gb_G64_f60x30] pass 10: wall 8.92 s, stream transfer 1.52 s, union 27.4 GB, drift 0.04%
+[gh200_stream_c24gb_G64_f60x30] pass 11: wall 8.88 s, stream transfer 1.43 s, union 27.4 GB, drift 0.04%
+[gh200_stream_c24gb_G64_f60x30] pass 12: wall 8.83 s, stream transfer 1.40 s, union 27.4 GB, drift 0.04%
+[gh200_stream_c24gb_G64_f60x30] pass 13: wall 8.84 s, stream transfer 1.24 s, union 27.5 GB, drift 0.04%
+[gh200_stream_c24gb_G64_f60x30] pass 14: wall 8.85 s, stream transfer 1.43 s, union 27.2 GB, drift 0.04%
+[gh200_stream_c24gb_G64_f60x30] pass 15: wall 8.59 s, stream transfer 1.16 s, union 27.3 GB, drift 0.04%
+[summary] gh200_stream_c24gb_G64_f60x30: 138.8 ms/batch, pass 8885 ms, stream 264.8 GB/s, qps 7406, drift 0.04%
+[gh200_stream] auto: free after margin 0.7 GB, per-batch 766.8 MB (499,215 rows) -> G=1
+
+[gh200_stream_c24gb_G1auto_f60x30] chunk 24 GB (15,625,000 rows), G=1, 1001 passes (1 warmup)
+[gh200_stream_c24gb_G1auto_f60x30] check: first 3 batches bit-exact vs CPU gather
+[gh200_stream_c24gb_G1auto_f60x30] pass 0: wall 1.31 s, stream transfer 1.21 s, union 0.7 GB, drift 0.01%
+[gh200_stream_c24gb_G1auto_f60x30] pass 100: wall 1.25 s, stream transfer 1.14 s, union 0.7 GB, drift 0.01%
+[gh200_stream_c24gb_G1auto_f60x30] pass 200: wall 1.06 s, stream transfer 0.98 s, union 0.6 GB, drift 0.01%
+[gh200_stream_c24gb_G1auto_f60x30] pass 300: wall 1.07 s, stream transfer 0.98 s, union 0.6 GB, drift 0.01%
+[gh200_stream_c24gb_G1auto_f60x30] pass 400: wall 1.07 s, stream transfer 0.98 s, union 0.6 GB, drift 0.01%
+[gh200_stream_c24gb_G1auto_f60x30] pass 500: wall 1.39 s, stream transfer 1.29 s, union 0.7 GB, drift 0.01%
+[gh200_stream_c24gb_G1auto_f60x30] pass 600: wall 1.19 s, stream transfer 1.08 s, union 0.6 GB, drift 0.01%
+[gh200_stream_c24gb_G1auto_f60x30] pass 700: wall 1.32 s, stream transfer 1.22 s, union 0.6 GB, drift 0.01%
+[gh200_stream_c24gb_G1auto_f60x30] pass 800: wall 1.12 s, stream transfer 0.98 s, union 0.6 GB, drift 0.01%
+[gh200_stream_c24gb_G1auto_f60x30] pass 900: wall 1.15 s, stream transfer 1.05 s, union 0.6 GB, drift 0.01%
+[summary] gh200_stream_c24gb_G1auto_f60x30: 1154.0 ms/batch, pass 1154 ms, stream 356.2 GB/s, qps 869, drift 0.01%
