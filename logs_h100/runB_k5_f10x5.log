@@ -1,0 +1,17 @@
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+[hetero] 5 relations, 3,456,728,464 directed edges resident (41s)
+[feat] MEMMAPPED (244160499, 768) float16
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/home/ubuntu/GNN_inference_CPU_GPU/shard_infer.py:240: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  ck = torch.load(a.weights, map_location=dev)
+[model] /unicorn/gnn/results/h100het_378025/best.pt: epoch 8, val acc 0.6519
+[seeds] 20,000,000 fresh seeds; per shard: 3890002
+
+[shard 3] loaded 50,299,482 rows (77.3 GB): CPU gather 2538.7 s, transfer 9.46 s, peak GPU 80.4 GB
+[shard 3] drop  fanout [10, 5]: wall    18.2 ms  local  85.7%  val papers 2,224
+[summary] h100_gpuonly_k5_f10x5_k5_drop_f10x5: wall 18.2 ms, local 85.7%, qps 54301 (incl. load 399), acc 33.32% F1 0.1902 on 2,224, drift 0.22%
+[done] 1 shard loads, total load 2548.1 s -> results_gpuonly_h100/summary_gpuonly_h100.csv

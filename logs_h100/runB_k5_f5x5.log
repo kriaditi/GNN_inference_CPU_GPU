@@ -10,3 +10,8 @@
   ck = torch.load(a.weights, map_location=dev)
 [model] /unicorn/gnn/results/h100het_378025/best.pt: epoch 8, val acc 0.6519
 [seeds] 20,000,000 fresh seeds; per shard: 3890002
+
+[shard 3] loaded 50,299,482 rows (77.3 GB): CPU gather 2767.8 s, transfer 9.32 s, peak GPU 80.4 GB
+[shard 3] drop  fanout [5, 5]: wall    12.2 ms  local  85.8%  val papers 2,224
+[summary] h100_gpuonly_k5_f5x5_k5_drop_f5x5: wall 12.2 ms, local 85.8%, qps 79919 (incl. load 367), acc 32.60% F1 0.1842 on 2,224, drift 0.33%
+[done] 1 shard loads, total load 2777.2 s -> results_gpuonly_h100/summary_gpuonly_h100.csv
