@@ -8,7 +8,8 @@
 #SBATCH --requeue
 #SBATCH --get-user-env
 #SBATCH --mem=500G
-#SBATCH -t 12:00:00
+#SBATCH -t 48:00:00
+#SBATCH --exclusive
 #SBATCH --cpus-per-task=32
 #SBATCH --partition=gpu
 #SBATCH --gres=gpu:nvidia_h100_nvl:1

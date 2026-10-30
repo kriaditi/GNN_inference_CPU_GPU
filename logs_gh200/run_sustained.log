@@ -1,3 +1,14 @@
 start Fri Oct 30 13:02:16 UTC 2026
 name, memory.total [MiB], memory.used [MiB]
 NVIDIA GH200 480GB, 97871 MiB, 0 MiB
+shard k16 repeat done Fri Oct 30 13:17:26 UTC 2026 exit 0
+shard sustained done Fri Oct 30 13:36:49 UTC 2026 exit 0
+stream sustained done Fri Oct 30 15:39:52 UTC 2026 exit 0
+k=5 largest shard p=3
+gpuonly k5 p3 fanout 5/5 done Fri Oct 30 15:48:04 UTC 2026 exit 0
+gpuonly k5 p3 fanout 10/5 done Fri Oct 30 15:48:52 UTC 2026 exit 0
+gpuonly k5 p3 fanout 15/10 done Fri Oct 30 15:49:51 UTC 2026 exit 0
+gpuonly k5 p3 fanout 25/15 done Fri Oct 30 15:51:09 UTC 2026 exit 0
+gpuonly k5 p3 fanout 40/20 done Fri Oct 30 15:52:53 UTC 2026 exit 0
+gpuonly k5 p3 fanout 60/30 done Fri Oct 30 15:55:24 UTC 2026 exit 0
+all done Fri Oct 30 15:55:24 UTC 2026
