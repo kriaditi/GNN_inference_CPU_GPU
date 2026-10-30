@@ -1,0 +1,27 @@
+[hetero] 5 relations, 3,456,728,464 directed edges resident (8s)
+[feat] reading /unicorn/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 2.4 min)
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/unicorn/code/stream_infer.py:171: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  model.load_state_dict(torch.load(a.weights, map_location=dev)["model"])
+[gh200_stream_auto] auto: free after margin 33.5 GB, per-batch 87.6 MB (57,005 rows) -> G=382
+
+[gh200_stream_auto_c8gb_G382auto_f10x5] chunk 8 GB (5,208,333 rows), G=382, 4 passes (1 warmup)
+[gh200_stream_auto_c8gb_G382auto_f10x5] check: first 3 batches bit-exact vs CPU gather
+[gh200_stream_auto_c8gb_G382auto_f10x5] pass 0: wall 8.05 s, stream transfer 1.28 s, union 19.5 GB, drift 0.21%
+[gh200_stream_auto_c8gb_G382auto_f10x5] pass 1: wall 8.24 s, stream transfer 1.36 s, union 19.7 GB, drift 0.21%
+[gh200_stream_auto_c8gb_G382auto_f10x5] pass 2: wall 9.47 s, stream transfer 1.59 s, union 19.9 GB, drift 0.19%
+[summary] gh200_stream_auto_c8gb_G382auto_f10x5: 21.6 ms/batch, pass 8241 ms, stream 274.8 GB/s, qps 45543, drift 0.21%
+[gh200_stream_auto] auto: free after margin 21.0 GB, per-batch 87.7 MB (57,085 rows) -> G=239
+
+[gh200_stream_auto_c24gb_G239auto_f10x5] chunk 24 GB (15,625,000 rows), G=239, 6 passes (1 warmup)
+[gh200_stream_auto_c24gb_G239auto_f10x5] check: first 3 batches bit-exact vs CPU gather
+[gh200_stream_auto_c24gb_G239auto_f10x5] pass 0: wall 5.68 s, stream transfer 1.20 s, union 13.4 GB, drift 0.19%
+[gh200_stream_auto_c24gb_G239auto_f10x5] pass 1: wall 5.31 s, stream transfer 1.19 s, union 13.5 GB, drift 0.21%
+[gh200_stream_auto_c24gb_G239auto_f10x5] pass 2: wall 5.28 s, stream transfer 1.20 s, union 13.6 GB, drift 0.20%
+[gh200_stream_auto_c24gb_G239auto_f10x5] pass 3: wall 5.19 s, stream transfer 0.95 s, union 13.7 GB, drift 0.21%
+[gh200_stream_auto_c24gb_G239auto_f10x5] pass 4: wall 5.60 s, stream transfer 1.43 s, union 13.7 GB, drift 0.20%
+[summary] gh200_stream_auto_c24gb_G239auto_f10x5: 22.2 ms/batch, pass 5312 ms, stream 313.5 GB/s, qps 45207, drift 0.20%

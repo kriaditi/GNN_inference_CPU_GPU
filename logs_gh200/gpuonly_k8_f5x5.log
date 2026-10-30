@@ -1,0 +1,15 @@
+[hetero] 5 relations, 3,456,728,464 directed edges resident (8s)
+[feat] MEMMAPPED (244160499, 768) float16
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/unicorn/code/shard_infer.py:240: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  ck = torch.load(a.weights, map_location=dev)
+[model] /unicorn/gnn/results/h100het_378025/best.pt: epoch 8, val acc 0.6519
+[seeds] 20,000,000 fresh seeds; per shard: 2478026
+
+[shard 4] loaded 30,850,292 rows (47.4 GB): CPU gather 511.6 s, transfer 0.17 s, peak GPU 50.5 GB
+[shard 4] drop  fanout [5, 5]: wall    14.3 ms  local  77.3%  val papers 942
+[summary] gh200_gpuonly_k8_f5x5_k8_drop_f5x5: wall 14.3 ms, local 77.3%, qps 71665 (incl. load 1946), acc 33.86% F1 0.1873 on 942, drift 0.39%
+[done] 1 shard loads, total load 511.8 s -> results_gpuonly_gh200/summary_gpuonly_gh200.csv

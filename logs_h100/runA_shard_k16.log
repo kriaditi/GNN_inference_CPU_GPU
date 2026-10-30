@@ -1,0 +1,147 @@
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+[hetero] 5 relations, 3,456,728,464 directed edges resident (28s)
+[feat] MEMMAPPED (244160499, 768) float16
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/home/ubuntu/GNN_inference_CPU_GPU/shard_infer.py:240: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  ck = torch.load(a.weights, map_location=dev)
+[model] /unicorn/gnn/results/h100het_378025/best.pt: epoch 8, val acc 0.6519
+[seeds] 20,000,000 fresh seeds; per shard: 1251133, 1523873, 1218907, 1413629, 1169780, 1155443, 1377500, 1297148, 1406666, 1210004, 1118424, 1110040, 1155742, 1241017, 1229914, 1120780
+
+[shard 0] loaded 15,146,609 rows (23.3 GB): CPU gather 1334.2 s, transfer 2.83 s, peak GPU 26.4 GB
+[shard 0] drop  fanout [40, 20]: wall    23.1 ms  local  88.1%  val papers 21,107
+[shard 0] drop  fanout [5, 5]: wall     6.2 ms  local  86.7%  val papers 21,107
+[shard 0] drop  fanout [10, 5]: wall     7.1 ms  local  87.0%  val papers 21,107
+[shard 0] drop  fanout [15, 10]: wall    10.6 ms  local  87.3%  val papers 21,107
+[shard 0] drop  fanout [25, 15]: wall    14.7 ms  local  87.8%  val papers 21,107
+[shard 0] drop  fanout [60, 30]: wall    30.9 ms  local  88.3%  val papers 21,107
+
+[shard 1] loaded 15,398,387 rows (23.7 GB): CPU gather 1308.9 s, transfer 2.84 s, peak GPU 28.7 GB
+[shard 1] drop  fanout [40, 20]: wall    46.1 ms  local  79.9%  val papers 2,314
+[shard 1] drop  fanout [5, 5]: wall     8.2 ms  local  80.6%  val papers 2,314
+[shard 1] drop  fanout [10, 5]: wall    11.2 ms  local  80.6%  val papers 2,314
+[shard 1] drop  fanout [15, 10]: wall    19.8 ms  local  80.6%  val papers 2,314
+[shard 1] drop  fanout [25, 15]: wall    31.0 ms  local  80.2%  val papers 2,314
+[shard 1] drop  fanout [60, 30]: wall    71.3 ms  local  79.5%  val papers 2,314
+
+[shard 2] loaded 15,235,779 rows (23.4 GB): CPU gather 1417.1 s, transfer 2.86 s, peak GPU 28.7 GB
+[shard 2] drop  fanout [40, 20]: wall    23.6 ms  local  80.1%  val papers 23,567
+[shard 2] drop  fanout [5, 5]: wall     6.2 ms  local  81.7%  val papers 23,567
+[shard 2] drop  fanout [10, 5]: wall     8.6 ms  local  81.6%  val papers 23,567
+[shard 2] drop  fanout [15, 10]: wall    11.6 ms  local  81.3%  val papers 23,567
+[shard 2] drop  fanout [25, 15]: wall    16.8 ms  local  80.7%  val papers 23,567
+[shard 2] drop  fanout [60, 30]: wall    25.6 ms  local  79.2%  val papers 23,567
+
+[shard 3] loaded 15,398,386 rows (23.7 GB): CPU gather 1395.3 s, transfer 2.86 s, peak GPU 28.7 GB
+[shard 3] drop  fanout [40, 20]: wall    64.3 ms  local  81.6%  val papers 56,674
+[shard 3] drop  fanout [5, 5]: wall    11.7 ms  local  82.3%  val papers 56,674
+[shard 3] drop  fanout [10, 5]: wall    17.1 ms  local  82.6%  val papers 56,674
+[shard 3] drop  fanout [15, 10]: wall    29.0 ms  local  82.5%  val papers 56,674
+[shard 3] drop  fanout [25, 15]: wall    46.0 ms  local  82.2%  val papers 56,674
+[shard 3] drop  fanout [60, 30]: wall    91.0 ms  local  81.1%  val papers 56,674
+
+[shard 4] loaded 14,969,753 rows (23.0 GB): CPU gather 4251.3 s, transfer 3.04 s, peak GPU 29.6 GB
+[shard 4] drop  fanout [40, 20]: wall    62.8 ms  local  78.9%  val papers 3,195
+[shard 4] drop  fanout [5, 5]: wall    11.7 ms  local  80.3%  val papers 3,195
+[shard 4] drop  fanout [10, 5]: wall    16.6 ms  local  80.3%  val papers 3,195
+[shard 4] drop  fanout [15, 10]: wall    25.5 ms  local  79.8%  val papers 3,195
+[shard 4] drop  fanout [25, 15]: wall    41.2 ms  local  79.2%  val papers 3,195
+[shard 4] drop  fanout [60, 30]: wall    59.8 ms  local  78.2%  val papers 3,195
+
+[shard 5] loaded 15,099,134 rows (23.2 GB): CPU gather 4359.0 s, transfer 3.13 s, peak GPU 29.6 GB
+[shard 5] drop  fanout [40, 20]: wall    34.3 ms  local  74.6%  val papers 5,555
+[shard 5] drop  fanout [5, 5]: wall     7.1 ms  local  77.6%  val papers 5,555
+[shard 5] drop  fanout [10, 5]: wall     9.4 ms  local  77.4%  val papers 5,555
+[shard 5] drop  fanout [15, 10]: wall    14.9 ms  local  76.2%  val papers 5,555
+[shard 5] drop  fanout [25, 15]: wall    21.9 ms  local  75.3%  val papers 5,555
+[shard 5] drop  fanout [60, 30]: wall    36.0 ms  local  73.7%  val papers 5,555
+
+[shard 6] loaded 15,398,440 rows (23.7 GB): CPU gather 1816.9 s, transfer 2.94 s, peak GPU 29.6 GB
+[shard 6] drop  fanout [40, 20]: wall    98.2 ms  local  78.4%  val papers 2,493
+[shard 6] drop  fanout [5, 5]: wall    13.5 ms  local  79.1%  val papers 2,493
+[shard 6] drop  fanout [10, 5]: wall    18.2 ms  local  79.1%  val papers 2,493
+[shard 6] drop  fanout [15, 10]: wall    29.1 ms  local  79.0%  val papers 2,493
+[shard 6] drop  fanout [25, 15]: wall    50.5 ms  local  78.7%  val papers 2,493
+[shard 6] drop  fanout [60, 30]: wall   131.6 ms  local  78.0%  val papers 2,493
+
+[shard 7] loaded 15,398,336 rows (23.7 GB): CPU gather 1651.0 s, transfer 2.81 s, peak GPU 30.6 GB
+[shard 7] drop  fanout [40, 20]: wall    73.3 ms  local  80.7%  val papers 18,578
+[shard 7] drop  fanout [5, 5]: wall    12.6 ms  local  81.5%  val papers 18,578
+[shard 7] drop  fanout [10, 5]: wall    18.9 ms  local  81.7%  val papers 18,578
+[shard 7] drop  fanout [15, 10]: wall    26.8 ms  local  81.6%  val papers 18,578
+[shard 7] drop  fanout [25, 15]: wall    51.7 ms  local  81.3%  val papers 18,578
+[shard 7] drop  fanout [60, 30]: wall   101.0 ms  local  80.0%  val papers 18,578
+
+[shard 8] loaded 15,398,385 rows (23.7 GB): CPU gather 1284.9 s, transfer 2.86 s, peak GPU 30.6 GB
+[shard 8] drop  fanout [40, 20]: wall    57.6 ms  local  72.1%  val papers 624
+[shard 8] drop  fanout [5, 5]: wall     9.3 ms  local  74.0%  val papers 624
+[shard 8] drop  fanout [10, 5]: wall    13.8 ms  local  73.8%  val papers 624
+[shard 8] drop  fanout [15, 10]: wall    19.4 ms  local  73.1%  val papers 624
+[shard 8] drop  fanout [25, 15]: wall    32.1 ms  local  72.7%  val papers 624
+[shard 8] drop  fanout [60, 30]: wall    70.2 ms  local  71.5%  val papers 624
+
+[shard 9] loaded 14,814,846 rows (22.8 GB): CPU gather 1345.4 s, transfer 3.00 s, peak GPU 30.6 GB
+[shard 9] drop  fanout [40, 20]: wall    72.0 ms  local  68.4%  val papers 1,836
+[shard 9] drop  fanout [5, 5]: wall    10.3 ms  local  69.2%  val papers 1,836
+[shard 9] drop  fanout [10, 5]: wall    15.4 ms  local  69.6%  val papers 1,836
+[shard 9] drop  fanout [15, 10]: wall    26.6 ms  local  69.0%  val papers 1,836
+[shard 9] drop  fanout [25, 15]: wall    36.8 ms  local  68.8%  val papers 1,836
+[shard 9] drop  fanout [60, 30]: wall    88.7 ms  local  67.7%  val papers 1,836
+
+[shard 10] loaded 15,235,639 rows (23.4 GB): CPU gather 1507.8 s, transfer 2.77 s, peak GPU 30.6 GB
+[shard 10] drop  fanout [40, 20]: wall    65.2 ms  local  67.0%  val papers 415
+[shard 10] drop  fanout [5, 5]: wall    11.0 ms  local  70.1%  val papers 415
+[shard 10] drop  fanout [10, 5]: wall    14.0 ms  local  70.1%  val papers 415
+[shard 10] drop  fanout [15, 10]: wall    22.7 ms  local  68.8%  val papers 415
+[shard 10] drop  fanout [25, 15]: wall    36.6 ms  local  68.0%  val papers 415
+[shard 10] drop  fanout [60, 30]: wall    75.0 ms  local  65.5%  val papers 415
+
+[shard 11] loaded 15,235,753 rows (23.4 GB): CPU gather 3780.0 s, transfer 2.93 s, peak GPU 30.6 GB
+[shard 11] drop  fanout [40, 20]: wall    57.0 ms  local  69.5%  val papers 403
+[shard 11] drop  fanout [5, 5]: wall    10.3 ms  local  72.2%  val papers 403
+[shard 11] drop  fanout [10, 5]: wall    12.8 ms  local  72.0%  val papers 403
+[shard 11] drop  fanout [15, 10]: wall    20.2 ms  local  71.0%  val papers 403
+[shard 11] drop  fanout [25, 15]: wall    32.5 ms  local  70.3%  val papers 403
+[shard 11] drop  fanout [60, 30]: wall    66.8 ms  local  68.4%  val papers 403
+
+[shard 12] loaded 15,398,385 rows (23.7 GB): CPU gather 4402.4 s, transfer 3.30 s, peak GPU 30.6 GB
+[shard 12] drop  fanout [40, 20]: wall   125.2 ms  local  66.7%  val papers 452
+[shard 12] drop  fanout [5, 5]: wall    10.4 ms  local  68.3%  val papers 452
+[shard 12] drop  fanout [10, 5]: wall    17.1 ms  local  68.6%  val papers 452
+[shard 12] drop  fanout [15, 10]: wall    28.9 ms  local  67.7%  val papers 452
+[shard 12] drop  fanout [25, 15]: wall    48.9 ms  local  67.3%  val papers 452
+[shard 12] drop  fanout [60, 30]: wall   202.0 ms  local  65.6%  val papers 452
+
+[shard 13] loaded 15,398,447 rows (23.7 GB): CPU gather 4144.0 s, transfer 2.95 s, peak GPU 30.6 GB
+[shard 13] drop  fanout [40, 20]: wall   106.8 ms  local  62.2%  val papers 435
+[shard 13] drop  fanout [5, 5]: wall    13.4 ms  local  63.9%  val papers 435
+[shard 13] drop  fanout [10, 5]: wall    21.0 ms  local  63.3%  val papers 435
+[shard 13] drop  fanout [15, 10]: wall    37.0 ms  local  62.5%  val papers 435
+[shard 13] drop  fanout [25, 15]: wall    86.3 ms  local  62.7%  val papers 435
+[shard 13] drop  fanout [60, 30]: wall   155.0 ms  local  61.6%  val papers 435
+
+[shard 14] loaded 15,398,450 rows (23.7 GB): CPU gather 3839.0 s, transfer 2.92 s, peak GPU 30.6 GB
+[shard 14] drop  fanout [40, 20]: wall   106.5 ms  local  78.8%  val papers 575
+[shard 14] drop  fanout [5, 5]: wall     9.5 ms  local  81.1%  val papers 575
+[shard 14] drop  fanout [10, 5]: wall    14.5 ms  local  80.8%  val papers 575
+[shard 14] drop  fanout [15, 10]: wall    24.3 ms  local  80.4%  val papers 575
+[shard 14] drop  fanout [25, 15]: wall    41.9 ms  local  79.6%  val papers 575
+[shard 14] drop  fanout [60, 30]: wall   125.4 ms  local  77.9%  val papers 575
+
+[shard 15] loaded 15,235,770 rows (23.4 GB): CPU gather 4096.8 s, transfer 3.10 s, peak GPU 30.6 GB
+[shard 15] drop  fanout [40, 20]: wall    85.1 ms  local  66.3%  val papers 726
+[shard 15] drop  fanout [5, 5]: wall     9.9 ms  local  69.4%  val papers 726
+[shard 15] drop  fanout [10, 5]: wall    15.2 ms  local  69.3%  val papers 726
+[shard 15] drop  fanout [15, 10]: wall    26.3 ms  local  68.1%  val papers 726
+[shard 15] drop  fanout [25, 15]: wall    44.0 ms  local  67.2%  val papers 726
+[shard 15] drop  fanout [60, 30]: wall   125.9 ms  local  65.0%  val papers 726
+[summary] h100_shard_k16_drop_f40x20: wall 65.0 ms, local 76.7%, qps 14957 (incl. load 25), acc 62.81% F1 0.4884 on 138,949, drift 0.09%
+[summary] h100_shard_k16_drop_f5x5: wall 10.3 ms, local 78.5%, qps 100984 (incl. load 25), acc 60.48% F1 0.4654 on 138,949, drift 0.51%
+[summary] h100_shard_k16_drop_f10x5: wall 15.1 ms, local 78.1%, qps 70016 (incl. load 25), acc 61.83% F1 0.4801 on 138,949, drift 0.33%
+[summary] h100_shard_k16_drop_f15x10: wall 24.6 ms, local 77.8%, qps 43045 (incl. load 25), acc 62.43% F1 0.4842 on 138,949, drift 0.19%
+[summary] h100_shard_k16_drop_f25x15: wall 38.2 ms, local 77.3%, qps 25809 (incl. load 25), acc 62.72% F1 0.4869 on 138,949, drift 0.11%
+[summary] h100_shard_k16_drop_f60x30: wall 80.7 ms, local 76.0%, qps 11183 (incl. load 25), acc 62.81% F1 0.4888 on 138,949, drift 0.06%
+[done] 16 shard loads, total load 41981.0 s -> results_shard_h100/summary_shard_h100_drop.csv

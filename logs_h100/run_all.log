@@ -1,0 +1,29 @@
+start Thu Oct 29 20:18:43 UTC 2026
+name, driver_version, memory.total [MiB], memory.used [MiB], pcie.link.gen.current, pcie.link.width.current
+NVIDIA H100 PCIe, 580.105.08, 81559 MiB, 0 MiB, 5, 16
+               total        used        free      shared  buff/cache   available
+Mem:             221           2          40           0         178         216
+Swap:              0           0           0
+26
+Model name:                              Intel(R) Xeon(R) Platinum 8480+
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+torch 2.8.0+cu128 pyg_lib 0.6.0+pt28cu128
+a8060c9ba13b7a838566c1c4fe3260b9  shard_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+cd79faa6b66f0e70366a8d5c2e48933a  /unicorn/gnn/metis/part_k16.npy
+5ab2c0cf87505fb9a778100fcb12b2ca  /unicorn/gnn/metis/part_k4.npy
+8ee6962a8e6a85cc8b6c1db7562990b5  /unicorn/gnn/metis/part_k5.npy
+d49a56c6a0a1c7e4f350c7567f497484  /unicorn/gnn/metis/part_k6.npy
+eba8ad440b7551379a15f7efd7653e6e  /unicorn/gnn/metis/part_k8.npy
+65543ffd389bc920557b6b1da274555f  /unicorn/gnn/results/h100het_378025/best.pt
+375030526592 /unicorn/gnn/data/full_feat.npy
+RUN A k16 done Fri Oct 30 08:04:56 UTC 2026 exit 0
+k=6 largest shard p=5
+RUN B k6 p5 fanout 5/5 done Fri Oct 30 09:04:45 UTC 2026 exit 0
+RUN B k6 p5 fanout 10/5 done Fri Oct 30 10:02:34 UTC 2026 exit 0
+RUN B k6 p5 fanout 15/10 done Fri Oct 30 11:00:43 UTC 2026 exit 0
+RUN B k6 p5 fanout 25/15 done Fri Oct 30 12:01:11 UTC 2026 exit 0
+RUN B k6 p5 fanout 40/20 done Fri Oct 30 12:51:57 UTC 2026 exit 0
+RUN B k6 p5 fanout 60/30 done Fri Oct 30 13:57:12 UTC 2026 exit 0
+k=5 largest shard p=3

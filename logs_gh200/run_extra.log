@@ -1,0 +1,17 @@
+start Thu Oct 29 20:31:08 UTC 2026
+name, memory.total [MiB], memory.used [MiB]
+NVIDIA GH200 480GB, 97871 MiB, 0 MiB
+stream auto 5/5 done Thu Oct 29 20:34:49 UTC 2026 exit 0
+stream auto 10/5 done Thu Oct 29 20:38:32 UTC 2026 exit 0
+stream auto 15/10 done Thu Oct 29 20:42:53 UTC 2026 exit 0
+stream auto 25/15 done Thu Oct 29 20:48:09 UTC 2026 exit 0
+stream auto 40/20 done Thu Oct 29 20:54:22 UTC 2026 exit 0
+stream auto 60/30 done Thu Oct 29 21:02:13 UTC 2026 exit 0
+k=8 largest shard p=4
+gpuonly k8 p4 fanout 5/5 done Thu Oct 29 21:11:16 UTC 2026 exit 0
+gpuonly k8 p4 fanout 10/5 done Thu Oct 29 21:11:58 UTC 2026 exit 0
+gpuonly k8 p4 fanout 15/10 done Thu Oct 29 21:12:54 UTC 2026 exit 0
+gpuonly k8 p4 fanout 25/15 done Thu Oct 29 21:14:09 UTC 2026 exit 0
+gpuonly k8 p4 fanout 40/20 done Thu Oct 29 21:15:57 UTC 2026 exit 0
+gpuonly k8 p4 fanout 60/30 done Thu Oct 29 21:18:38 UTC 2026 exit 0
+all done Thu Oct 29 21:18:38 UTC 2026
