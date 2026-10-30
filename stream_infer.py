@@ -46,8 +46,9 @@ def sync_now(dev):
     return time.perf_counter()
 
 
-def run_pass(g, feat, model, dev, seed_batches, fanout, chunk_rows, chunk_buf, check):
-    """Serve len(seed_batches) batches with one full streaming pass."""
+def run_pass(g, feat, model, dev, seed_batches, fanout, chunk_rows, chunk_buf, check, preds=None):
+    """Serve len(seed_batches) batches with one full streaming pass.
+    preds: a list; when given, each batch's argmax over its seeds is appended (accuracy pass)."""
     T = dict(sample_s=0.0, plan_s=0.0, index_s=0.0, stream_transfer_s=0.0,
              stream_select_s=0.0, assemble_s=0.0, compute_s=0.0)
     t_pass = time.perf_counter()
@@ -112,14 +113,16 @@ def run_pass(g, feat, model, dev, seed_batches, fanout, chunk_rows, chunk_buf, c
             e0 = torch.cuda.Event(enable_timing=True)
             e1 = torch.cuda.Event(enable_timing=True)
             e0.record()
-            model({k: v.float() for k, v in x.items()}, ei)
+            out_logits = model({k: v.float() for k, v in x.items()}, ei)
             e1.record()
             torch.cuda.synchronize()
             T["compute_s"] += e0.elapsed_time(e1) / 1000.0
         else:
             t2 = time.perf_counter()
-            model({k: v.float() for k, v in x.items()}, ei)
+            out_logits = model({k: v.float() for k, v in x.items()}, ei)
             T["compute_s"] += time.perf_counter() - t2
+        if preds is not None:
+            preds.append(out_logits[:seed_batches[bi].numel()].argmax(1).cpu())
         n_nodes.append(sum(v.numel() for v in node_id.values()))
 
     wall = time.perf_counter() - t_pass
@@ -151,6 +154,8 @@ def main():
     ap.add_argument("--hidden", type=int, default=256)
     ap.add_argument("--check-batches", type=int, default=3, help="bit-exact check vs CPU gather")
     ap.add_argument("--margin-gb", type=float, default=8.0, help="GPU memory kept free for auto G")
+    ap.add_argument("--val", action="store_true", help="accuracy pass on the validation papers through the streaming path, once per chunk size and fanout")
+    ap.add_argument("--val-G", type=int, default=8, help="batches per pass in the accuracy pass (accuracy does not depend on G)")
     ap.add_argument("--device", default="cuda")
     ap.add_argument("--out", default="results_stream")
     ap.add_argument("--summary", default="")
@@ -166,7 +171,10 @@ def main():
     g = hc.HeteroGraph(a.csr, a.hetero_dir)
     feat = hc.load_features(a.feat, a.in_memory)
     from ogb.lsc import MAG240MDataset
-    n_classes = MAG240MDataset(root=a.root).num_classes
+    ds = MAG240MDataset(root=a.root)
+    n_classes = ds.num_classes
+    labels = np.nan_to_num(ds.paper_label, nan=-1).astype(np.int64)
+    val_idx = np.asarray(ds.get_idx_split("valid"))
     model = hc.RSAGE(feat.shape[1], a.hidden, n_classes, 2).to(dev).eval()
     model.load_state_dict(torch.load(a.weights, map_location=dev)["model"])
 
@@ -181,8 +189,32 @@ def main():
     with torch.no_grad():
         for chunk_gb in chunks_gb:
             chunk_rows = int(chunk_gb * 1e9 // row_bytes)
-            chunk_buf = torch.empty((chunk_rows, feat.shape[1]), dtype=torch.float16, device=dev)
+            try:
+                chunk_buf = torch.empty((chunk_rows, feat.shape[1]), dtype=torch.float16, device=dev)
+            except torch.cuda.OutOfMemoryError as e:
+                print(f"[{a.tag}] chunk {chunk_gb:g} GB does not fit on the GPU: {str(e)[:120]}", flush=True)
+                torch.cuda.empty_cache()
+                continue
             for f in fanouts:
+                val_acc, val_f1 = float("nan"), float("nan")
+                if a.val:
+                    tv = time.perf_counter()
+                    vb = [torch.from_numpy(val_idx[i:i + a.batch_size]).long() for i in range(0, val_idx.size, a.batch_size)]
+                    conf = np.zeros((n_classes, n_classes), dtype=np.int64)
+                    for i in range(0, len(vb), a.val_G):
+                        group = vb[i:i + a.val_G]
+                        preds = []
+                        run_pass(g, feat, model, dev, group, f, chunk_rows, chunk_buf, 0, preds=preds)
+                        for b, p in zip(group, preds):
+                            np.add.at(conf, (labels[b.numpy()], p.numpy()), 1)
+                    tp = np.diag(conf).astype(float)
+                    val_acc = tp.sum() / conf.sum()
+                    prec = tp / np.maximum(conf.sum(0), 1); rec = tp / np.maximum(conf.sum(1), 1)
+                    f1 = 2 * prec * rec / np.maximum(prec + rec, 1e-9)
+                    present = conf.sum(1) > 0
+                    val_f1 = float(f1[present].mean())
+                    print(f"[val] chunk {chunk_gb:g} GB fanout {f}: accuracy {val_acc:.4f}  macro-F1 {val_f1:.4f} "
+                          f"on {int(conf.sum()):,} papers ({time.perf_counter() - tv:.0f}s, G={a.val_G})", flush=True)
                 for gspec in gs:
                     if gspec == "auto":
                         probe = hc.sample_hetero(g, pool[:a.batch_size], f)[0]
@@ -242,7 +274,8 @@ def main():
                              stream_gbps=rows[0]["streamed_gb"] / med("stream_transfer_s"),
                              union_gb=med("union_gb"), nodes_per_batch=med("nodes_per_batch_mean"),
                              drift_pct=med("drift_pct"), qps=seeds / total,
-                             peak_gpu_gb=(torch.cuda.max_memory_allocated() / 1e9 if dev.type == "cuda" else 0.0))
+                             peak_gpu_gb=(torch.cuda.max_memory_allocated() / 1e9 if dev.type == "cuda" else 0.0),
+                             val_papers=int(val_idx.size) if a.val else 0, val_acc=val_acc, val_macro_f1=val_f1)
                     exists = os.path.exists(sp)
                     with open(sp, "a", newline="") as fh:
                         w = csv.DictWriter(fh, fieldnames=list(s))

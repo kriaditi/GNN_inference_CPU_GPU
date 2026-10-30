@@ -50,6 +50,16 @@ import hetero_common as hc
 VARIANTS = ("drop", "fetch")
 
 
+def variant_m(v):
+    """'drop' -> 1, 'fetch' -> None (all shards), 'topM' -> M (home shard + the M-1 most-hit shards)."""
+    if v == "drop":
+        return 1
+    if v == "fetch":
+        return None
+    assert v.startswith("top") and v[3:].isdigit() and int(v[3:]) >= 2, v
+    return int(v[3:])
+
+
 def now_sync(dev):
     if dev.type == "cuda":
         torch.cuda.synchronize()
@@ -100,8 +110,17 @@ def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev):
     n_all = sum(v.size for v in gid.values())
     n_local = sum(int(v.sum()) for v in local.values())
     assert local["paper"][:len(seeds)].all(), "a seed is not in the resident shard"
+    m_keep = variant_m(variant)
+    node_shard = hist = None
+    if m_keep is not None and m_keep > 1:
+        node_shard = {nt: part[gid[nt]] for nt in hc.NODE_TYPES}
+        hist = np.bincount(np.concatenate([node_shard[nt] for nt in hc.NODE_TYPES]), minlength=shard.k)
+        others = [p for p in np.argsort(-hist) if p != shard.p and hist[p] > 0][:m_keep - 1]
+        kept_shards = np.zeros(hist.size, dtype=bool); kept_shards[shard.p] = True; kept_shards[others] = True
+        keep = {nt: kept_shards[node_shard[nt]] for nt in hc.NODE_TYPES}
     if variant == "drop":
         keep = local
+    if m_keep is not None:
         newpos = {nt: np.cumsum(keep[nt]) - 1 for nt in hc.NODE_TYPES}
         ei_cpu = {}
         for et, ei in edge_index.items():
@@ -111,9 +130,17 @@ def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev):
             if m.any():
                 ei_cpu[et] = torch.from_numpy(np.stack([newpos[s][e[0][m]], newpos[d][e[1][m]]]))
         n_rows = {nt: int(keep[nt].sum()) for nt in hc.NODE_TYPES}
-        loc_rows = {nt: torch.from_numpy(shard.row[gid[nt][keep[nt]]]) for nt in hc.NODE_TYPES}
-        loc_pos = None
-        rem_gid = None
+        if variant == "drop":
+            loc_rows = {nt: torch.from_numpy(shard.row[gid[nt][keep[nt]]]) for nt in hc.NODE_TYPES}
+            loc_pos = None
+            rem_gid = None
+        else:  # topM: kept nodes only; home rows from the shard, other kept rows fetched from RAM
+            kg = {nt: gid[nt][keep[nt]] for nt in hc.NODE_TYPES}
+            kl = {nt: local[nt][keep[nt]] for nt in hc.NODE_TYPES}
+            loc_rows = {nt: torch.from_numpy(shard.row[kg[nt][kl[nt]]]) for nt in hc.NODE_TYPES}
+            loc_pos = {nt: torch.from_numpy(np.flatnonzero(kl[nt])) for nt in hc.NODE_TYPES}
+            rem_pos = {nt: torch.from_numpy(np.flatnonzero(~kl[nt])) for nt in hc.NODE_TYPES}
+            rem_gid = {nt: kg[nt][~kl[nt]] for nt in hc.NODE_TYPES}
     else:  # fetch
         ei_cpu = dict(edge_index)
         n_rows = {nt: gid[nt].size for nt in hc.NODE_TYPES}
@@ -125,7 +152,7 @@ def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev):
 
     # ---- gather_remote (CPU, fetch only)
     rem_cpu = None
-    if variant == "fetch":
+    if variant != "drop":
         rem_cpu = {nt: torch.from_numpy(np.ascontiguousarray(feat[rem_gid[nt]]))
                    if rem_gid[nt].size else torch.empty(0, feat.shape[1], dtype=torch.float16)
                    for nt in hc.NODE_TYPES}
@@ -134,7 +161,7 @@ def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev):
     # ---- transfer (to device)
     ei = {k: v.to(dev) for k, v in ei_cpu.items()}
     loc_rows_d = {k: v.to(dev) for k, v in loc_rows.items()}
-    if variant == "fetch":
+    if variant != "drop":
         loc_pos_d = {k: v.to(dev) for k, v in loc_pos.items()}
         rem_pos_d = {k: v.to(dev) for k, v in rem_pos.items()}
         rem_d = {k: v.to(dev) for k, v in rem_cpu.items()}
@@ -167,10 +194,13 @@ def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev):
         out = model({k: v.float() for k, v in x.items()}, ei)
         compute_s = time.perf_counter() - t5
     t6 = time.perf_counter()
+    if hist is None:   # drop / fetch: count shards reached outside the timed region
+        hist = np.bincount(np.concatenate([part[gid[nt]] for nt in hc.NODE_TYPES]), minlength=shard.k)
+    shards_hit = int((hist > 0).sum())
 
     bytes_xfer = sum(v.numel() * v.element_size() for v in loc_rows.values())
     bytes_xfer += sum(v.numel() * v.element_size() for v in ei_cpu.values())
-    if variant == "fetch":
+    if variant != "drop":
         bytes_xfer += sum(v.numel() * v.element_size() for v in rem_cpu.values())
         bytes_xfer += sum(v.numel() * v.element_size() for v in loc_pos.values())
         bytes_xfer += sum(v.numel() * v.element_size() for v in rem_pos.values())
@@ -179,6 +209,7 @@ def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev):
     attributed = sample_s + filter_s + grem_s + xfer_s + gloc_s + compute_s
     row = dict(seeds=len(seeds), nodes_sampled=n_all, nodes_local=n_local,
                nodes_used=sum(n_rows.values()), frac_local=n_local / n_all,
+               shards_hit=shards_hit, frac_kept=sum(n_rows.values()) / n_all,
                edges_used=sum(v.size(1) for v in ei_cpu.values()),
                mb_transfer=bytes_xfer / 1e6,
                sample_s=sample_s, filter_s=filter_s, gather_remote_s=grem_s,
@@ -198,7 +229,7 @@ def main():
     ap.add_argument("--k", type=int, required=True)
     ap.add_argument("--shards", default="", help="comma list of shards to visit; default all")
     ap.add_argument("--fanouts", default="40/20,5/5,10/5,15/10,25/15,60/30")
-    ap.add_argument("--variants", default="drop,fetch")
+    ap.add_argument("--variants", default="drop,fetch", help="drop, fetch, and/or topM (home shard + M-1 most-hit shards), e.g. drop,top2,top3,fetch")
     ap.add_argument("--batch-size", type=int, default=1024)
     ap.add_argument("--batches-per-shard", type=int, default=63,
                     help="timed batches per shard per (fanout, variant); 63 x 16 shards ~ 1,000")
@@ -219,7 +250,8 @@ def main():
     torch.set_num_threads(int(os.environ.get("SLURM_CPUS_PER_TASK", torch.get_num_threads())))
     fanouts = [[int(v) for v in f.split("/")] for f in a.fanouts.split(",")]
     variants = [v for v in a.variants.split(",") if v]
-    assert all(v in VARIANTS for v in variants), variants
+    for v in variants:
+        variant_m(v)   # raises on an unknown variant
     os.makedirs(a.out, exist_ok=True)
     sp = a.summary or os.path.join(a.out, "summary_shard.csv")
 
@@ -250,6 +282,7 @@ def main():
           + ", ".join(str(int((pool_part == p).sum())) for p in shards), flush=True)
 
     shard = Shard(N, feat.shape[1], dev)
+    shard.k = a.k
     rows = {(v, tuple(f)): [] for v in variants for f in fanouts}
     conf = {(v, tuple(f)): np.zeros((n_classes, n_classes), dtype=np.int64) for v in variants for f in fanouts}
     loads = []
@@ -323,6 +356,7 @@ def main():
                      wall_ms=med("wall_s") * 1e3, drift_pct=med("drift_pct"),
                      nodes_sampled=med("nodes_sampled"), nodes_used=med("nodes_used"),
                      frac_local=med("frac_local"), mb_transfer=med("mb_transfer"),
+                     shards_hit=med("shards_hit"), frac_kept=med("frac_kept"),
                      qps=seeds_total / batch_time,
                      shard_gb_mean=float(np.mean([x["gb"] for x in loads])),
                      load_gather_s_mean=float(np.mean([x["load_gather_s"] for x in loads])),
