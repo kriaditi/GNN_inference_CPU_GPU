@@ -1,0 +1,49 @@
+#!/bin/bash
+#SBATCH --job-name=h100gpuonly
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/h100gpuonly_%j.out
+#SBATCH -e logs/h100gpuonly_%j.err
+#SBATCH --open-mode=append
+#SBATCH --requeue
+#SBATCH --get-user-env
+#SBATCH --mem=500G
+#SBATCH -t 24:00:00
+#SBATCH --cpus-per-task=32
+#SBATCH --partition=gpu
+#SBATCH --gres=gpu:nvidia_h100_nvl:1
+
+# GPU-only (H100 NVL, 94 GB): the largest METIS shard that fits, k=5 (77.3 GB),
+# resident on the GPU, drop variant (no feature transfers during batches),
+# 1,000 timed batches, 6 fanouts, accuracy on that shard's validation papers.
+# One process per (k, fanout) so an out-of-memory keeps the rest; a requeued
+# job skips every (k, fanout) already in the summary.
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD=1 PYTHONUNBUFFERED=1
+
+D=/share/gupta/ak2877/gnn
+echo "job $SLURM_JOB_ID restart ${SLURM_RESTART_COUNT:-0} on $(hostname)  $(date)"
+nvidia-smi --query-gpu=name,driver_version,memory.total,memory.used --format=csv
+free -g | head -2
+md5sum shard_infer.py hetero_common.py results/hetero/best.pt $D/metis/part_k*.npy || exit 1
+
+OUT=results_gpuonly_h100nvl
+SUM=$OUT/summary_gpuonly_h100nvl.csv
+mkdir -p $OUT
+for K in 5; do
+  P=$(python -c "import numpy as np; c=np.bincount(np.load('$D/metis/part_k$K.npy').astype(np.int64)); print(int(c.argmax()))")
+  echo "k=$K largest shard p=$P"
+  for F in 5/5 10/5 15/10 25/15 40/20 60/30; do
+    TAG=h100nvl_gpuonly_k${K}_f${F/\//x}
+    if [ -f $SUM ] && grep -q "^${TAG}_k" $SUM; then echo "skip $TAG (done)"; continue; fi
+    python shard_infer.py --weights results/hetero/best.pt --root $D/data --csr $D/csr \
+      --hetero-dir $D/csr_hetero --feat $D/data/full_feat.npy --metis $D/metis --in-memory \
+      --k $K --shards $P --variants drop --fanouts $F --batches-per-shard 1000 \
+      --out $OUT --summary $SUM --tag $TAG
+    echo "k$K p$P fanout $F exit $?  $(date)"
+  done
+done
+echo "all done $(date)"
