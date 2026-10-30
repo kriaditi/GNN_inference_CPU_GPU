@@ -1,0 +1,22 @@
+[hetero] 5 relations, 3,456,728,464 directed edges resident (8s)
+[feat] reading /unicorn/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 2.4 min)
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/unicorn/code/stream_infer.py:171: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  model.load_state_dict(torch.load(a.weights, map_location=dev)["model"])
+[gh200_stream_auto] auto: free after margin 62.7 GB, per-batch 57.9 MB (37,668 rows) -> G=1083
+
+[gh200_stream_auto_c8gb_G1083auto_f5x5] chunk 8 GB (5,208,333 rows), G=1083, 2 passes (1 warmup)
+[gh200_stream_auto_c8gb_G1083auto_f5x5] check: first 3 batches bit-exact vs CPU gather
+[gh200_stream_auto_c8gb_G1083auto_f5x5] pass 0: wall 15.07 s, stream transfer 1.26 s, union 31.5 GB, drift 0.29%
+[summary] gh200_stream_auto_c8gb_G1083auto_f5x5: 13.9 ms/batch, pass 15072 ms, stream 297.6 GB/s, qps 73580, drift 0.29%
+[gh200_stream_auto] auto: free after margin 44.9 GB, per-batch 59.2 MB (38,565 rows) -> G=758
+
+[gh200_stream_auto_c24gb_G758auto_f5x5] chunk 24 GB (15,625,000 rows), G=758, 3 passes (1 warmup)
+[gh200_stream_auto_c24gb_G758auto_f5x5] check: first 3 batches bit-exact vs CPU gather
+[gh200_stream_auto_c24gb_G758auto_f5x5] pass 0: wall 10.66 s, stream transfer 1.26 s, union 24.0 GB, drift 0.28%
+[gh200_stream_auto_c24gb_G758auto_f5x5] pass 1: wall 11.10 s, stream transfer 1.40 s, union 24.3 GB, drift 0.27%
+[summary] gh200_stream_auto_c24gb_G758auto_f5x5: 14.4 ms/batch, pass 10882 ms, stream 282.0 GB/s, qps 71328, drift 0.28%

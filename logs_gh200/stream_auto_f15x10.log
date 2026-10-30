@@ -1,0 +1,38 @@
+[hetero] 5 relations, 3,456,728,464 directed edges resident (8s)
+[feat] reading /unicorn/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 2.3 min)
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/unicorn/code/stream_infer.py:171: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  model.load_state_dict(torch.load(a.weights, map_location=dev)["model"])
+[gh200_stream_auto] auto: free after margin 26.0 GB, per-batch 183.6 MB (119,558 rows) -> G=141
+
+[gh200_stream_auto_c8gb_G141auto_f15x10] chunk 8 GB (5,208,333 rows), G=141, 9 passes (1 warmup)
+[gh200_stream_auto_c8gb_G141auto_f15x10] check: first 3 batches bit-exact vs CPU gather
+[gh200_stream_auto_c8gb_G141auto_f15x10] pass 0: wall 5.61 s, stream transfer 1.27 s, union 15.8 GB, drift 0.12%
+[gh200_stream_auto_c8gb_G141auto_f15x10] pass 1: wall 5.67 s, stream transfer 1.30 s, union 16.0 GB, drift 0.12%
+[gh200_stream_auto_c8gb_G141auto_f15x10] pass 2: wall 5.66 s, stream transfer 1.43 s, union 15.9 GB, drift 0.12%
+[gh200_stream_auto_c8gb_G141auto_f15x10] pass 3: wall 5.79 s, stream transfer 1.46 s, union 16.0 GB, drift 0.11%
+[gh200_stream_auto_c8gb_G141auto_f15x10] pass 4: wall 5.60 s, stream transfer 1.26 s, union 16.0 GB, drift 0.12%
+[gh200_stream_auto_c8gb_G141auto_f15x10] pass 5: wall 5.73 s, stream transfer 1.36 s, union 16.0 GB, drift 0.12%
+[gh200_stream_auto_c8gb_G141auto_f15x10] pass 6: wall 5.94 s, stream transfer 1.39 s, union 16.1 GB, drift 0.13%
+[gh200_stream_auto_c8gb_G141auto_f15x10] pass 7: wall 5.67 s, stream transfer 1.31 s, union 16.2 GB, drift 0.11%
+[summary] gh200_stream_auto_c8gb_G141auto_f15x10: 40.2 ms/batch, pass 5667 ms, stream 280.3 GB/s, qps 25295, drift 0.12%
+[gh200_stream_auto] auto: free after margin 17.0 GB, per-batch 181.0 MB (117,847 rows) -> G=94
+
+[gh200_stream_auto_c24gb_G94auto_f15x10] chunk 24 GB (15,625,000 rows), G=94, 12 passes (1 warmup)
+[gh200_stream_auto_c24gb_G94auto_f15x10] check: first 3 batches bit-exact vs CPU gather
+[gh200_stream_auto_c24gb_G94auto_f15x10] pass 0: wall 6.92 s, stream transfer 1.71 s, union 11.3 GB, drift 0.07%
+[gh200_stream_auto_c24gb_G94auto_f15x10] pass 1: wall 6.35 s, stream transfer 1.49 s, union 11.3 GB, drift 0.07%
+[gh200_stream_auto_c24gb_G94auto_f15x10] pass 2: wall 4.21 s, stream transfer 1.26 s, union 11.5 GB, drift 0.11%
+[gh200_stream_auto_c24gb_G94auto_f15x10] pass 3: wall 3.98 s, stream transfer 1.25 s, union 11.5 GB, drift 0.11%
+[gh200_stream_auto_c24gb_G94auto_f15x10] pass 4: wall 3.85 s, stream transfer 1.11 s, union 11.5 GB, drift 0.12%
+[gh200_stream_auto_c24gb_G94auto_f15x10] pass 5: wall 3.86 s, stream transfer 1.10 s, union 11.5 GB, drift 0.12%
+[gh200_stream_auto_c24gb_G94auto_f15x10] pass 6: wall 4.11 s, stream transfer 1.36 s, union 11.5 GB, drift 0.11%
+[gh200_stream_auto_c24gb_G94auto_f15x10] pass 7: wall 4.11 s, stream transfer 1.34 s, union 11.5 GB, drift 0.11%
+[gh200_stream_auto_c24gb_G94auto_f15x10] pass 8: wall 4.07 s, stream transfer 1.22 s, union 11.6 GB, drift 0.11%
+[gh200_stream_auto_c24gb_G94auto_f15x10] pass 9: wall 4.16 s, stream transfer 1.41 s, union 11.5 GB, drift 0.11%
+[gh200_stream_auto_c24gb_G94auto_f15x10] pass 10: wall 3.96 s, stream transfer 1.18 s, union 11.6 GB, drift 0.11%
+[summary] gh200_stream_auto_c24gb_G94auto_f15x10: 43.7 ms/batch, pass 4105 ms, stream 297.1 GB/s, qps 21359, drift 0.11%
