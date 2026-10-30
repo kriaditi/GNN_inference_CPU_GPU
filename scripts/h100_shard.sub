@@ -1,0 +1,41 @@
+#!/bin/bash
+#SBATCH --job-name=h100shard
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/h100shard_%j.out
+#SBATCH -e logs/h100shard_%j.err
+#SBATCH --open-mode=append
+#SBATCH --requeue
+#SBATCH --get-user-env
+#SBATCH --mem=500G
+#SBATCH -t 12:00:00
+#SBATCH --cpus-per-task=32
+#SBATCH --partition=gpu
+#SBATCH --gres=gpu:nvidia_h100_nvl:1
+
+# PCIe METIS shard baseline (H100 NVL), same configs as GH200 (29 Oct):
+# k=16, all 16 shards, drop and fetch, 6 fanouts, 63 timed batches per shard
+# (= 1,008), accuracy on all 138,949 validation papers, 375 GB table in RAM.
+# Results are written only at the end, so a requeued job simply starts over.
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD=1 PYTHONUNBUFFERED=1
+
+D=/share/gupta/ak2877/gnn
+echo "job $SLURM_JOB_ID restart ${SLURM_RESTART_COUNT:-0} on $(hostname)  $(date)"
+nvidia-smi --query-gpu=name,driver_version,memory.total,memory.used --format=csv
+free -g | head -2
+md5sum shard_infer.py hetero_common.py results/hetero/best.pt $D/metis/part_k16.npy || exit 1
+
+OUT=results_shard_h100nvl
+mkdir -p $OUT
+rm -f $OUT/summary_shard_h100nvl.csv            # restart: no partial rows can exist, start clean
+
+python shard_infer.py --weights results/hetero/best.pt --root $D/data --csr $D/csr \
+  --hetero-dir $D/csr_hetero --feat $D/data/full_feat.npy --metis $D/metis --in-memory \
+  --k 16 --variants drop,fetch --fanouts 40/20,5/5,10/5,15/10,25/15,60/30 --batches-per-shard 63 \
+  --out $OUT --summary $OUT/summary_shard_h100nvl.csv --tag h100nvl_shard
+
+echo "exit $?  $(date)"

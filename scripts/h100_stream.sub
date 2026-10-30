@@ -1,0 +1,44 @@
+#!/bin/bash
+#SBATCH --job-name=h100stream
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/h100stream_%j.out
+#SBATCH -e logs/h100stream_%j.err
+#SBATCH --open-mode=append
+#SBATCH --requeue
+#SBATCH --get-user-env
+#SBATCH --mem=500G
+#SBATCH -t 48:00:00
+#SBATCH --cpus-per-task=32
+#SBATCH --partition=gpu
+#SBATCH --gres=gpu:nvidia_h100_nvl:1
+
+# PCIe streaming baseline (H100 NVL), CPU sampling, same configs as GH200 (29 Oct):
+# chunk 8 and 24 GB; G = 1, 8, 64, auto; 1,000 timed batches; 375 GB table in RAM.
+# ONE FANOUT PER JOB:  sbatch -J str_40x20 --export=ALL,F=40/20 scripts/h100_stream.sub
+# Each fanout has its own summary file; a requeued job deletes that fanout's
+# partial files first, so no duplicate rows.
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD=1 PYTHONUNBUFFERED=1
+
+[ -n "$F" ] || { echo "set F, e.g. --export=ALL,F=40/20"; exit 1; }
+FX=${F/\//x}
+D=/share/gupta/ak2877/gnn
+echo "job $SLURM_JOB_ID fanout $F restart ${SLURM_RESTART_COUNT:-0} on $(hostname)  $(date)"
+nvidia-smi --query-gpu=name,driver_version,memory.total,memory.used --format=csv
+free -g | head -2
+md5sum stream_infer.py hetero_common.py results/hetero/best.pt || exit 1
+
+OUT=results_stream_h100nvl
+mkdir -p $OUT
+rm -f $OUT/summary_stream_h100nvl_f$FX.csv $OUT/h100nvl_stream_*_f${FX}_perpass.csv
+
+python stream_infer.py --weights results/hetero/best.pt --root $D/data --csr $D/csr \
+  --hetero-dir $D/csr_hetero --feat $D/data/full_feat.npy --in-memory \
+  --fanouts $F --batches-per-pass 1,8,64,auto --chunk-gb 8,24 --batches 1000 \
+  --out $OUT --summary $OUT/summary_stream_h100nvl_f$FX.csv --tag h100nvl_stream
+
+echo "exit $?  $(date)"
