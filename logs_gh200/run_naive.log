@@ -1,0 +1,10 @@
+start Fri Oct 30 21:15:12 UTC 2026
+name, memory.total [MiB], memory.used [MiB]
+NVIDIA GH200 480GB, 97871 MiB, 0 MiB
+naive 40/20 done Fri Oct 30 21:53:56 UTC 2026 exit 1
+naive 5/5 done Fri Oct 30 22:14:02 UTC 2026 exit 0
+naive 10/5 done Fri Oct 30 23:11:59 UTC 2026 exit 0
+naive 15/10 done Fri Oct 30 23:52:12 UTC 2026 exit 1
+naive 25/15 done Sat Oct 31 00:33:06 UTC 2026 exit 1
+naive 60/30 done Sat Oct 31 01:14:42 UTC 2026 exit 1
+all done Sat Oct 31 01:14:42 UTC 2026
