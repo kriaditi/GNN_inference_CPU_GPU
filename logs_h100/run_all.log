@@ -27,3 +27,10 @@ RUN B k6 p5 fanout 25/15 done Fri Oct 30 12:01:11 UTC 2026 exit 0
 RUN B k6 p5 fanout 40/20 done Fri Oct 30 12:51:57 UTC 2026 exit 0
 RUN B k6 p5 fanout 60/30 done Fri Oct 30 13:57:12 UTC 2026 exit 0
 k=5 largest shard p=3
+RUN B k5 p3 fanout 5/5 done Fri Oct 30 14:44:43 UTC 2026 exit 0
+RUN B k5 p3 fanout 10/5 done Fri Oct 30 15:28:53 UTC 2026 exit 0
+RUN B k5 p3 fanout 15/10 done Fri Oct 30 15:48:43 UTC 2026 exit 0
+RUN B k5 p3 fanout 25/15 done Fri Oct 30 16:16:47 UTC 2026 exit 0
+RUN B k5 p3 fanout 40/20 done Fri Oct 30 16:36:36 UTC 2026 exit 0
+RUN B k5 p3 fanout 60/30 done Fri Oct 30 16:55:51 UTC 2026 exit 1
+all done Fri Oct 30 16:55:51 UTC 2026
