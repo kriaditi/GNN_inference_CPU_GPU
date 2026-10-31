@@ -1,0 +1,95 @@
+[hetero] 5 relations, 3,456,728,464 directed edges resident (8s)
+[feat] reading /unicorn/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 2.4 min)
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/unicorn/code/stream_infer.py:179: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  model.load_state_dict(torch.load(a.weights, map_location=dev)["model"])
+[val] chunk 47 GB fanout [15, 10]: accuracy 0.6487  macro-F1 0.5169 on 138,949 papers (25s, G=8)
+
+[gh200_naive_c47gb_G1_f15x10] chunk 47 GB (30,598,958 rows), G=1, 1001 passes (1 warmup)
+[gh200_naive_c47gb_G1_f15x10] check: first 3 batches bit-exact vs CPU gather
+[gh200_naive_c47gb_G1_f15x10] pass 0: wall 1.05 s, stream transfer 1.02 s, union 0.2 GB, drift 0.01%
+[gh200_naive_c47gb_G1_f15x10] pass 100: wall 1.04 s, stream transfer 1.02 s, union 0.2 GB, drift 0.01%
+[gh200_naive_c47gb_G1_f15x10] pass 200: wall 1.04 s, stream transfer 1.02 s, union 0.1 GB, drift 0.01%
+[gh200_naive_c47gb_G1_f15x10] pass 300: wall 1.04 s, stream transfer 1.02 s, union 0.2 GB, drift 0.01%
+[gh200_naive_c47gb_G1_f15x10] pass 400: wall 1.04 s, stream transfer 1.02 s, union 0.2 GB, drift 0.01%
+[gh200_naive_c47gb_G1_f15x10] pass 500: wall 1.23 s, stream transfer 1.20 s, union 0.2 GB, drift 0.01%
+[gh200_naive_c47gb_G1_f15x10] pass 600: wall 1.04 s, stream transfer 1.02 s, union 0.1 GB, drift 0.01%
+[gh200_naive_c47gb_G1_f15x10] pass 700: wall 1.23 s, stream transfer 1.21 s, union 0.1 GB, drift 0.01%
+[gh200_naive_c47gb_G1_f15x10] pass 800: wall 1.23 s, stream transfer 1.20 s, union 0.2 GB, drift 0.01%
+[gh200_naive_c47gb_G1_f15x10] pass 900: wall 1.04 s, stream transfer 1.02 s, union 0.2 GB, drift 0.01%
+[summary] gh200_naive_c47gb_G1_f15x10: 1044.0 ms/batch, pass 1044 ms, stream 368.9 GB/s, qps 921, drift 0.01%
+[val] chunk 62.6 GB fanout [15, 10]: accuracy 0.6488  macro-F1 0.5162 on 138,949 papers (28s, G=8)
+
+[gh200_naive_c62.6gb_G1_f15x10] chunk 62.6 GB (40,755,208 rows), G=1, 1001 passes (1 warmup)
+[gh200_naive_c62.6gb_G1_f15x10] check: first 3 batches bit-exact vs CPU gather
+[gh200_naive_c62.6gb_G1_f15x10] pass 0: wall 1.28 s, stream transfer 1.25 s, union 0.2 GB, drift 0.01%
+[gh200_naive_c62.6gb_G1_f15x10] pass 100: wall 1.04 s, stream transfer 1.02 s, union 0.2 GB, drift 0.01%
+[gh200_naive_c62.6gb_G1_f15x10] pass 200: wall 1.04 s, stream transfer 1.02 s, union 0.1 GB, drift 0.01%
+[gh200_naive_c62.6gb_G1_f15x10] pass 300: wall 1.04 s, stream transfer 1.02 s, union 0.2 GB, drift 0.01%
+[gh200_naive_c62.6gb_G1_f15x10] pass 400: wall 1.31 s, stream transfer 1.29 s, union 0.2 GB, drift 0.01%
+[gh200_naive_c62.6gb_G1_f15x10] pass 500: wall 1.04 s, stream transfer 1.02 s, union 0.2 GB, drift 0.01%
+[gh200_naive_c62.6gb_G1_f15x10] pass 600: wall 1.04 s, stream transfer 1.02 s, union 0.1 GB, drift 0.01%
+[gh200_naive_c62.6gb_G1_f15x10] pass 700: wall 1.04 s, stream transfer 1.02 s, union 0.1 GB, drift 0.01%
+[gh200_naive_c62.6gb_G1_f15x10] pass 800: wall 1.04 s, stream transfer 1.02 s, union 0.2 GB, drift 0.01%
+[gh200_naive_c62.6gb_G1_f15x10] pass 900: wall 1.04 s, stream transfer 1.02 s, union 0.2 GB, drift 0.01%
+[summary] gh200_naive_c62.6gb_G1_f15x10: 1042.3 ms/batch, pass 1042 ms, stream 369.1 GB/s, qps 948, drift 0.01%
+Traceback (most recent call last):
+  File "/unicorn/code/stream_infer.py", line 293, in <module>
+    main()
+  File "/unicorn/code/stream_infer.py", line 207, in main
+    run_pass(g, feat, model, dev, group, f, chunk_rows, chunk_buf, 0, preds=preds)
+  File "/unicorn/code/stream_infer.py", line 116, in run_pass
+    out_logits = model({k: v.float() for k, v in x.items()}, ei)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/unicorn/code/hetero_common.py", line 183, in forward
+    h = layer["__".join(et)]((x[src], x[dst]), ei,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/conv/sage_conv.py", line 134, in forward
+    out = self.propagate(edge_index, x=x, size=size)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/torch_geometric.nn.conv.sage_conv_SAGEConv_propagate_q4y81v98.py", line 229, in propagate
+    out = self.aggregate(
+          ^^^^^^^^^^^^^^^
+  File "/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/conv/message_passing.py", line 594, in aggregate
+    return self.aggr_module(inputs, index, ptr=ptr, dim_size=dim_size,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch_geometric/experimental.py", line 117, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/aggr/base.py", line 139, in __call__
+    raise e
+  File "/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/aggr/base.py", line 131, in __call__
+    return super().__call__(x, index=index, ptr=ptr, dim_size=dim_size,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/aggr/basic.py", line 36, in forward
+    return self.reduce(x, index, ptr, dim_size, dim, reduce='mean')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch_geometric/nn/aggr/base.py", line 185, in reduce
+    return scatter(x, index, dim, dim_size, reduce)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch_geometric/utils/_scatter.py", line 80, in scatter
+    return out / broadcast(count, out, dim)
+           ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 342.00 MiB. GPU 0 has a total capacity of 94.50 GiB of which 476.31 MiB is free. Including non-PyTorch memory, this process has 73.85 GiB memory in use. Of the allocated memory 72.59 GiB is allocated by PyTorch, and 584.56 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
