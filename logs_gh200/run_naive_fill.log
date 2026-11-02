@@ -1,0 +1,14 @@
+start Sat Oct 31 18:08:08 UTC 2026
+cell 5/5 chunk 62.6: GPU used before start 0 MiB  Sat Oct 31 18:08:08 UTC 2026
+cell 5/5 chunk 62.6 done Sat Oct 31 18:29:27 UTC 2026 exit 0
+cell 5/5 chunk 75.01: GPU used before start 12377 MiB  Sat Oct 31 18:49:27 UTC 2026
+cell 5/5 chunk 75.01 done Sat Oct 31 18:52:05 UTC 2026 exit 0
+cell 40/20 chunk 75.01: GPU used before start 29276 MiB  Sat Oct 31 19:12:06 UTC 2026
+cell 40/20 chunk 75.01 done Sat Oct 31 19:14:50 UTC 2026 exit 0
+cell 15/10 chunk 75.01: GPU used before start 13493 MiB  Sat Oct 31 19:34:50 UTC 2026
+cell 15/10 chunk 75.01 done Sat Oct 31 19:37:36 UTC 2026 exit 0
+cell 25/15 chunk 75.01: GPU used before start 10366 MiB  Sat Oct 31 19:57:36 UTC 2026
+cell 25/15 chunk 75.01 done Sat Oct 31 20:22:57 UTC 2026 exit 0
+cell 60/30 chunk 75.01: GPU used before start 10 MiB  Sat Oct 31 20:22:57 UTC 2026
+cell 60/30 chunk 75.01 done Sat Oct 31 20:25:42 UTC 2026 exit 1
+all done Sat Oct 31 20:25:42 UTC 2026
