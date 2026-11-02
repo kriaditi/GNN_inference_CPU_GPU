@@ -1,0 +1,27 @@
+job 847401 fanout 40/20 chunk 75.01 GB restart 0 on dutta-compute-01.cs.cornell.edu  Sat Oct 31 03:33:24 AM EDT 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 580.126.18, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1511         173        1083          72         336        1337
+8c02dee31f5d6c7f610f225552325aaf  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+[hetero] 5 relations, 3,456,728,464 directed edges resident (84s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 26.6 min)
+[val] chunk 75.01 GB fanout [40, 20]: accuracy 0.6519  macro-F1 0.5205 on 138,949 papers (311s, G=8)
+
+[h100nvl_naive_c75.01gb_G1_f40x20] chunk 75.01 GB (48,834,635 rows), G=1, 1001 passes (1 warmup)
+[h100nvl_naive_c75.01gb_G1_f40x20] check: first 3 batches bit-exact vs CPU gather
+[h100nvl_naive_c75.01gb_G1_f40x20] pass 0: wall 16.32 s, stream transfer 16.22 s, union 0.5 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f40x20] pass 100: wall 16.40 s, stream transfer 16.26 s, union 0.5 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f40x20] pass 200: wall 16.21 s, stream transfer 16.13 s, union 0.4 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f40x20] pass 300: wall 16.36 s, stream transfer 16.28 s, union 0.4 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f40x20] pass 400: wall 16.68 s, stream transfer 16.59 s, union 0.4 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f40x20] pass 500: wall 16.31 s, stream transfer 16.22 s, union 0.4 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f40x20] pass 600: wall 16.32 s, stream transfer 16.19 s, union 0.4 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f40x20] pass 700: wall 16.37 s, stream transfer 16.20 s, union 0.4 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f40x20] pass 800: wall 16.29 s, stream transfer 16.13 s, union 0.4 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f40x20] pass 900: wall 16.25 s, stream transfer 16.17 s, union 0.4 GB, drift 0.00%
+[summary] h100nvl_naive_c75.01gb_G1_f40x20: 16412.2 ms/batch, pass 16412 ms, stream 23.0 GB/s, qps 62, drift 0.00%
+exit 0  Sat Oct 31 08:42:13 AM EDT 2026

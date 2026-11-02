@@ -1,0 +1,50 @@
+job 847402 fanout 5/5 chunk 47 GB restart 0 on dutta-compute-01.cs.cornell.edu  Sat Oct 31 08:42:25 AM EDT 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 580.126.18, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1511         166        1039          72         387        1345
+8c02dee31f5d6c7f610f225552325aaf  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+[hetero] 5 relations, 3,456,728,464 directed edges resident (114s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 28.7 min)
+[val] chunk 47 GB fanout [5, 5]: accuracy 0.6356  macro-F1 0.5044 on 138,949 papers (284s, G=8)
+
+[h100nvl_naive_c47gb_G1_f5x5] chunk 47 GB (30,598,958 rows), G=1, 1001 passes (1 warmup)
+[h100nvl_naive_c47gb_G1_f5x5] check: first 3 batches bit-exact vs CPU gather
+[h100nvl_naive_c47gb_G1_f5x5] pass 0: wall 16.58 s, stream transfer 16.56 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f5x5] pass 100: wall 16.33 s, stream transfer 16.30 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f5x5] pass 200: wall 16.26 s, stream transfer 16.24 s, union 0.0 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f5x5] pass 300: wall 16.26 s, stream transfer 16.24 s, union 0.0 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f5x5] pass 400: wall 16.34 s, stream transfer 16.32 s, union 0.0 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f5x5] pass 500: wall 16.27 s, stream transfer 16.25 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f5x5] pass 600: wall 16.32 s, stream transfer 16.30 s, union 0.0 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f5x5] pass 700: wall 16.39 s, stream transfer 16.36 s, union 0.0 GB, drift 0.00%
+job 847402 fanout 5/5 chunk 47 GB restart 1 on dutta-compute-01.cs.cornell.edu  Sun Nov  1 10:48:30 PM EST 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 580.126.18, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1511         136        1003          72         456        1374
+8c02dee31f5d6c7f610f225552325aaf  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+[hetero] 5 relations, 3,456,728,464 directed edges resident (39s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 39.4 min)
+[val] chunk 47 GB fanout [5, 5]: accuracy 0.6351  macro-F1 0.5029 on 138,949 papers (306s, G=8)
+
+[h100nvl_naive_c47gb_G1_f5x5] chunk 47 GB (30,598,958 rows), G=1, 1001 passes (1 warmup)
+[h100nvl_naive_c47gb_G1_f5x5] check: first 3 batches bit-exact vs CPU gather
+[h100nvl_naive_c47gb_G1_f5x5] pass 0: wall 16.46 s, stream transfer 16.43 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f5x5] pass 100: wall 16.70 s, stream transfer 16.68 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f5x5] pass 200: wall 17.23 s, stream transfer 17.21 s, union 0.0 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f5x5] pass 300: wall 21.35 s, stream transfer 21.34 s, union 0.0 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f5x5] pass 400: wall 18.38 s, stream transfer 18.37 s, union 0.0 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f5x5] pass 500: wall 16.83 s, stream transfer 16.81 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f5x5] pass 600: wall 16.85 s, stream transfer 16.83 s, union 0.0 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f5x5] pass 700: wall 16.64 s, stream transfer 16.62 s, union 0.0 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f5x5] pass 800: wall 16.91 s, stream transfer 16.90 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f5x5] pass 900: wall 16.84 s, stream transfer 16.82 s, union 0.1 GB, drift 0.00%
+[summary] h100nvl_naive_c47gb_G1_f5x5: 16843.8 ms/batch, pass 16844 ms, stream 22.3 GB/s, qps 57, drift 0.00%
+exit 0  Mon Nov  2 04:38:31 AM EST 2026

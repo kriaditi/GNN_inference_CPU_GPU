@@ -1,0 +1,27 @@
+job 847411 fanout 25/15 chunk 47 GB restart 0 on dutta-compute-01.cs.cornell.edu  Sun Nov  1 11:21:06 AM EST 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 580.126.18, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1511         510         577          72         504        1000
+8c02dee31f5d6c7f610f225552325aaf  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+[hetero] 5 relations, 3,456,728,464 directed edges resident (124s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 57.2 min)
+[val] chunk 47 GB fanout [25, 15]: accuracy 0.6506  macro-F1 0.5190 on 138,949 papers (403s, G=8)
+
+[h100nvl_naive_c47gb_G1_f25x15] chunk 47 GB (30,598,958 rows), G=1, 1001 passes (1 warmup)
+[h100nvl_naive_c47gb_G1_f25x15] check: first 3 batches bit-exact vs CPU gather
+[h100nvl_naive_c47gb_G1_f25x15] pass 0: wall 16.98 s, stream transfer 16.90 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f25x15] pass 100: wall 17.13 s, stream transfer 17.06 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f25x15] pass 200: wall 24.31 s, stream transfer 24.20 s, union 0.2 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f25x15] pass 300: wall 17.79 s, stream transfer 17.73 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f25x15] pass 400: wall 17.06 s, stream transfer 17.00 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f25x15] pass 500: wall 15.98 s, stream transfer 15.88 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f25x15] pass 600: wall 15.83 s, stream transfer 15.76 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f25x15] pass 700: wall 21.78 s, stream transfer 21.72 s, union 0.3 GB, drift 0.02%
+[h100nvl_naive_c47gb_G1_f25x15] pass 800: wall 15.94 s, stream transfer 15.82 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f25x15] pass 900: wall 22.23 s, stream transfer 22.18 s, union 0.3 GB, drift 0.00%
+[summary] h100nvl_naive_c47gb_G1_f25x15: 17172.9 ms/batch, pass 17173 ms, stream 21.9 GB/s, qps 54, drift 0.00%
+exit 0  Sun Nov  1 05:46:12 PM EST 2026
