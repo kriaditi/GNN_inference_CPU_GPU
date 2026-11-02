@@ -1,0 +1,10 @@
+job 847416 fanout 60/30 chunk 75.01 GB restart 0 on dutta-compute-01.cs.cornell.edu  Sun Nov  1 06:43:52 PM EST 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 580.126.18, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1511         510         611          72         470        1001
+8c02dee31f5d6c7f610f225552325aaf  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+[hetero] 5 relations, 3,456,728,464 directed edges resident (148s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
