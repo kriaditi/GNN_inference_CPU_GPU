@@ -1,0 +1,24 @@
+[hetero] 5 relations, 3,456,728,464 directed edges resident (8s)
+[feat] reading /unicorn/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 2.4 min)
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/unicorn/code/stream_infer.py:179: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  model.load_state_dict(torch.load(a.weights, map_location=dev)["model"])
+[val] chunk 75.01 GB fanout [25, 15]: accuracy 0.6508  macro-F1 0.5183 on 138,949 papers (176s, G=1)
+
+[gh200_naive_c75.01gb_G1_f25x15] chunk 75.01 GB (48,834,635 rows), G=1, 1001 passes (1 warmup)
+[gh200_naive_c75.01gb_G1_f25x15] check: first 3 batches bit-exact vs CPU gather
+[gh200_naive_c75.01gb_G1_f25x15] pass 0: wall 1.62 s, stream transfer 1.57 s, union 0.3 GB, drift 0.01%
+[gh200_naive_c75.01gb_G1_f25x15] pass 100: wall 1.07 s, stream transfer 1.02 s, union 0.3 GB, drift 0.01%
+[gh200_naive_c75.01gb_G1_f25x15] pass 200: wall 1.06 s, stream transfer 1.02 s, union 0.2 GB, drift 0.01%
+[gh200_naive_c75.01gb_G1_f25x15] pass 300: wall 1.06 s, stream transfer 1.02 s, union 0.3 GB, drift 0.01%
+[gh200_naive_c75.01gb_G1_f25x15] pass 400: wall 1.34 s, stream transfer 1.30 s, union 0.3 GB, drift 0.01%
+[gh200_naive_c75.01gb_G1_f25x15] pass 500: wall 1.33 s, stream transfer 1.28 s, union 0.3 GB, drift 0.01%
+[gh200_naive_c75.01gb_G1_f25x15] pass 600: wall 1.26 s, stream transfer 1.22 s, union 0.3 GB, drift 0.01%
+[gh200_naive_c75.01gb_G1_f25x15] pass 700: wall 1.40 s, stream transfer 1.36 s, union 0.3 GB, drift 0.01%
+[gh200_naive_c75.01gb_G1_f25x15] pass 800: wall 1.06 s, stream transfer 1.02 s, union 0.3 GB, drift 0.01%
+[gh200_naive_c75.01gb_G1_f25x15] pass 900: wall 1.06 s, stream transfer 1.02 s, union 0.3 GB, drift 0.01%
+[summary] gh200_naive_c75.01gb_G1_f25x15: 1065.1 ms/batch, pass 1065 ms, stream 367.2 GB/s, qps 872, drift 0.01%

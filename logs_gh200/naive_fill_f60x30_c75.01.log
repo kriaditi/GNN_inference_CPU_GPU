@@ -1,0 +1,21 @@
+[hetero] 5 relations, 3,456,728,464 directed edges resident (8s)
+[feat] reading /unicorn/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 2.3 min)
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/unicorn/code/stream_infer.py:179: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  model.load_state_dict(torch.load(a.weights, map_location=dev)["model"])
+Traceback (most recent call last):
+  File "/unicorn/code/stream_infer.py", line 293, in <module>
+    main()
+  File "/unicorn/code/stream_infer.py", line 207, in main
+    run_pass(g, feat, model, dev, group, f, chunk_rows, chunk_buf, 0, preds=preds)
+  File "/unicorn/code/stream_infer.py", line 116, in run_pass
+    out_logits = model({k: v.float() for k, v in x.items()}, ei)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/unicorn/code/stream_infer.py", line 116, in <dictcomp>
+    out_logits = model({k: v.float() for k, v in x.items()}, ei)
+                           ^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.28 GiB. GPU 0 has a total capacity of 94.50 GiB of which 839.50 MiB is free. Including non-PyTorch memory, this process has 72.27 GiB memory in use. Of the allocated memory 71.35 GiB is allocated by PyTorch, and 302.01 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
