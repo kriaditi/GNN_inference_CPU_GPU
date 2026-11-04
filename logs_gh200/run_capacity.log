@@ -1,0 +1,79 @@
+start Wed Nov  4 01:12:07 UTC 2026
+name, memory.total [MiB], memory.used [MiB]
+NVIDIA GH200 480GB, 97871 MiB, 2 MiB
+               total        used        free      shared  buff/cache   available
+Mem:             525           5         519           0           0         500
+cdde596aada80a2ab0743de63f14ab66  build_subset.py
+acc3a57e0db06749f3384b42ecd3eb01  shard_infer.py
+936366857a66eb944a625753d5332f9c  sage_mag240m.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  /unicorn/gnn/results/h100het_378025/best.pt
+== size s1: 15146609 nodes, 23.3 GB
+  GPU used before start: 2 MiB  Wed Nov  4 01:12:07 UTC 2026
+  s1 gpuonly 40/20 exit 0 Wed Nov  4 01:12:46 UTC 2026
+  GPU used before start: 3 MiB  Wed Nov  4 01:12:46 UTC 2026
+  s1 gpuonly 5/5 exit 0 Wed Nov  4 01:13:12 UTC 2026
+  GPU used before start: 3 MiB  Wed Nov  4 01:13:12 UTC 2026
+  s1 gpuonly 10/5 exit 0 Wed Nov  4 01:13:40 UTC 2026
+  GPU used before start: 5 MiB  Wed Nov  4 01:13:40 UTC 2026
+  s1 gpuonly 15/10 exit 0 Wed Nov  4 01:14:09 UTC 2026
+  GPU used before start: 6 MiB  Wed Nov  4 01:14:10 UTC 2026
+  s1 gpuonly 25/15 exit 0 Wed Nov  4 01:14:42 UTC 2026
+  GPU used before start: 5 MiB  Wed Nov  4 01:14:42 UTC 2026
+  s1 gpuonly 60/30 exit 0 Wed Nov  4 01:15:28 UTC 2026
+  GPU used before start: 5 MiB  Wed Nov  4 01:15:28 UTC 2026
+  s1 nvlink exit 0 Wed Nov  4 01:19:08 UTC 2026
+  s1 cpu exit 0 Wed Nov  4 01:26:57 UTC 2026
+== size s2: 30544996 nodes, 46.9 GB
+  GPU used before start: 6 MiB  Wed Nov  4 01:26:57 UTC 2026
+  s2 gpuonly 40/20 exit 0 Wed Nov  4 01:27:58 UTC 2026
+  GPU used before start: 7 MiB  Wed Nov  4 01:27:58 UTC 2026
+  s2 gpuonly 5/5 exit 0 Wed Nov  4 01:28:39 UTC 2026
+  GPU used before start: 7 MiB  Wed Nov  4 01:28:39 UTC 2026
+  s2 gpuonly 10/5 exit 0 Wed Nov  4 01:29:21 UTC 2026
+  GPU used before start: 7 MiB  Wed Nov  4 01:29:22 UTC 2026
+  s2 gpuonly 15/10 exit 0 Wed Nov  4 01:30:08 UTC 2026
+  GPU used before start: 11 MiB  Wed Nov  4 01:30:08 UTC 2026
+  s2 gpuonly 25/15 exit 0 Wed Nov  4 01:31:00 UTC 2026
+  GPU used before start: 14 MiB  Wed Nov  4 01:31:00 UTC 2026
+  s2 gpuonly 60/30 exit 0 Wed Nov  4 01:32:12 UTC 2026
+  GPU used before start: 7 MiB  Wed Nov  4 01:32:13 UTC 2026
+  s2 nvlink exit 0 Wed Nov  4 01:38:10 UTC 2026
+  s2 cpu exit 0 Wed Nov  4 01:50:06 UTC 2026
+== size s3: 45780775 nodes, 70.3 GB
+  GPU used before start: 4 MiB  Wed Nov  4 01:50:07 UTC 2026
+  s3 gpuonly 40/20 exit 0 Wed Nov  4 01:51:16 UTC 2026
+  GPU used before start: 7 MiB  Wed Nov  4 01:51:17 UTC 2026
+  s3 gpuonly 5/5 exit 0 Wed Nov  4 01:52:08 UTC 2026
+  GPU used before start: 3 MiB  Wed Nov  4 01:52:09 UTC 2026
+  s3 gpuonly 10/5 exit 0 Wed Nov  4 01:53:02 UTC 2026
+  GPU used before start: 4 MiB  Wed Nov  4 01:53:03 UTC 2026
+  s3 gpuonly 15/10 exit 0 Wed Nov  4 01:54:02 UTC 2026
+  GPU used before start: 7 MiB  Wed Nov  4 01:54:02 UTC 2026
+  s3 gpuonly 25/15 exit 0 Wed Nov  4 01:55:05 UTC 2026
+  GPU used before start: 8 MiB  Wed Nov  4 01:55:06 UTC 2026
+  s3 gpuonly 60/30 exit 0 Wed Nov  4 01:56:25 UTC 2026
+  GPU used before start: 3 MiB  Wed Nov  4 01:56:26 UTC 2026
+  s3 nvlink exit 0 Wed Nov  4 02:02:05 UTC 2026
+  s3 cpu exit 0 Wed Nov  4 02:13:07 UTC 2026
+== size s4: 61179161 nodes, 94.0 GB
+  GPU used before start: 2 MiB  Wed Nov  4 02:13:08 UTC 2026
+  s4 gpuonly 40/20 exit 0 Wed Nov  4 02:14:37 UTC 2026
+  GPU used before start: 3 MiB  Wed Nov  4 02:14:37 UTC 2026
+  s4 gpuonly 5/5 exit 0 Wed Nov  4 02:15:43 UTC 2026
+  GPU used before start: 4 MiB  Wed Nov  4 02:15:43 UTC 2026
+  s4 gpuonly 10/5 exit 0 Wed Nov  4 02:16:51 UTC 2026
+  GPU used before start: 8 MiB  Wed Nov  4 02:16:52 UTC 2026
+  s4 gpuonly 15/10 exit 0 Wed Nov  4 02:18:05 UTC 2026
+  GPU used before start: 8 MiB  Wed Nov  4 02:18:05 UTC 2026
+  s4 gpuonly 25/15 exit 0 Wed Nov  4 02:19:26 UTC 2026
+  GPU used before start: 3 MiB  Wed Nov  4 02:19:26 UTC 2026
+  s4 gpuonly 60/30 exit 0 Wed Nov  4 02:21:08 UTC 2026
+  GPU used before start: 5 MiB  Wed Nov  4 02:21:08 UTC 2026
+  s4 nvlink exit 0 Wed Nov  4 02:28:31 UTC 2026
+  s4 cpu exit 0 Wed Nov  4 02:42:49 UTC 2026
+== size s8: 122044824 nodes, 187.5 GB
+  GPU used before start: 2 MiB  Wed Nov  4 02:42:49 UTC 2026
+  s8 nvlink exit 0 Wed Nov  4 02:53:27 UTC 2026
+  s8 cpu exit 0 Wed Nov  4 03:12:26 UTC 2026
+all done Wed Nov  4 03:12:26 UTC 2026

@@ -238,6 +238,11 @@ def main():
     ap.add_argument("--hidden", type=int, default=256)
     ap.add_argument("--in-memory", action="store_true")
     ap.add_argument("--val-batches", type=int, default=0, help="limit accuracy pass per shard (smoke)")
+    ap.add_argument("--no-val", action="store_true",
+                    help="skip the accuracy pass (needed on a subset graph from build_subset.py: its paper ids are renumbered)")
+    ap.add_argument("--unsorted-seeds", action="store_true",
+                    help="keep the seed pool in default_rng(0) order instead of sorting it, so with --k 1 the batches are "
+                         "exactly the ones sage_mag240m.py --seed-mode all uses (GPU-only vs node filtering on the same seeds)")
     ap.add_argument("--device", default="cuda")
     ap.add_argument("--out", default="results_shard")
     ap.add_argument("--summary", default="")
@@ -276,7 +281,9 @@ def main():
     # same seed pool as sage_mag240m.py --seed-mode all
     rng = np.random.default_rng(0)
     P = g.num["paper"]
-    pool = np.sort(rng.choice(P, size=min(a.seeds, P), replace=False))
+    pool = rng.choice(P, size=min(a.seeds, P), replace=False)
+    if not a.unsorted_seeds:
+        pool = np.sort(pool)
     pool_part = part[pool]
     print(f"[seeds] {pool.size:,} fresh seeds; per shard: "
           + ", ".join(str(int((pool_part == p).sum())) for p in shards), flush=True)
@@ -303,7 +310,7 @@ def main():
             batches = [b for b in batches if b.numel() == a.batch_size]
             if len(batches) < need:
                 print(f"[shard {p}] only {len(batches)} full batches available (< {need})", flush=True)
-            vp = val_idx[part[val_idx] == p]
+            vp = np.empty(0, dtype=np.int64) if a.no_val else val_idx[part[val_idx] == p]
             vbatches = [torch.from_numpy(vp[i:i + a.batch_size]).long() for i in range(0, vp.size, a.batch_size)]
             if a.val_batches:
                 vbatches = vbatches[:a.val_batches]
