@@ -1,0 +1,124 @@
+[hetero] 5 relations, 136,527,296 directed edges resident (1s)
+
+[s1] shards [0]: 15,146,609 nodes, 136,527,296 edges (9.01/node), 23.3 GB (graph loaded in 1s)
+  40/20: median      87,151  mean      87,095  (9s)
+    5/5: median      14,799  mean      14,771  (3s)
+   10/5: median      20,478  mean      20,435  (3s)
+  15/10: median      38,012  mean      37,835  (5s)
+  25/15: median      61,206  mean      61,053  (7s)
+  60/30: median     127,692  mean     127,439  (12s)
+[hetero] 5 relations, 301,964,282 directed edges resident (1s)
+
+[s2] shards [0, 1]: 30,544,996 nodes, 301,964,282 edges (9.89/node), 46.9 GB (graph loaded in 2s)
+  40/20: median     133,172  mean     133,033  (13s)
+    5/5: median      19,605  mean      19,602  (3s)
+   10/5: median      28,162  mean      28,170  (4s)
+  15/10: median      54,029  mean      54,053  (7s)
+  25/15: median      90,800  mean      90,793  (9s)
+  60/30: median     198,221  mean     198,115  (18s)
+[hetero] 5 relations, 376,312,418 directed edges resident (1s)
+
+[s3] shards [0, 1, 2]: 45,780,775 nodes, 376,312,418 edges (8.22/node), 70.3 GB (graph loaded in 2s)
+  40/20: median     118,942  mean     118,985  (11s)
+    5/5: median      18,298  mean      18,315  (3s)
+   10/5: median      26,236  mean      26,251  (4s)
+  15/10: median      49,707  mean      49,755  (6s)
+  25/15: median      82,430  mean      82,410  (9s)
+  60/30: median     174,348  mean     174,571  (15s)
+[hetero] 5 relations, 589,406,568 directed edges resident (2s)
+
+[s4] shards [0, 1, 2, 3]: 61,179,161 nodes, 589,406,568 edges (9.63/node), 94.0 GB (graph loaded in 3s)
+  40/20: median     154,862  mean     155,212  (17s)
+    5/5: median      23,364  mean      23,394  (6s)
+   10/5: median      34,310  mean      34,335  (7s)
+  15/10: median      65,455  mean      65,535  (10s)
+  25/15: median     108,496  mean     108,533  (13s)
+  60/30: median     224,708  mean     225,129  (21s)
+[hetero] 5 relations, 1,374,349,932 directed edges resident (5s)
+
+[s8] shards [0, 1, 2, 3, 4, 5, 6, 7]: 122,044,824 nodes, 1,374,349,932 edges (11.26/node), 187.5 GB (graph loaded in 6s)
+  40/20: median     206,148  mean     206,222  (20s)
+    5/5: median      28,380  mean      28,390  (5s)
+   10/5: median      42,554  mean      42,572  (7s)
+  15/10: median      82,157  mean      82,319  (11s)
+  25/15: median     139,561  mean     139,761  (15s)
+  60/30: median     305,800  mean     306,527  (29s)
+[hetero] 5 relations, 72,462,898 directed edges resident (0s)
+
+[d1] shards [2]: 15,235,779 nodes, 72,462,898 edges (4.76/node), 23.4 GB (graph loaded in 0s)
+  40/20: median      79,686  mean      79,886  (9s)
+    5/5: median      14,886  mean      14,891  (3s)
+   10/5: median      20,958  mean      20,971  (3s)
+  15/10: median      38,943  mean      38,909  (5s)
+  25/15: median      60,224  mean      60,243  (7s)
+  60/30: median     106,598  mean     106,751  (10s)
+[hetero] 5 relations, 158,402,370 directed edges resident (1s)
+
+[d2] shards [2, 5]: 30,334,913 nodes, 158,402,370 edges (5.22/node), 46.6 GB (graph loaded in 1s)
+  40/20: median      94,965  mean      95,050  (11s)
+    5/5: median      16,467  mean      16,460  (3s)
+   10/5: median      23,339  mean      23,334  (4s)
+  15/10: median      43,456  mean      43,482  (6s)
+  25/15: median      69,385  mean      69,428  (8s)
+  60/30: median     129,600  mean     129,776  (13s)
+[hetero] 5 relations, 292,424,624 directed edges resident (1s)
+
+[d3] shards [2, 5, 11]: 45,570,666 nodes, 292,424,624 edges (6.42/node), 70.0 GB (graph loaded in 2s)
+  40/20: median     125,426  mean     125,575  (12s)
+    5/5: median      20,417  mean      20,424  (4s)
+   10/5: median      29,812  mean      29,796  (5s)
+  15/10: median      55,464  mean      55,428  (7s)
+  25/15: median      90,070  mean      90,062  (10s)
+  60/30: median     175,350  mean     175,480  (17s)
+[hetero] 5 relations, 430,677,928 directed edges resident (2s)
+
+[d4] shards [2, 5, 11, 0]: 60,717,275 nodes, 430,677,928 edges (7.09/node), 93.3 GB (graph loaded in 2s)
+  40/20: median     116,832  mean     116,946  (11s)
+    5/5: median      19,098  mean      19,115  (3s)
+   10/5: median      27,644  mean      27,664  (5s)
+  15/10: median      51,280  mean      51,408  (7s)
+  25/15: median      83,042  mean      83,188  (9s)
+  60/30: median     165,084  mean     165,475  (15s)
+[hetero] 5 relations, 744,516,588 directed edges resident (3s)
+
+[d6] shards [2, 5, 11, 0, 4, 10]: 90,922,667 nodes, 744,516,588 edges (8.19/node), 139.7 GB (graph loaded in 4s)
+  40/20: median     150,202  mean     150,166  (17s)
+    5/5: median      22,526  mean      22,509  (5s)
+   10/5: median      33,310  mean      33,244  (7s)
+  15/10: median      63,030  mean      63,059  (10s)
+  25/15: median     104,248  mean     104,336  (13s)
+  60/30: median     217,072  mean     217,427  (21s)
+[hetero] 5 relations, 1,117,132,346 directed edges resident (4s)
+
+[d8] shards [2, 5, 11, 0, 4, 10, 1, 8]: 121,719,439 nodes, 1,117,132,346 edges (9.18/node), 187.0 GB (graph loaded in 5s)
+  40/20: median     169,082  mean     169,439  (19s)
+    5/5: median      23,928  mean      23,930  (6s)
+   10/5: median      35,437  mean      35,491  (8s)
+  15/10: median      68,212  mean      68,266  (11s)
+  25/15: median     115,159  mean     115,301  (14s)
+  60/30: median     250,142  mean     250,563  (24s)
+[hetero] 5 relations, 2,026,966,172 directed edges resident (7s)
+
+[d12] shards [2, 5, 11, 0, 4, 10, 1, 8, 15, 7, 3, 9]: 182,566,777 nodes, 2,026,966,172 edges (11.10/node), 280.4 GB (graph loaded in 8s)
+  40/20: median     213,567  mean     213,814  (21s)
+    5/5: median      28,983  mean      28,991  (5s)
+   10/5: median      43,718  mean      43,722  (8s)
+  15/10: median      84,759  mean      84,841  (11s)
+  25/15: median     144,488  mean     144,542  (16s)
+  60/30: median     318,752  mean     318,460  (29s)
+
+[rises?] median nodes per batch, in the order given
+  d 40/20: 79,686 / 94,965 / 125,426 / 116,832 / 150,202 / 169,082 / 213,567   DROPS at d3->d4
+  d   5/5: 14,886 / 16,467 / 20,417 / 19,098 / 22,526 / 23,928 / 28,983   DROPS at d3->d4
+  d  10/5: 20,958 / 23,339 / 29,812 / 27,644 / 33,310 / 35,437 / 43,718   DROPS at d3->d4
+  d 15/10: 38,943 / 43,456 / 55,464 / 51,280 / 63,030 / 68,212 / 84,759   DROPS at d3->d4
+  d 25/15: 60,224 / 69,385 / 90,070 / 83,042 / 104,248 / 115,159 / 144,488   DROPS at d3->d4
+  d 60/30: 106,598 / 129,600 / 175,350 / 165,084 / 217,072 / 250,142 / 318,752   DROPS at d3->d4
+  s 40/20: 87,151 / 133,172 / 118,942 / 154,862 / 206,148   DROPS at s2->s3
+  s   5/5: 14,799 / 19,605 / 18,298 / 23,364 / 28,380   DROPS at s2->s3
+  s  10/5: 20,478 / 28,162 / 26,236 / 34,310 / 42,554   DROPS at s2->s3
+  s 15/10: 38,012 / 54,029 / 49,707 / 65,455 / 82,157   DROPS at s2->s3
+  s 25/15: 61,206 / 90,800 / 82,430 / 108,496 / 139,561   DROPS at s2->s3
+  s 60/30: 127,692 / 198,221 / 174,348 / 224,708 / 305,800   DROPS at s2->s3
+
+[done] -> results_capacity_order/sample_check.csv

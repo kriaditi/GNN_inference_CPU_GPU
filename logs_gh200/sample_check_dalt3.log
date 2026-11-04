@@ -1,0 +1,19 @@
+[hetero] 5 relations, 296,388,800 directed edges resident (1s)
+
+[dalt3] shards [2, 5, 0]: 45,481,522 nodes, 296,388,800 edges (6.52/node), 69.9 GB (graph loaded in 2s)
+  40/20: median      93,578  mean      93,558  (10s)
+    5/5: median      16,102  mean      16,097  (3s)
+   10/5: median      22,704  mean      22,722  (4s)
+  15/10: median      41,704  mean      41,720  (6s)
+  25/15: median      66,934  mean      66,935  (8s)
+  60/30: median     132,568  mean     132,542  (13s)
+
+[rises?] median nodes per batch, in the order given
+  dalt 40/20: 93,578   rises at every step
+  dalt   5/5: 16,102   rises at every step
+  dalt  10/5: 22,704   rises at every step
+  dalt 15/10: 41,704   rises at every step
+  dalt 25/15: 66,934   rises at every step
+  dalt 60/30: 132,568   rises at every step
+
+[done] -> results_capacity_order/sample_check_dalt3_gh200.csv

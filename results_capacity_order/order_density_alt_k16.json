@@ -1,0 +1,22 @@
+{
+ "k": 16,
+ "order": [
+  2,
+  5,
+  0,
+  11,
+  4,
+  10,
+  1,
+  8,
+  15,
+  7,
+  3,
+  9,
+  14,
+  12,
+  6,
+  13
+ ],
+ "rule": "density order with positions 3 and 4 swapped (d3 sampled more nodes per batch than d4)"
+}

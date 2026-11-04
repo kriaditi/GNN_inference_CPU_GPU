@@ -1,0 +1,313 @@
+[run] torch threads = 64
+[run] device=cuda  seeds=20000000  fanout=[40, 20]  hetero=True
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+[hetero] 5 relations, 2,026,966,172 directed edges resident (7s)
+[feat] reading /unicorn/gnn/subsets_density/d12/full_feat.npy into RAM ...
+[feat] RESIDENT (182566777, 768) float16 (280 GB, 1.8 min)
+/unicorn/code/sage_mag240m.py:311: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  ck = torch.load(args.weights, map_location=dev)
+[model] loaded /unicorn/gnn/results/h100het_378025/best.pt: trained epoch 8, val acc 0.6519, macro-F1 0.5205, fanout [40, 20]
+[seeds] all mode: 20,000,000 seeds drawn once from 91,271,978 papers
+
+[sweep] batch=1024 fanout=[40, 20] iters=1000 tag=gh200den_d12_nf_b1024_f40x20_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[power] NVML unavailable: No module named 'pynvml'
+[check] batch nodes=291,158 from 1024 seeds  (x284.3)
+[check] per type: author 38,216, paper 251,682, institution 1,260
+[check] ('paper', 'cites', 'paper'): 0 sampled sources of seed 2 all real (seed has 0)
+[check] ('author', 'writes', 'paper'): 2 sampled sources of seed 2 all real (seed has 2)
+[check] edges=405,080  features=447.2 MB  out=(251682, 153)
+[check] first 10 predicted classes: [52, 27, 59, 35, 34, 59, 92, 19, 63, 90]
+
+============================================================
+attribution drift: median 0.05%  max 0.07%
+attribution OK
+------------------------------------------------------------
+tag                 : gh200den_d12_nf_b1024_f40x20_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 40,20
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 19.6513
+gather_ms           : 110.9620
+transfer_ms         : 1.3762
+compute_ms          : 15.0286
+wall_ms             : 147.0290
+drift_pct           : 0.0471
+nodes_per_batch     : 210545.5000
+mb_moved            : 323.3979
+throughput_qps      : 6878.7434
+mean_power_w        : nan
+energy_j            : nan
+energy_mj_per_seed  : nan
+power_samples       : 0
+peak_gpu_gb         : 4.5478
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 178145.0000
+authors_per_batch   : 31444.5000
+insts_per_batch     : 987.0000
+val_acc             : nan
+val_macro_f1        : nan
+------------------------------------------------------------
+  sample     13.4%  ######
+  gather     75.5%  #####################################
+  transfer    0.9%  
+  compute    10.2%  #####
+============================================================
+wrote results to results_capacity_density_gh200/
+
+[sweep] batch=1024 fanout=[5, 5] iters=1000 tag=gh200den_d12_nf_b1024_f5x5_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[power] NVML unavailable: No module named 'pynvml'
+[check] batch nodes=35,401 from 1024 seeds  (x34.6)
+[check] per type: author 9,505, paper 24,735, institution 1,161
+[check] ('paper', 'cites', 'paper'): 0 sampled sources of seed 2 all real (seed has 0)
+[check] ('author', 'writes', 'paper'): 2 sampled sources of seed 2 all real (seed has 2)
+[check] edges=45,449  features=54.4 MB  out=(24735, 153)
+[check] first 10 predicted classes: [52, 27, 59, 36, 34, 59, 92, 19, 63, 90]
+
+============================================================
+attribution drift: median 0.31%  max 0.56%
+attribution OK
+------------------------------------------------------------
+tag                 : gh200den_d12_nf_b1024_f5x5_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 5,5
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 4.6817
+gather_ms           : 12.9276
+transfer_ms         : 0.4944
+compute_ms          : 5.4364
+wall_ms             : 23.6977
+drift_pct           : 0.3132
+nodes_per_batch     : 28012.5000
+mb_moved            : 43.0272
+throughput_qps      : 43080.8549
+mean_power_w        : nan
+energy_j            : nan
+energy_mj_per_seed  : nan
+power_samples       : 0
+peak_gpu_gb         : 0.5117
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 18759.5000
+authors_per_batch   : 8403.0000
+insts_per_batch     : 876.0000
+val_acc             : nan
+val_macro_f1        : nan
+------------------------------------------------------------
+  sample     19.9%  #########
+  gather     54.9%  ###########################
+  transfer    2.1%  #
+  compute    23.1%  ###########
+============================================================
+wrote results to results_capacity_density_gh200/
+
+[sweep] batch=1024 fanout=[10, 5] iters=1000 tag=gh200den_d12_nf_b1024_f10x5_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[power] NVML unavailable: No module named 'pynvml'
+[check] batch nodes=54,379 from 1024 seeds  (x53.1)
+[check] per type: author 15,466, paper 37,700, institution 1,213
+[check] ('paper', 'cites', 'paper'): 0 sampled sources of seed 2 all real (seed has 0)
+[check] ('author', 'writes', 'paper'): 2 sampled sources of seed 2 all real (seed has 2)
+[check] edges=71,433  features=83.5 MB  out=(37700, 153)
+[check] first 10 predicted classes: [52, 27, 59, 35, 34, 59, 92, 19, 63, 90]
+
+============================================================
+attribution drift: median 0.14%  max 0.47%
+attribution OK
+------------------------------------------------------------
+tag                 : gh200den_d12_nf_b1024_f10x5_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 10,5
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 6.4403
+gather_ms           : 20.8057
+transfer_ms         : 0.5187
+compute_ms          : 3.6673
+wall_ms             : 31.8252
+drift_pct           : 0.1443
+nodes_per_batch     : 42392.0000
+mb_moved            : 65.1141
+throughput_qps      : 31762.9033
+mean_power_w        : nan
+energy_j            : nan
+energy_mj_per_seed  : nan
+power_samples       : 0
+peak_gpu_gb         : 0.7748
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 28346.0000
+authors_per_batch   : 13095.0000
+insts_per_batch     : 937.0000
+val_acc             : nan
+val_macro_f1        : nan
+------------------------------------------------------------
+  sample     20.5%  ##########
+  gather     66.2%  #################################
+  transfer    1.7%  
+  compute    11.7%  #####
+============================================================
+wrote results to results_capacity_density_gh200/
+
+[sweep] batch=1024 fanout=[15, 10] iters=1000 tag=gh200den_d12_nf_b1024_f15x10_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[power] NVML unavailable: No module named 'pynvml'
+[check] batch nodes=111,876 from 1024 seeds  (x109.3)
+[check] per type: author 21,982, paper 88,643, institution 1,251
+[check] ('paper', 'cites', 'paper'): 0 sampled sources of seed 2 all real (seed has 0)
+[check] ('author', 'writes', 'paper'): 2 sampled sources of seed 2 all real (seed has 2)
+[check] edges=145,805  features=171.8 MB  out=(88643, 153)
+[check] first 10 predicted classes: [52, 27, 59, 35, 34, 59, 92, 19, 63, 90]
+
+============================================================
+attribution drift: median 0.09%  max 0.15%
+attribution OK
+------------------------------------------------------------
+tag                 : gh200den_d12_nf_b1024_f15x10_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 9.9429
+gather_ms           : 42.4457
+transfer_ms         : 0.7294
+compute_ms          : 6.4748
+wall_ms             : 59.6333
+drift_pct           : 0.0880
+nodes_per_batch     : 83275.0000
+mb_moved            : 127.9104
+throughput_qps      : 16962.9911
+mean_power_w        : nan
+energy_j            : nan
+energy_mj_per_seed  : nan
+power_samples       : 0
+peak_gpu_gb         : 1.6442
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 63850.5000
+authors_per_batch   : 18536.5000
+insts_per_batch     : 973.0000
+val_acc             : nan
+val_macro_f1        : nan
+------------------------------------------------------------
+  sample     16.7%  ########
+  gather     71.2%  ###################################
+  transfer    1.2%  
+  compute    10.9%  #####
+============================================================
+wrote results to results_capacity_density_gh200/
+
+[sweep] batch=1024 fanout=[25, 15] iters=1000 tag=gh200den_d12_nf_b1024_f25x15_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[power] NVML unavailable: No module named 'pynvml'
+[check] batch nodes=196,057 from 1024 seeds  (x191.5)
+[check] per type: author 30,223, paper 164,574, institution 1,260
+[check] ('paper', 'cites', 'paper'): 0 sampled sources of seed 2 all real (seed has 0)
+[check] ('author', 'writes', 'paper'): 2 sampled sources of seed 2 all real (seed has 2)
+[check] edges=260,458  features=301.1 MB  out=(164574, 153)
+[check] first 10 predicted classes: [52, 27, 59, 35, 34, 59, 92, 19, 63, 90]
+
+============================================================
+attribution drift: median 0.06%  max 0.10%
+attribution OK
+------------------------------------------------------------
+tag                 : gh200den_d12_nf_b1024_f25x15_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 25,15
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 14.8135
+gather_ms           : 74.5861
+transfer_ms         : 1.0441
+compute_ms          : 10.2857
+wall_ms             : 100.8765
+drift_pct           : 0.0628
+nodes_per_batch     : 142463.5000
+mb_moved            : 218.8239
+throughput_qps      : 10052.9482
+mean_power_w        : nan
+energy_j            : nan
+energy_mj_per_seed  : nan
+power_samples       : 0
+peak_gpu_gb         : 2.9772
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 116268.5000
+authors_per_batch   : 25170.0000
+insts_per_batch     : 982.0000
+val_acc             : nan
+val_macro_f1        : nan
+------------------------------------------------------------
+  sample     14.7%  #######
+  gather     74.0%  #####################################
+  transfer    1.0%  
+  compute    10.2%  #####
+============================================================
+wrote results to results_capacity_density_gh200/
+
+[sweep] batch=1024 fanout=[60, 30] iters=1000 tag=gh200den_d12_nf_b1024_f60x30_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[power] NVML unavailable: No module named 'pynvml'
+[check] batch nodes=439,461 from 1024 seeds  (x429.2)
+[check] per type: author 45,852, paper 392,346, institution 1,263
+[check] ('paper', 'cites', 'paper'): 0 sampled sources of seed 2 all real (seed has 0)
+[check] ('author', 'writes', 'paper'): 2 sampled sources of seed 2 all real (seed has 2)
+[check] edges=643,943  features=675.0 MB  out=(392346, 153)
+[check] first 10 predicted classes: [52, 27, 59, 35, 34, 59, 92, 19, 63, 90]
+
+============================================================
+attribution drift: median 0.03%  max 0.05%
+attribution OK
+------------------------------------------------------------
+tag                 : gh200den_d12_nf_b1024_f60x30_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 60,30
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 28.4366
+gather_ms           : 166.9603
+transfer_ms         : 1.8285
+compute_ms          : 22.6184
+wall_ms             : 219.8889
+drift_pct           : 0.0318
+nodes_per_batch     : 313885.5000
+mb_moved            : 482.1281
+throughput_qps      : 4604.4650
+mean_power_w        : nan
+energy_j            : nan
+energy_mj_per_seed  : nan
+power_samples       : 0
+peak_gpu_gb         : 7.0071
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 276629.5000
+authors_per_batch   : 36313.0000
+insts_per_batch     : 990.0000
+val_acc             : nan
+val_macro_f1        : nan
+------------------------------------------------------------
+  sample     12.9%  ######
+  gather     75.9%  #####################################
+  transfer    0.8%  
+  compute    10.3%  #####
+============================================================
+wrote results to results_capacity_density_gh200/

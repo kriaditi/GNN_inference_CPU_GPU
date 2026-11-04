@@ -1,0 +1,63 @@
+[load] 244,160,499 nodes, k=16, shard sizes 14,814,846 to 15,398,450
+[cites] 2,595,497,852 edges, 84.6% inside one shard (60s)
+[writes] 386,022,720 edges, 88.0% inside one shard (7s)
+[rev_writes] 386,022,720 edges, 88.0% inside one shard (7s)
+[rev_affiliated] 44,592,586 edges, 43.8% inside one shard (2s)
+[affiliated] 44,592,586 edges, 43.8% inside one shard (1s)
+[edges] 3,456,728,464 in all relations
+
+[shards] shard  nodes  internal edges  edges/node
+   0    15,146,609     136,527,296    9.01
+   1    15,398,387     164,412,330   10.68
+   2    15,235,779      72,462,898    4.76
+   3    15,398,386     197,580,266   12.83
+   4    14,969,753     140,761,108    9.40
+   5    15,099,134      83,286,896    5.52
+   6    15,398,440     282,793,814   18.37
+   7    15,398,336     198,740,794   12.91
+   8    15,398,385     170,329,312   11.06
+   9    14,814,846     202,392,314   13.66
+  10    15,235,639     155,538,562   10.21
+  11    15,235,753     133,443,850    8.76
+  12    15,398,385     254,369,298   16.52
+  13    15,398,447     297,189,254   19.30
+  14    15,398,450     230,579,878   14.97
+  15    15,235,770     192,970,282   12.67
+
+[old order 0..n-1] compare with subset_info.json of s1, s2, s3, s4, s8 and the full graph
+   1 shards    15,146,609 nodes     136,527,296 edges    9.01/node
+   2 shards    30,544,996 nodes     301,964,282 edges    9.89/node
+   3 shards    45,780,775 nodes     376,312,418 edges    8.22/node
+   4 shards    61,179,161 nodes     589,406,568 edges    9.63/node
+   5 shards    76,148,914 nodes     737,665,396 edges    9.69/node
+   6 shards    91,248,048 nodes     832,047,580 edges    9.12/node
+   7 shards   106,646,488 nodes   1,129,421,996 edges   10.59/node
+   8 shards   122,044,824 nodes   1,374,349,932 edges   11.26/node
+   9 shards   137,443,209 nodes   1,568,387,618 edges   11.41/node
+  10 shards   152,258,055 nodes   1,804,409,990 edges   11.85/node
+  11 shards   167,493,694 nodes   1,983,143,656 edges   11.84/node
+  12 shards   182,729,447 nodes   2,141,469,290 edges   11.72/node
+  13 shards   198,127,832 nodes   2,445,113,430 edges   12.34/node
+  14 shards   213,526,279 nodes   2,884,809,692 edges   13.51/node
+  15 shards   228,924,729 nodes   3,165,648,680 edges   13.83/node
+  16 shards   244,160,499 nodes   3,456,728,464 edges   14.16/node
+
+[density order] [2, 5, 11, 0, 4, 10, 1, 8, 15, 7, 3, 9, 14, 12, 6, 13]
+   1 +shard  2    15,235,779 nodes      72,462,898 edges    4.76/node    23.4 GB  
+   2 +shard  5    30,334,913 nodes     158,402,370 edges    5.22/node    46.6 GB  
+   3 +shard 11    45,570,666 nodes     292,424,624 edges    6.42/node    70.0 GB  
+   4 +shard  0    60,717,275 nodes     430,677,928 edges    7.09/node    93.3 GB  
+   5 +shard  4    75,687,028 nodes     577,931,872 edges    7.64/node   116.3 GB  
+   6 +shard 10    90,922,667 nodes     744,516,588 edges    8.19/node   139.7 GB  
+   7 +shard  1   106,321,054 nodes     914,112,574 edges    8.60/node   163.3 GB  
+   8 +shard  8   121,719,439 nodes   1,117,132,346 edges    9.18/node   187.0 GB  
+   9 +shard 15   136,955,209 nodes   1,322,994,290 edges    9.66/node   210.4 GB  
+  10 +shard  7   152,353,545 nodes   1,540,896,192 edges   10.11/node   234.0 GB  
+  11 +shard  3   167,751,931 nodes   1,774,637,022 edges   10.58/node   257.7 GB  
+  12 +shard  9   182,566,777 nodes   2,026,966,172 edges   11.10/node   280.4 GB  
+  13 +shard 14   197,965,227 nodes   2,303,330,758 edges   11.64/node   304.1 GB  
+  14 +shard 12   213,363,612 nodes   2,627,258,564 edges   12.31/node   327.7 GB  
+  15 +shard  6   228,762,052 nodes   2,980,805,988 edges   13.03/node   351.4 GB  
+  16 +shard 13   244,160,499 nodes   3,456,728,464 edges   14.16/node   375.0 GB  
+
+[done] 78s -> results_capacity_order

@@ -1,0 +1,33 @@
+start Wed Nov  4 15:59:04 UTC 2026
+/dev/vda1       3.9T  1.2T  2.8T  30% /
+               total        used        free      shared  buff/cache   available
+Mem:             525           4         499           0          21         490
+28ad4bf71af76a02e5da72d41868958a  build_subset.py
+a648438d9d26db22529e98e477945481  sample_check.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+cd79faa6b66f0e70366a8d5c2e48933a  /unicorn/gnn/metis/part_k16.npy
+27dc3cb8368fdaf019745a27fdeb356e  results_capacity_order/order_density_k16.json
+{
+ "k": 16,
+ "order": [
+  2,
+  5,
+  11,
+  0,
+  4,
+  10,
+  1,
+  8,
+  15,
+  7,
+  3,
+  9,
+  14,
+  12,
+  6,
+  13
+ ],
+ "rule": "greedy: smallest rise in edges per node, never a drop if avoidable"
+}build done Wed Nov  4 16:30:40 UTC 2026 exit 0
+/dev/vda1       3.9T  2.0T  2.0T  51% /
+sample check exit 0 Wed Nov  4 16:43:34 UTC 2026
