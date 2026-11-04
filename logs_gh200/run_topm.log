@@ -1,0 +1,6 @@
+start Sat Oct 31 01:14:44 UTC 2026
+name, memory.total [MiB], memory.used [MiB]
+NVIDIA GH200 480GB, 97871 MiB, 7 MiB
+8b3b194b681f3be976154483ab023bd1  shard_infer.py
+topm k16 done Sat Oct 31 01:54:07 UTC 2026 exit 0
+all done Sat Oct 31 01:54:07 UTC 2026

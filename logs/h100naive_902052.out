@@ -1,0 +1,16 @@
+job 902052 fanout 15/10 chunk 47 GB restart 0 on dutta-compute-01.cs.cornell.edu  Mon Nov  2 09:59:17 PM EST 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 580.126.18, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1511         169        1005          72         418        1341
+8c02dee31f5d6c7f610f225552325aaf  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+[hetero] 5 relations, 3,456,728,464 directed edges resident (83s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 14.6 min)
+[val] chunk 47 GB fanout [15, 10]: accuracy 0.6488  macro-F1 0.5174 on 138,949 papers (294s, G=8)
+
+[h100nvl_naive_c47gb_G1_f15x10] chunk 47 GB (30,598,958 rows), G=1, 1001 passes (1 warmup)
+[h100nvl_naive_c47gb_G1_f15x10] check: first 3 batches bit-exact vs CPU gather
+[h100nvl_naive_c47gb_G1_f15x10] pass 0: wall 16.49 s, stream transfer 16.45 s, union 0.2 GB, drift 0.00%

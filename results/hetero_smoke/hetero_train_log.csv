@@ -1,0 +1,1 @@
+epoch,loss,val_acc,val_macro_f1,nodes_per_batch,seconds

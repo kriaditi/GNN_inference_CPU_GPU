@@ -1,0 +1,119 @@
+job 801147 restart 0 on goyal-compute-01.cs.cornell.edu  Fri Oct 30 10:37:25 AM EDT 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 615.71.09, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1007          20         398           1         595         986
+a8060c9ba13b7a838566c1c4fe3260b9  shard_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+cd79faa6b66f0e70366a8d5c2e48933a  /share/gupta/ak2877/gnn/metis/part_k16.npy
+5ab2c0cf87505fb9a778100fcb12b2ca  /share/gupta/ak2877/gnn/metis/part_k4.npy
+8ee6962a8e6a85cc8b6c1db7562990b5  /share/gupta/ak2877/gnn/metis/part_k5.npy
+d49a56c6a0a1c7e4f350c7567f497484  /share/gupta/ak2877/gnn/metis/part_k6.npy
+eba8ad440b7551379a15f7efd7653e6e  /share/gupta/ak2877/gnn/metis/part_k8.npy
+k=5 largest shard p=3
+[hetero] 5 relations, 3,456,728,464 directed edges resident (70s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 8.6 min)
+[model] results/hetero/best.pt: epoch 8, val acc 0.6519
+[seeds] 20,000,000 fresh seeds; per shard: 3890002
+
+[shard 3] loaded 50,299,482 rows (77.3 GB): CPU gather 70.4 s, transfer 9.21 s, peak GPU 80.4 GB
+[shard 3] drop  fanout [5, 5]: wall    12.3 ms  local  85.7%  val papers 2,224
+[summary] h100nvl_gpuonly_k5_f5x5_k5_drop_f5x5: wall 12.3 ms, local 85.7%, qps 76556 (incl. load 11013), acc 32.55% F1 0.1840 on 2,224, drift 0.28%
+[done] 1 shard loads, total load 79.6 s -> results_gpuonly_h100nvl/summary_gpuonly_h100nvl.csv
+k5 p3 fanout 5/5 exit 0  Fri Oct 30 10:50:18 AM EDT 2026
+[hetero] 5 relations, 3,456,728,464 directed edges resident (37s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 4.5 min)
+[model] results/hetero/best.pt: epoch 8, val acc 0.6519
+[seeds] 20,000,000 fresh seeds; per shard: 3890002
+job 801147 restart 1 on dutta-compute-01.cs.cornell.edu  Fri Oct 30 02:04:47 PM EDT 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 580.126.18, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1511         148        1164          72         280        1362
+a8060c9ba13b7a838566c1c4fe3260b9  shard_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+cd79faa6b66f0e70366a8d5c2e48933a  /share/gupta/ak2877/gnn/metis/part_k16.npy
+5ab2c0cf87505fb9a778100fcb12b2ca  /share/gupta/ak2877/gnn/metis/part_k4.npy
+8ee6962a8e6a85cc8b6c1db7562990b5  /share/gupta/ak2877/gnn/metis/part_k5.npy
+d49a56c6a0a1c7e4f350c7567f497484  /share/gupta/ak2877/gnn/metis/part_k6.npy
+eba8ad440b7551379a15f7efd7653e6e  /share/gupta/ak2877/gnn/metis/part_k8.npy
+k=5 largest shard p=3
+skip h100nvl_gpuonly_k5_f5x5 (done)
+[hetero] 5 relations, 3,456,728,464 directed edges resident (91s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 25.3 min)
+[model] results/hetero/best.pt: epoch 8, val acc 0.6519
+[seeds] 20,000,000 fresh seeds; per shard: 3890002
+
+[shard 3] loaded 50,299,482 rows (77.3 GB): CPU gather 465.4 s, transfer 3.96 s, peak GPU 80.4 GB
+[shard 3] drop  fanout [10, 5]: wall    21.9 ms  local  85.6%  val papers 2,224
+[summary] h100nvl_gpuonly_k5_f10x5_k5_drop_f10x5: wall 21.9 ms, local 85.6%, qps 37819 (incl. load 2063), acc 33.27% F1 0.1897 on 2,224, drift 0.16%
+[done] 1 shard loads, total load 469.4 s -> results_gpuonly_h100nvl/summary_gpuonly_h100nvl.csv
+k5 p3 fanout 10/5 exit 0  Fri Oct 30 02:42:34 PM EDT 2026
+[hetero] 5 relations, 3,456,728,464 directed edges resident (85s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+job 801147 restart 2 on dutta-compute-01.cs.cornell.edu  Fri Oct 30 05:22:34 PM EDT 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 580.126.18, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1511         165        1019          72         407        1345
+8b3b194b681f3be976154483ab023bd1  shard_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+cd79faa6b66f0e70366a8d5c2e48933a  /share/gupta/ak2877/gnn/metis/part_k16.npy
+5ab2c0cf87505fb9a778100fcb12b2ca  /share/gupta/ak2877/gnn/metis/part_k4.npy
+8ee6962a8e6a85cc8b6c1db7562990b5  /share/gupta/ak2877/gnn/metis/part_k5.npy
+d49a56c6a0a1c7e4f350c7567f497484  /share/gupta/ak2877/gnn/metis/part_k6.npy
+eba8ad440b7551379a15f7efd7653e6e  /share/gupta/ak2877/gnn/metis/part_k8.npy
+k=5 largest shard p=3
+skip h100nvl_gpuonly_k5_f5x5 (done)
+skip h100nvl_gpuonly_k5_f10x5 (done)
+[hetero] 5 relations, 3,456,728,464 directed edges resident (71s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 25.6 min)
+[model] results/hetero/best.pt: epoch 8, val acc 0.6519
+[seeds] 20,000,000 fresh seeds; per shard: 3890002
+
+[shard 3] loaded 50,299,482 rows (77.3 GB): CPU gather 156.5 s, transfer 3.45 s, peak GPU 80.4 GB
+[shard 3] drop  fanout [15, 10]: wall    36.4 ms  local  85.3%  val papers 2,224
+[summary] h100nvl_gpuonly_k5_f15x10_k5_drop_f15x10: wall 36.4 ms, local 85.3%, qps 22885 (incl. load 5002), acc 33.63% F1 0.1924 on 2,224, drift 0.12%
+[done] 1 shard loads, total load 160.0 s -> results_gpuonly_h100nvl/summary_gpuonly_h100nvl.csv
+k5 p3 fanout 15/10 exit 0  Fri Oct 30 05:54:13 PM EDT 2026
+[hetero] 5 relations, 3,456,728,464 directed edges resident (103s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 30.8 min)
+[model] results/hetero/best.pt: epoch 8, val acc 0.6519
+[seeds] 20,000,000 fresh seeds; per shard: 3890002
+
+[shard 3] loaded 50,299,482 rows (77.3 GB): CPU gather 416.2 s, transfer 3.80 s, peak GPU 80.4 GB
+[shard 3] drop  fanout [25, 15]: wall    69.2 ms  local  85.2%  val papers 2,224
+[summary] h100nvl_gpuonly_k5_f25x15_k5_drop_f25x15: wall 69.2 ms, local 85.2%, qps 14637 (incl. load 2090), acc 33.68% F1 0.1960 on 2,224, drift 0.08%
+[done] 1 shard loads, total load 420.0 s -> results_gpuonly_h100nvl/summary_gpuonly_h100nvl.csv
+k5 p3 fanout 25/15 exit 0  Fri Oct 30 06:37:00 PM EDT 2026
+[hetero] 5 relations, 3,456,728,464 directed edges resident (102s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 35.7 min)
+[model] results/hetero/best.pt: epoch 8, val acc 0.6519
+[seeds] 20,000,000 fresh seeds; per shard: 3890002
+
+[shard 3] loaded 50,299,482 rows (77.3 GB): CPU gather 412.0 s, transfer 3.75 s, peak GPU 80.4 GB
+[shard 3] drop  fanout [40, 20]: wall   104.1 ms  local  85.0%  val papers 2,224
+[summary] h100nvl_gpuonly_k5_f40x20_k5_drop_f40x20: wall 104.1 ms, local 85.0%, qps 9439 (incl. load 1953), acc 33.95% F1 0.1928 on 2,224, drift 0.05%
+[done] 1 shard loads, total load 415.8 s -> results_gpuonly_h100nvl/summary_gpuonly_h100nvl.csv
+k5 p3 fanout 40/20 exit 0  Fri Oct 30 07:25:21 PM EDT 2026
+[hetero] 5 relations, 3,456,728,464 directed edges resident (113s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 34.9 min)
+[model] results/hetero/best.pt: epoch 8, val acc 0.6519
+[seeds] 20,000,000 fresh seeds; per shard: 3890002
+
+[shard 3] loaded 50,299,482 rows (77.3 GB): CPU gather 441.9 s, transfer 3.74 s, peak GPU 80.4 GB
+[shard 3] drop  fanout [60, 30]: wall   177.7 ms  local  84.7%  val papers 2,224
+[summary] h100nvl_gpuonly_k5_f60x30_k5_drop_f60x30: wall 177.7 ms, local 84.7%, qps 5032 (incl. load 1577), acc 33.72% F1 0.1928 on 2,224, drift 0.04%
+[done] 1 shard loads, total load 445.7 s -> results_gpuonly_h100nvl/summary_gpuonly_h100nvl.csv
+k5 p3 fanout 60/30 exit 0  Fri Oct 30 08:15:12 PM EDT 2026
+all done Fri Oct 30 08:15:12 PM EDT 2026

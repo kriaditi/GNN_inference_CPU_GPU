@@ -1,0 +1,50 @@
+job 847405 fanout 10/5 chunk 47 GB restart 0 on goyal-compute-01.cs.cornell.edu  Sat Oct 31 06:24:15 PM EDT 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 615.71.09, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1007          12         693           0         308         995
+8c02dee31f5d6c7f610f225552325aaf  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+[hetero] 5 relations, 3,456,728,464 directed edges resident (136s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 45.6 min)
+[val] chunk 47 GB fanout [10, 5]: accuracy 0.6444  macro-F1 0.5137 on 138,949 papers (615s, G=8)
+
+[h100nvl_naive_c47gb_G1_f10x5] chunk 47 GB (30,598,958 rows), G=1, 1001 passes (1 warmup)
+[h100nvl_naive_c47gb_G1_f10x5] check: first 3 batches bit-exact vs CPU gather
+[h100nvl_naive_c47gb_G1_f10x5] pass 0: wall 35.56 s, stream transfer 35.53 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f10x5] pass 100: wall 35.36 s, stream transfer 35.31 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f10x5] pass 200: wall 35.32 s, stream transfer 35.29 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f10x5] pass 300: wall 35.27 s, stream transfer 35.24 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f10x5] pass 400: wall 33.70 s, stream transfer 33.67 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f10x5] pass 500: wall 33.64 s, stream transfer 33.62 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f10x5] pass 600: wall 33.71 s, stream transfer 33.69 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f10x5] pass 700: wall 33.70 s, stream transfer 33.68 s, union 0.1 GB, drift 0.00%
+job 847405 fanout 10/5 chunk 47 GB restart 1 on jjs533-compute-01.cs.cornell.edu  Mon Nov  2 03:03:35 AM EST 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 570.124.06, 95830 MiB, 1 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1511          47         882          19         610        1464
+8c02dee31f5d6c7f610f225552325aaf  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+[hetero] 5 relations, 3,456,728,464 directed edges resident (39s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 20.4 min)
+[val] chunk 47 GB fanout [10, 5]: accuracy 0.6445  macro-F1 0.5134 on 138,949 papers (277s, G=8)
+
+[h100nvl_naive_c47gb_G1_f10x5] chunk 47 GB (30,598,958 rows), G=1, 1001 passes (1 warmup)
+[h100nvl_naive_c47gb_G1_f10x5] check: first 3 batches bit-exact vs CPU gather
+[h100nvl_naive_c47gb_G1_f10x5] pass 0: wall 15.96 s, stream transfer 15.93 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f10x5] pass 100: wall 15.92 s, stream transfer 15.90 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f10x5] pass 200: wall 15.93 s, stream transfer 15.91 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f10x5] pass 300: wall 15.96 s, stream transfer 15.93 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f10x5] pass 400: wall 15.95 s, stream transfer 15.93 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f10x5] pass 500: wall 15.94 s, stream transfer 15.92 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f10x5] pass 600: wall 15.91 s, stream transfer 15.88 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f10x5] pass 700: wall 15.97 s, stream transfer 15.95 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f10x5] pass 800: wall 15.94 s, stream transfer 15.91 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f10x5] pass 900: wall 15.94 s, stream transfer 15.90 s, union 0.1 GB, drift 0.00%
+[summary] h100nvl_naive_c47gb_G1_f10x5: 15929.1 ms/batch, pass 15929 ms, stream 23.6 GB/s, qps 64, drift 0.00%
+exit 0  Mon Nov  2 07:55:59 AM EST 2026

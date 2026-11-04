@@ -1,0 +1,98 @@
+job 847412 fanout 25/15 chunk 62.6 GB restart 0 on dutta-compute-01.cs.cornell.edu  Sun Nov  1 11:34:30 AM EST 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 580.126.18, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1511         235         754          72         602        1275
+8c02dee31f5d6c7f610f225552325aaf  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+[hetero] 5 relations, 3,456,728,464 directed edges resident (5s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 47.0 min)
+[val] chunk 62.6 GB fanout [25, 15]: accuracy 0.6506  macro-F1 0.5189 on 138,949 papers (396s, G=8)
+
+[h100nvl_naive_c62.6gb_G1_f25x15] chunk 62.6 GB (40,755,208 rows), G=1, 1001 passes (1 warmup)
+[h100nvl_naive_c62.6gb_G1_f25x15] check: first 3 batches bit-exact vs CPU gather
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 0: wall 16.97 s, stream transfer 16.89 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 100: wall 16.98 s, stream transfer 16.91 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 200: wall 19.08 s, stream transfer 19.03 s, union 0.2 GB, drift 0.00%
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 300: wall 24.15 s, stream transfer 24.08 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 400: wall 17.06 s, stream transfer 16.99 s, union 0.3 GB, drift 0.00%
+job 847412 fanout 25/15 chunk 62.6 GB restart 1 on jjs533-compute-01.cs.cornell.edu  Mon Nov  2 07:56:06 AM EST 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 570.124.06, 95830 MiB, 1 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1511          46         882          19         610        1464
+8c02dee31f5d6c7f610f225552325aaf  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+[hetero] 5 relations, 3,456,728,464 directed edges resident (36s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 26.5 min)
+[val] chunk 62.6 GB fanout [25, 15]: accuracy 0.6508  macro-F1 0.5192 on 138,949 papers (291s, G=8)
+
+[h100nvl_naive_c62.6gb_G1_f25x15] chunk 62.6 GB (40,755,208 rows), G=1, 1001 passes (1 warmup)
+[h100nvl_naive_c62.6gb_G1_f25x15] check: first 3 batches bit-exact vs CPU gather
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 0: wall 15.94 s, stream transfer 15.80 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 100: wall 15.72 s, stream transfer 15.65 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 200: wall 15.70 s, stream transfer 15.65 s, union 0.2 GB, drift 0.00%
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 300: wall 15.69 s, stream transfer 15.58 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 400: wall 15.68 s, stream transfer 15.61 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 500: wall 15.68 s, stream transfer 15.62 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 600: wall 15.69 s, stream transfer 15.64 s, union 0.3 GB, drift 0.00%
+job 847412 fanout 25/15 chunk 62.6 GB restart 2 on goyal-compute-01.cs.cornell.edu  Mon Nov  2 12:15:24 PM EST 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 615.71.09, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1007          25         626           0         361         982
+8c02dee31f5d6c7f610f225552325aaf  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+[hetero] 5 relations, 3,456,728,464 directed edges resident (104s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 16.6 min)
+[val] chunk 62.6 GB fanout [25, 15]: accuracy 0.6504  macro-F1 0.5189 on 138,949 papers (626s, G=8)
+
+[h100nvl_naive_c62.6gb_G1_f25x15] chunk 62.6 GB (40,755,208 rows), G=1, 1001 passes (1 warmup)
+[h100nvl_naive_c62.6gb_G1_f25x15] check: first 3 batches bit-exact vs CPU gather
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 0: wall 34.02 s, stream transfer 33.95 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 100: wall 33.58 s, stream transfer 33.51 s, union 0.3 GB, drift 0.00%
+job 847412 fanout 25/15 chunk 62.6 GB restart 3 on goyal-compute-01.cs.cornell.edu  Mon Nov  2 02:21:06 PM EST 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 615.71.09, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1007          29         583           0         401         978
+8c02dee31f5d6c7f610f225552325aaf  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+[hetero] 5 relations, 3,456,728,464 directed edges resident (505s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 77.0 min)
+[val] chunk 62.6 GB fanout [25, 15]: accuracy 0.6506  macro-F1 0.5188 on 138,949 papers (617s, G=8)
+
+[h100nvl_naive_c62.6gb_G1_f25x15] chunk 62.6 GB (40,755,208 rows), G=1, 1001 passes (1 warmup)
+[h100nvl_naive_c62.6gb_G1_f25x15] check: first 3 batches bit-exact vs CPU gather
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 0: wall 33.73 s, stream transfer 33.67 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 100: wall 33.71 s, stream transfer 33.64 s, union 0.3 GB, drift 0.00%
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 200: wall 33.68 s, stream transfer 33.63 s, union 0.2 GB, drift 0.00%
+[h100nvl_naive_c62.6gb_G1_f25x15] pass 300: wall 33.60 s, stream transfer 33.54 s, union 0.3 GB, drift 0.00%
+job 847412 fanout 25/15 chunk 62.6 GB restart 4 on goyal-compute-01.cs.cornell.edu  Mon Nov  2 08:44:54 PM EST 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 615.71.09, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1007          29         721           1         264         978
+8c02dee31f5d6c7f610f225552325aaf  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+[hetero] 5 relations, 3,456,728,464 directed edges resident (80s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+job 847412 fanout 25/15 chunk 62.6 GB restart 5 on goyal-compute-01.cs.cornell.edu  Mon Nov  2 11:25:32 PM EST 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 615.71.09, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1007          26         658           0         328         980
+8c02dee31f5d6c7f610f225552325aaf  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+[hetero] 5 relations, 3,456,728,464 directed edges resident (130s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
