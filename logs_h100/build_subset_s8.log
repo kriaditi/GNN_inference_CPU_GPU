@@ -1,0 +1,20 @@
+[load] 244,160,499 nodes, part_k16 md5 cd79faa6b66f0e70366a8d5c2e48933a
+[s8] shards 0..7: paper 63,352,066, author 58,680,642, institution 12,116 = 122,044,824 nodes
+[cites] 2,595,497,852 edges -> s8 991,258,266  (checks ok, 79s)
+[writes] 386,022,720 edges -> s8 176,498,076  (checks ok, 21s)
+[rev_writes] 386,022,720 edges -> s8 176,498,076  (checks ok, 20s)
+[rev_affiliated] 44,592,586 edges -> s8 15,047,757  (checks ok, 4s)
+[affiliated] 44,592,586 edges -> s8 15,047,757  (checks ok, 1s)
+[feat] 2,600,000 / 244,160,499 rows (12s)
+[feat] 28,600,000 / 244,160,499 rows (273s)
+[feat] 54,600,000 / 244,160,499 rows (530s)
+[feat] 80,600,000 / 244,160,499 rows (798s)
+[feat] 106,600,000 / 244,160,499 rows (1062s)
+[feat] 132,600,000 / 244,160,499 rows (1347s)
+[feat] 158,600,000 / 244,160,499 rows (1653s)
+[feat] 184,600,000 / 244,160,499 rows (1850s)
+[feat] 210,600,000 / 244,160,499 rows (2037s)
+[feat] 236,600,000 / 244,160,499 rows (2193s)
+[feat] done, row checks ok (2250s)
+[s8] 122,044,824 nodes, 1,374,349,932 edges, 187.5 GB features; cites rowptr md5 893dd23bc4218d71b92431cd21656554
+[done] 2382s

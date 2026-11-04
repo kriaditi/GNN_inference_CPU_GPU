@@ -1,0 +1,21 @@
+{
+ "shards": [
+  0,
+  1
+ ],
+ "k": 16,
+ "nodes": 30544996,
+ "num_paper": 16893762,
+ "num_author": 13647613,
+ "num_institution": 3621,
+ "edges": {
+  "cites": 197608696,
+  "writes": 50948049,
+  "rev_writes": 50948049,
+  "rev_affiliated": 1229744,
+  "affiliated": 1229744
+ },
+ "feat_gb": 46.917113856,
+ "md5_meta": "dd370c49877dcea6569a5482643f2053",
+ "md5_cites_rowptr": "3ef08e10ae2d0d7de6f2230fbf20a3ce"
+}

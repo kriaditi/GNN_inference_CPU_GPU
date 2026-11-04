@@ -1,0 +1,26 @@
+[load] 244,160,499 nodes, part_k16 md5 cd79faa6b66f0e70366a8d5c2e48933a
+[s1] shards 0..0: paper 7,617,876, author 7,527,671, institution 1,062 = 15,146,609 nodes
+[s2] shards 0..1: paper 16,893,762, author 13,647,613, institution 3,621 = 30,544,996 nodes
+[s3] shards 0..2: paper 24,311,139, author 21,465,224, institution 4,412 = 45,780,775 nodes
+[s4] shards 0..3: paper 32,915,035, author 28,257,028, institution 7,098 = 61,179,161 nodes
+[cites] 2,595,497,852 edges -> s1 63,009,302, s2 197,608,696, s3 243,564,562, s4 408,497,038  (checks ok, 141s)
+[writes] 386,022,720 edges -> s1 35,932,713, s2 50,948,049, s3 63,640,135, s4 85,697,895  (checks ok, 34s)
+[rev_writes] 386,022,720 edges -> s1 35,932,713, s2 50,948,049, s3 63,640,135, s4 85,697,895  (checks ok, 33s)
+[rev_affiliated] 44,592,586 edges -> s1 826,284, s2 1,229,744, s3 2,733,793, s4 4,756,870  (checks ok, 6s)
+[affiliated] 44,592,586 edges -> s1 826,284, s2 1,229,744, s3 2,733,793, s4 4,756,870  (checks ok, 3s)
+[feat] 2,600,000 / 244,160,499 rows (46s)
+[feat] 28,600,000 / 244,160,499 rows (503s)
+[feat] 54,600,000 / 244,160,499 rows (959s)
+[feat] 80,600,000 / 244,160,499 rows (1412s)
+[feat] 106,600,000 / 244,160,499 rows (1870s)
+[feat] 132,600,000 / 244,160,499 rows (2336s)
+[feat] 158,600,000 / 244,160,499 rows (2818s)
+[feat] 184,600,000 / 244,160,499 rows (3318s)
+[feat] 210,600,000 / 244,160,499 rows (3773s)
+[feat] 236,600,000 / 244,160,499 rows (4231s)
+[feat] done, row checks ok (4366s)
+[s1] 15,146,609 nodes, 136,527,296 edges, 23.3 GB features; cites rowptr md5 02f4f392480c8fdd083e7f63a067fc51
+[s2] 30,544,996 nodes, 301,964,282 edges, 46.9 GB features; cites rowptr md5 3ef08e10ae2d0d7de6f2230fbf20a3ce
+[s3] 45,780,775 nodes, 376,312,418 edges, 70.3 GB features; cites rowptr md5 b4e19e72d15a5ea12593c589ea511bae
+[s4] 61,179,161 nodes, 589,406,568 edges, 94.0 GB features; cites rowptr md5 ec26ed3eb519d9c1ab57e3b43101d902
+[done] 4593s

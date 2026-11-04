@@ -1,0 +1,309 @@
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+[run] torch threads = 26
+[run] device=cuda  seeds=20000000  fanout=[40, 20]  hetero=True
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+[hetero] 5 relations, 589,406,568 directed edges resident (8s)
+[feat] reading /unicorn/gnn/subsets/s4/full_feat.npy into RAM ...
+[feat] RESIDENT (61179161, 768) float16 (94 GB, 2.8 min)
+/home/ubuntu/GNN_inference_CPU_GPU/sage_mag240m.py:311: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  ck = torch.load(args.weights, map_location=dev)
+[model] loaded /unicorn/gnn/results/h100het_378025/best.pt: trained epoch 8, val acc 0.6519, macro-F1 0.5205, fanout [40, 20]
+[seeds] all mode: 20,000,000 seeds drawn once from 32,915,035 papers
+
+[sweep] batch=1024 fanout=[40, 20] iters=1000 tag=h100cap_s4_nf_b1024_f40x20_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[check] batch nodes=249,235 from 1024 seeds  (x243.4)
+[check] per type: author 29,989, paper 218,750, institution 496
+[check] ('paper', 'cites', 'paper'): 0 sampled sources of seed 0 all real (seed has 0)
+[check] ('author', 'writes', 'paper'): 2 sampled sources of seed 0 all real (seed has 2)
+[check] edges=382,334  features=382.8 MB  out=(218750, 153)
+[check] first 10 predicted classes: [57, 23, 52, 17, 17, 29, 29, 59, 1, 34]
+
+============================================================
+attribution drift: median 0.05%  max 0.14%
+attribution OK
+------------------------------------------------------------
+tag                 : h100cap_s4_nf_b1024_f40x20_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 40,20
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 14.4965
+gather_ms           : 80.2221
+transfer_ms         : 22.9077
+compute_ms          : 15.0379
+wall_ms             : 133.1927
+drift_pct           : 0.0503
+nodes_per_batch     : 146700.0000
+mb_moved            : 225.3312
+throughput_qps      : 7343.4605
+mean_power_w        : 110.3931
+energy_j            : 15390.1942
+energy_mj_per_seed  : 15.0295
+power_samples       : 2758
+peak_gpu_gb         : 4.1811
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 128939.5000
+authors_per_batch   : 17257.0000
+insts_per_batch     : 433.0000
+val_acc             : nan
+val_macro_f1        : nan
+------------------------------------------------------------
+  sample     10.9%  #####
+  gather     60.5%  ##############################
+  transfer   17.3%  ########
+  compute    11.3%  #####
+============================================================
+wrote results to results_capacity_h100/
+
+[sweep] batch=1024 fanout=[5, 5] iters=1000 tag=h100cap_s4_nf_b1024_f5x5_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[check] batch nodes=31,911 from 1024 seeds  (x31.2)
+[check] per type: author 8,138, paper 23,297, institution 476
+[check] ('paper', 'cites', 'paper'): 0 sampled sources of seed 0 all real (seed has 0)
+[check] ('author', 'writes', 'paper'): 2 sampled sources of seed 0 all real (seed has 2)
+[check] edges=40,235  features=49.0 MB  out=(23297, 153)
+[check] first 10 predicted classes: [57, 23, 52, 17, 17, 29, 29, 59, 1, 34]
+
+============================================================
+attribution drift: median 0.32%  max 0.54%
+attribution OK
+------------------------------------------------------------
+tag                 : h100cap_s4_nf_b1024_f5x5_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 5,5
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 3.1814
+gather_ms           : 7.2913
+transfer_ms         : 3.5527
+compute_ms          : 3.0265
+wall_ms             : 17.1417
+drift_pct           : 0.3246
+nodes_per_batch     : 22060.0000
+mb_moved            : 33.8842
+throughput_qps      : 58507.5377
+mean_power_w        : 119.1670
+energy_j            : 2079.5051
+energy_mj_per_seed  : 2.0308
+power_samples       : 347
+peak_gpu_gb         : 0.4793
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 15744.5000
+authors_per_batch   : 5909.0000
+insts_per_batch     : 412.0000
+val_acc             : nan
+val_macro_f1        : nan
+------------------------------------------------------------
+  sample     18.7%  #########
+  gather     42.8%  #####################
+  transfer   20.8%  ##########
+  compute    17.7%  ########
+============================================================
+wrote results to results_capacity_h100/
+
+[sweep] batch=1024 fanout=[10, 5] iters=1000 tag=h100cap_s4_nf_b1024_f10x5_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[check] batch nodes=47,920 from 1024 seeds  (x46.8)
+[check] per type: author 12,609, paper 34,832, institution 479
+[check] ('paper', 'cites', 'paper'): 0 sampled sources of seed 0 all real (seed has 0)
+[check] ('author', 'writes', 'paper'): 2 sampled sources of seed 0 all real (seed has 2)
+[check] edges=63,981  features=73.6 MB  out=(34832, 153)
+[check] first 10 predicted classes: [57, 1, 52, 17, 17, 29, 63, 59, 1, 34]
+
+============================================================
+attribution drift: median 0.18%  max 0.59%
+attribution OK
+------------------------------------------------------------
+tag                 : h100cap_s4_nf_b1024_f10x5_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 10,5
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 3.4297
+gather_ms           : 12.7082
+transfer_ms         : 4.6453
+compute_ms          : 4.0166
+wall_ms             : 24.7182
+drift_pct           : 0.1794
+nodes_per_batch     : 32250.5000
+mb_moved            : 49.5368
+throughput_qps      : 38761.8129
+mean_power_w        : 120.2957
+energy_j            : 3174.0737
+energy_mj_per_seed  : 3.0997
+power_samples       : 524
+peak_gpu_gb         : 0.7279
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 23069.0000
+authors_per_batch   : 8761.0000
+insts_per_batch     : 422.0000
+val_acc             : nan
+val_macro_f1        : nan
+------------------------------------------------------------
+  sample     13.8%  ######
+  gather     51.2%  #########################
+  transfer   18.7%  #########
+  compute    16.2%  ########
+============================================================
+wrote results to results_capacity_h100/
+
+[sweep] batch=1024 fanout=[15, 10] iters=1000 tag=h100cap_s4_nf_b1024_f15x10_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[check] batch nodes=97,089 from 1024 seeds  (x94.8)
+[check] per type: author 16,872, paper 79,730, institution 487
+[check] ('paper', 'cites', 'paper'): 0 sampled sources of seed 0 all real (seed has 0)
+[check] ('author', 'writes', 'paper'): 2 sampled sources of seed 0 all real (seed has 2)
+[check] edges=133,252  features=149.1 MB  out=(79730, 153)
+[check] first 10 predicted classes: [57, 23, 52, 17, 17, 29, 63, 59, 1, 34]
+
+============================================================
+attribution drift: median 0.12%  max 0.34%
+attribution OK
+------------------------------------------------------------
+tag                 : h100cap_s4_nf_b1024_f15x10_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 15,10
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 7.3724
+gather_ms           : 34.5365
+transfer_ms         : 9.6336
+compute_ms          : 7.1224
+wall_ms             : 58.6299
+drift_pct           : 0.1230
+nodes_per_batch     : 62022.0000
+mb_moved            : 95.2658
+throughput_qps      : 16975.2150
+mean_power_w        : 113.0412
+energy_j            : 6810.5282
+energy_mj_per_seed  : 6.6509
+power_samples       : 1195
+peak_gpu_gb         : 1.5120
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 50310.0000
+authors_per_batch   : 11299.5000
+insts_per_batch     : 428.0000
+val_acc             : nan
+val_macro_f1        : nan
+------------------------------------------------------------
+  sample     12.6%  ######
+  gather     58.9%  #############################
+  transfer   16.4%  ########
+  compute    12.1%  ######
+============================================================
+wrote results to results_capacity_h100/
+
+[sweep] batch=1024 fanout=[25, 15] iters=1000 tag=h100cap_s4_nf_b1024_f25x15_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[check] batch nodes=168,468 from 1024 seeds  (x164.5)
+[check] per type: author 23,728, paper 144,249, institution 491
+[check] ('paper', 'cites', 'paper'): 0 sampled sources of seed 0 all real (seed has 0)
+[check] ('author', 'writes', 'paper'): 2 sampled sources of seed 0 all real (seed has 2)
+[check] edges=243,505  features=258.8 MB  out=(144249, 153)
+[check] first 10 predicted classes: [57, 23, 52, 17, 17, 29, 29, 59, 1, 34]
+
+============================================================
+attribution drift: median 0.08%  max 0.20%
+attribution OK
+------------------------------------------------------------
+tag                 : h100cap_s4_nf_b1024_f25x15_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 25,15
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 9.8729
+gather_ms           : 56.1952
+transfer_ms         : 15.5693
+compute_ms          : 11.1235
+wall_ms             : 93.2669
+drift_pct           : 0.0775
+nodes_per_batch     : 102663.0000
+mb_moved            : 157.6904
+throughput_qps      : 10423.8096
+mean_power_w        : 111.5911
+energy_j            : 10957.9188
+energy_mj_per_seed  : 10.7011
+power_samples       : 1938
+peak_gpu_gb         : 2.6835
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 87758.5000
+authors_per_batch   : 14519.5000
+insts_per_batch     : 431.0000
+val_acc             : nan
+val_macro_f1        : nan
+------------------------------------------------------------
+  sample     10.6%  #####
+  gather     60.6%  ##############################
+  transfer   16.8%  ########
+  compute    12.0%  #####
+============================================================
+wrote results to results_capacity_h100/
+
+[sweep] batch=1024 fanout=[60, 30] iters=1000 tag=h100cap_s4_nf_b1024_f60x30_i1000
+[run] 19532 batches available, 2 warmup + 1000 measured
+[check] batch nodes=371,186 from 1024 seeds  (x362.5)
+[check] per type: author 36,429, paper 334,263, institution 494
+[check] ('paper', 'cites', 'paper'): 0 sampled sources of seed 0 all real (seed has 0)
+[check] ('author', 'writes', 'paper'): 2 sampled sources of seed 0 all real (seed has 2)
+[check] edges=619,382  features=570.1 MB  out=(334263, 153)
+[check] first 10 predicted classes: [57, 23, 52, 17, 17, 29, 29, 59, 1, 34]
+
+============================================================
+attribution drift: median 0.04%  max 0.08%
+attribution OK
+------------------------------------------------------------
+tag                 : h100cap_s4_nf_b1024_f60x30_i1000
+seeds_total         : 1024000
+batch_size          : 1024
+fanout              : 60,30
+layers              : 2
+hidden              : 256
+iters               : 1000
+sample_ms           : 19.7479
+gather_ms           : 116.9814
+transfer_ms         : 34.1848
+compute_ms          : 21.8479
+wall_ms             : 193.0782
+drift_pct           : 0.0371
+nodes_per_batch     : 212310.5000
+mb_moved            : 326.1089
+throughput_qps      : 4992.9834
+mean_power_w        : 111.3279
+energy_j            : 22827.0346
+energy_mj_per_seed  : 22.2920
+power_samples       : 4065
+peak_gpu_gb         : 6.5426
+model               : rsage
+weights             : best.pt
+papers_per_batch    : 192326.5000
+authors_per_batch   : 19435.5000
+insts_per_batch     : 435.0000
+val_acc             : nan
+val_macro_f1        : nan
+------------------------------------------------------------
+  sample     10.2%  #####
+  gather     60.7%  ##############################
+  transfer   17.7%  ########
+  compute    11.3%  #####
+============================================================
+wrote results to results_capacity_h100/
