@@ -1,0 +1,37 @@
+start Wed Nov  4 18:49:01 UTC 2026
+{
+ "k": 16,
+ "order": [
+  2,
+  5,
+  0,
+  11,
+  4,
+  10,
+  1,
+  8,
+  15,
+  7,
+  3,
+  9,
+  14,
+  12,
+  6,
+  13
+ ],
+ "rule": "density order with positions 3 and 4 swapped (d3 sampled more nodes per batch than d4)"
+}
+28ad4bf71af76a02e5da72d41868958a  build_subset.py
+a648438d9d26db22529e98e477945481  sample_check.py
+ddbeaf299fcab66982b5b8dbbda647d2  gate_d3alt.py
+12c00af6264a3e191fe54fbac9dcfd32  results_capacity_order/order_density_alt_k16.json
+/dev/vda1       993G  826G  167G  84% /
+build dalt3 done Wed Nov  4 19:07:06 UTC 2026 exit 0
+  40/20: d2    94,965  <  dalt3    93,129  <  d4   116,832   FAIL
+    5/5: d2    16,467  <  dalt3    16,004  <  d4    19,098   FAIL
+   10/5: d2    23,339  <  dalt3    22,558  <  d4    27,644   FAIL
+  15/10: d2    43,456  <  dalt3    41,329  <  d4    51,280   FAIL
+  25/15: d2    69,385  <  dalt3    66,362  <  d4    83,042   FAIL
+  60/30: d2   129,600  <  dalt3   132,032  <  d4   165,084   ok
+[gate] dalt3: FAIL
+gate failed: no timed run Wed Nov  4 19:07:52 UTC 2026

@@ -1,0 +1,21 @@
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+[hetero] 5 relations, 296,388,800 directed edges resident (5s)
+
+[dalt3] shards [2, 5, 0]: 45,481,522 nodes, 296,388,800 edges (6.52/node), 69.9 GB (graph loaded in 5s)
+  40/20: median      93,129  mean      93,087  (10s)
+    5/5: median      16,004  mean      16,013  (2s)
+   10/5: median      22,558  mean      22,554  (2s)
+  15/10: median      41,329  mean      41,373  (3s)
+  25/15: median      66,362  mean      66,457  (5s)
+  60/30: median     132,032  mean     131,998  (11s)
+
+[rises?] median nodes per batch, in the order given
+  dalt 40/20: 93,129   rises at every step
+  dalt   5/5: 16,004   rises at every step
+  dalt  10/5: 22,558   rises at every step
+  dalt 15/10: 41,329   rises at every step
+  dalt 25/15: 66,362   rises at every step
+  dalt 60/30: 132,032   rises at every step
+
+[done] -> results_capacity_order/sample_check_dalt3_h100.csv

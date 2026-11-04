@@ -1,0 +1,21 @@
+[order] [2, 5, 11, 0, 4, 10, 1, 8, 15, 7, 3, 9, 14, 12, 6, 13] from results_capacity_order/order_density_k16.json
+[load] 244,160,499 nodes, part_k16 md5 cd79faa6b66f0e70366a8d5c2e48933a
+[d6] shards [2, 5, 11, 0, 4, 10]: paper 42,749,035, author 48,166,449, institution 7,183 = 90,922,667 nodes
+[cites] 2,595,497,852 edges -> d6 474,637,564  (checks ok, 59s)
+[writes] 386,022,720 edges -> d6 127,497,344  (checks ok, 16s)
+[rev_writes] 386,022,720 edges -> d6 127,497,344  (checks ok, 17s)
+[rev_affiliated] 44,592,586 edges -> d6 7,442,168  (checks ok, 4s)
+[affiliated] 44,592,586 edges -> d6 7,442,168  (checks ok, 1s)
+[feat] 2,600,000 / 244,160,499 rows (8s)
+[feat] 28,600,000 / 244,160,499 rows (100s)
+[feat] 54,600,000 / 244,160,499 rows (194s)
+[feat] 80,600,000 / 244,160,499 rows (284s)
+[feat] 106,600,000 / 244,160,499 rows (380s)
+[feat] 132,600,000 / 244,160,499 rows (468s)
+[feat] 158,600,000 / 244,160,499 rows (555s)
+[feat] 184,600,000 / 244,160,499 rows (648s)
+[feat] 210,600,000 / 244,160,499 rows (739s)
+[feat] 236,600,000 / 244,160,499 rows (835s)
+[feat] done, row checks ok (865s)
+[d6] 90,922,667 nodes, 744,516,588 edges, 139.7 GB features; cites rowptr md5 5b445649f8bd9e354fffe4324076fb50
+[done] 970s

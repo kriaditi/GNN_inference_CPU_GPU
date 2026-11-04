@@ -1,0 +1,21 @@
+{
+ "shards": [
+  2
+ ],
+ "order_file": "results_capacity_order/order_density_k16.json",
+ "k": 16,
+ "nodes": 15235779,
+ "num_paper": 7417377,
+ "num_author": 7817611,
+ "num_institution": 791,
+ "edges": {
+  "cites": 44470278,
+  "writes": 12553054,
+  "rev_writes": 12553054,
+  "rev_affiliated": 1443256,
+  "affiliated": 1443256
+ },
+ "feat_gb": 23.402156544,
+ "md5_meta": "037783d384a40c99e9550cd15a8918ab",
+ "md5_cites_rowptr": "527e86e6224019f03f1b7b1c8a2dd50b"
+}

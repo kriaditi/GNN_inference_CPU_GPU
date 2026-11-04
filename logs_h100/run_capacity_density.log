@@ -1,0 +1,55 @@
+phase 1 start Wed Nov  4 16:06:15 UTC 2026
+name, driver_version, memory.total [MiB], memory.used [MiB], pcie.link.gen.current, pcie.link.width.current
+NVIDIA H100 PCIe, 580.105.08, 81559 MiB, 0 MiB, 5, 16
+               total        used        free      shared  buff/cache   available
+Mem:             221           1         219           0           0         218
+26
+Model name:                              Intel(R) Xeon(R) Platinum 8480+
+/dev/vda1       993G  642G  351G  65% /
+28ad4bf71af76a02e5da72d41868958a  build_subset.py
+936366857a66eb944a625753d5332f9c  sage_mag240m.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+cd79faa6b66f0e70366a8d5c2e48933a  /unicorn/gnn/metis/part_k16.npy
+65543ffd389bc920557b6b1da274555f  /unicorn/gnn/results/h100het_378025/best.pt
+27dc3cb8368fdaf019745a27fdeb356e  results_capacity_order/order_density_k16.json
+{
+ "k": 16,
+ "order": [
+  2,
+  5,
+  11,
+  0,
+  4,
+  10,
+  1,
+  8,
+  15,
+  7,
+  3,
+  9,
+  14,
+  12,
+  6,
+  13
+ ],
+ "rule": "greedy: smallest rise in edges per node, never a drop if avoidable"
+}build d1-d4 done Wed Nov  4 16:42:38 UTC 2026 exit 0
+== d1: GPU used 0 MiB, free RAM 217 GB  Wed Nov  4 16:42:38 UTC 2026
+  d1 exit 0 Wed Nov  4 16:48:04 UTC 2026
+== d2: GPU used 0 MiB, free RAM 216 GB  Wed Nov  4 16:48:04 UTC 2026
+  d2 exit 0 Wed Nov  4 16:55:50 UTC 2026
+== d3: GPU used 0 MiB, free RAM 216 GB  Wed Nov  4 16:55:50 UTC 2026
+  d3 exit 0 Wed Nov  4 17:05:47 UTC 2026
+== d4: GPU used 0 MiB, free RAM 216 GB  Wed Nov  4 17:05:47 UTC 2026
+  d4 exit 0 Wed Nov  4 17:16:57 UTC 2026
+phase 1 done Wed Nov  4 17:16:57 UTC 2026
+phase 2 start Wed Nov  4 17:17:02 UTC 2026
+/dev/vda1       993G  642G  351G  65% /
+build d6 done Wed Nov  4 17:33:31 UTC 2026 exit 0
+== d6: GPU used 0 MiB, free RAM 215 GB  Wed Nov  4 17:33:31 UTC 2026
+  d6 exit 0 Wed Nov  4 17:48:55 UTC 2026
+/dev/vda1       993G  642G  351G  65% /
+build d8 done Wed Nov  4 18:04:57 UTC 2026 exit 0
+== d8: GPU used 0 MiB, free RAM 216 GB  Wed Nov  4 18:04:57 UTC 2026
+  d8 exit 0 Wed Nov  4 18:23:49 UTC 2026
+phase 2 done Wed Nov  4 18:23:49 UTC 2026
