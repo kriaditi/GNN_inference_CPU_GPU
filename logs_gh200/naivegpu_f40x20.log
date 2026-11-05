@@ -1,0 +1,26 @@
+[hetero] 5 relations, 3,456,728,464 directed edges resident (8s)
+[feat] reading /unicorn/gnn/metis_ordered/full_feat_metis_k5.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 2.4 min)
+[naive GPU] 5 METIS parts as chunks: 76.9 GB, 73.4 GB, 74.1 GB, 77.3 GB, 73.4 GB
+[mem] after drop_caches: GPU free 87.2 GB
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/unicorn/code/stream_infer.py:214: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  model.load_state_dict(torch.load(a.weights, map_location=dev)["model"])
+[val] chunk metisk5 fanout [40, 20]: accuracy 0.6518  macro-F1 0.5202 on 138,949 papers (154s, G=1)
+
+[gh200_naivegpu_metisk5_G1_f40x20] chunk metisk5 (50,299,482 rows, buffer 77.3 GB), G=1, 1001 passes (1 warmup)
+[gh200_naivegpu_metisk5_G1_f40x20] check: first 3 batches bit-exact vs CPU gather
+[gh200_naivegpu_metisk5_G1_f40x20] pass 0: wall 1.48 s, stream transfer 1.41 s, union 0.5 GB, drift 0.01%
+[gh200_naivegpu_metisk5_G1_f40x20] pass 100: wall 1.00 s, stream transfer 0.93 s, union 0.5 GB, drift 0.01%
+[gh200_naivegpu_metisk5_G1_f40x20] pass 200: wall 1.60 s, stream transfer 1.54 s, union 0.4 GB, drift 0.01%
+[gh200_naivegpu_metisk5_G1_f40x20] pass 300: wall 1.20 s, stream transfer 1.13 s, union 0.4 GB, drift 0.01%
+[gh200_naivegpu_metisk5_G1_f40x20] pass 400: wall 1.25 s, stream transfer 1.19 s, union 0.4 GB, drift 0.01%
+[gh200_naivegpu_metisk5_G1_f40x20] pass 500: wall 1.20 s, stream transfer 1.13 s, union 0.4 GB, drift 0.01%
+[gh200_naivegpu_metisk5_G1_f40x20] pass 600: wall 1.21 s, stream transfer 1.15 s, union 0.4 GB, drift 0.01%
+[gh200_naivegpu_metisk5_G1_f40x20] pass 700: wall 0.99 s, stream transfer 0.93 s, union 0.4 GB, drift 0.01%
+[gh200_naivegpu_metisk5_G1_f40x20] pass 800: wall 1.76 s, stream transfer 1.65 s, union 0.4 GB, drift 0.01%
+[gh200_naivegpu_metisk5_G1_f40x20] pass 900: wall 1.00 s, stream transfer 0.93 s, union 0.4 GB, drift 0.01%
+[summary] gh200_naivegpu_metisk5_G1_f40x20: 1004.0 ms/batch, pass 1004 ms, stream 402.2 GB/s, qps 918, drift 0.01%

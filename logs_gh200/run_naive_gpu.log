@@ -1,0 +1,52 @@
+start Wed Nov  4 23:23:17 UTC 2026
+name, memory.total [MiB], memory.used [MiB]
+NVIDIA GH200 480GB, 97871 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:             525           4         519           0           1         501
+/dev/vda1       3.9T  2.1T  1.9T  52% /
+a8ae33650b71d22ee32156a2ec65d500  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+27a45ee01f14fefcd835cd55258ca154  build_metis_ordered_feat.py
+8ee6962a8e6a85cc8b6c1db7562990b5  /unicorn/gnn/metis/part_k5.npy
+reorder done Wed Nov  4 23:51:57 UTC 2026 exit 0
+{
+ "k": 5,
+ "rows": 244160499,
+ "dim": 768,
+ "part_rows": [
+  50056109,
+  47767124,
+  48270666,
+  50299482,
+  47767118
+ ],
+ "bounds": [
+  0,
+  50056109,
+  97823233,
+  146093899,
+  196393381,
+  244160499
+ ],
+ "part_gb": [
+  76.89,
+  73.37,
+  74.14,
+  77.26,
+  73.37
+ ],
+ "md5_part": "8ee6962a8e6a85cc8b6c1db7562990b5",
+ "feat": "/unicorn/gnn/data/full_feat.npy"
+}  GPU used before start: 8 MiB  Wed Nov  4 23:52:09 UTC 2026
+naive GPU 40/20 exit 0 Thu Nov  5 00:16:05 UTC 2026
+  GPU used before start: 11 MiB  Thu Nov  5 00:16:05 UTC 2026
+naive GPU 5/5 exit 0 Thu Nov  5 00:18:48 UTC 2026
+  GPU used before start: 10 MiB  Thu Nov  5 00:18:48 UTC 2026
+naive GPU 10/5 exit 0 Thu Nov  5 00:21:31 UTC 2026
+  GPU used before start: 9 MiB  Thu Nov  5 00:21:31 UTC 2026
+naive GPU 15/10 exit 0 Thu Nov  5 00:24:14 UTC 2026
+  GPU used before start: 9 MiB  Thu Nov  5 00:24:14 UTC 2026
+naive GPU 25/15 exit 0 Thu Nov  5 00:26:58 UTC 2026
+  GPU used before start: 7 MiB  Thu Nov  5 00:26:58 UTC 2026
+naive GPU 60/30 exit 0 Thu Nov  5 00:29:41 UTC 2026
+all done Thu Nov  5 00:29:41 UTC 2026

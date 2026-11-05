@@ -26,6 +26,14 @@ gather used by the node-filtering baseline (same rows, same order).
 
     python stream_infer.py --in-memory --weights best.pt --fanouts 40/20 \
         --batches-per-pass 1,8,64,auto --chunk-gb 8,47 --batches 1000 ...
+
+Naive GPU (Michael, 4 Nov): the chunks are the METIS parts instead of equal contiguous slices.
+--feat is then the table reordered by part (build_metis_ordered_feat.py), --row-map maps a global
+id to its row there, and --chunk-bounds gives each part's first row. Everything else is unchanged:
+CPU sampling on the full graph, every part streamed every pass, GPU keeps the needed rows.
+
+    python stream_infer.py --in-memory --feat .../full_feat_metis_k5.npy \
+        --row-map .../rowmap_k5.npy --chunk-bounds .../bounds_k5.npy --batches-per-pass 1 ...
 """
 import argparse
 import csv
@@ -46,9 +54,11 @@ def sync_now(dev):
     return time.perf_counter()
 
 
-def run_pass(g, feat, model, dev, seed_batches, fanout, chunk_rows, chunk_buf, check, preds=None):
+def run_pass(g, feat, model, dev, seed_batches, fanout, chunk_rows, chunk_buf, check, preds=None,
+             rowmap=None, cbounds=None):
     """Serve len(seed_batches) batches with one full streaming pass.
-    preds: a list; when given, each batch's argmax over its seeds is appended (accuracy pass)."""
+    preds: a list; when given, each batch's argmax over its seeds is appended (accuracy pass).
+    rowmap, cbounds: METIS parts as chunks (naive GPU); feat is then the part-ordered table."""
     T = dict(sample_s=0.0, plan_s=0.0, index_s=0.0, stream_transfer_s=0.0,
              stream_select_s=0.0, assemble_s=0.0, compute_s=0.0)
     t_pass = time.perf_counter()
@@ -64,9 +74,16 @@ def run_pass(g, feat, model, dev, seed_batches, fanout, chunk_rows, chunk_buf, c
     for node_id, _ in samples:
         per_batch_gid.append({nt: node_id[nt].numpy() + g.offset[nt] for nt in hc.NODE_TYPES})
     all_gid = np.concatenate([np.concatenate([b[nt] for nt in hc.NODE_TYPES]) for b in per_batch_gid])
+    if rowmap is not None:
+        all_gid = rowmap[all_gid]                                   # global id -> row of the part-ordered table
     union, inverse = np.unique(all_gid, return_inverse=True)       # sorted ascending
-    n_chunks = (feat.shape[0] + chunk_rows - 1) // chunk_rows
-    bounds = np.searchsorted(union, np.arange(n_chunks + 1, dtype=np.int64) * chunk_rows)
+    if cbounds is not None:
+        n_chunks = cbounds.size - 1
+        starts = cbounds
+    else:
+        n_chunks = (feat.shape[0] + chunk_rows - 1) // chunk_rows
+        starts = np.minimum(np.arange(n_chunks + 1, dtype=np.int64) * chunk_rows, feat.shape[0])
+    bounds = np.searchsorted(union, starts)
     T["plan_s"] = time.perf_counter() - t0
 
     # 3. index (to device)
@@ -78,8 +95,7 @@ def run_pass(g, feat, model, dev, seed_batches, fanout, chunk_rows, chunk_buf, c
 
     # 4. stream every chunk; select needed rows on the device
     for c in range(n_chunks):
-        a = c * chunk_rows
-        b = min(a + chunk_rows, feat.shape[0])
+        a, b = int(starts[c]), int(starts[c + 1])
         t0 = time.perf_counter()
         buf = chunk_buf[: b - a]
         buf.copy_(torch.from_numpy(feat[a:b]))
@@ -106,7 +122,11 @@ def run_pass(g, feat, model, dev, seed_batches, fanout, chunk_rows, chunk_buf, c
         t1 = sync_now(dev)
         T["assemble_s"] += t1 - t0
         if bi < check:
-            ref = hc.gather_features(feat, node_id, g)
+            if rowmap is None:
+                ref = hc.gather_features(feat, node_id, g)
+            else:   # same rows via the row map (the table itself was checked against the original when built)
+                ref = {nt: torch.from_numpy(np.ascontiguousarray(feat[rowmap[per_batch_gid[bi][nt]]]))
+                       for nt in hc.NODE_TYPES}
             for nt in hc.NODE_TYPES:
                 assert torch.equal(x[nt].cpu(), ref[nt]), f"streamed rows differ from CPU gather ({nt})"
         if dev.type == "cuda":
@@ -156,6 +176,9 @@ def main():
     ap.add_argument("--margin-gb", type=float, default=8.0, help="GPU memory kept free for auto G")
     ap.add_argument("--val", action="store_true", help="accuracy pass on the validation papers through the streaming path, once per chunk size and fanout")
     ap.add_argument("--val-G", type=int, default=8, help="batches per pass in the accuracy pass (accuracy does not depend on G)")
+    ap.add_argument("--row-map", default="", help="naive GPU: rowmap_k<k>.npy (global id -> row of the part-ordered --feat)")
+    ap.add_argument("--chunk-bounds", default="", help="naive GPU: bounds_k<k>.npy (first row of each METIS part); chunks = parts, --chunk-gb ignored")
+    ap.add_argument("--drop-caches", action="store_true", help="after loading the table, drop the OS file cache (GH200: it shows up as used GPU memory)")
     ap.add_argument("--device", default="cuda")
     ap.add_argument("--out", default="results_stream")
     ap.add_argument("--summary", default="")
@@ -170,6 +193,18 @@ def main():
 
     g = hc.HeteroGraph(a.csr, a.hetero_dir)
     feat = hc.load_features(a.feat, a.in_memory)
+    rowmap = cbounds = None
+    if a.chunk_bounds:
+        assert a.row_map, "--chunk-bounds needs --row-map"
+        rowmap = np.load(a.row_map)
+        cbounds = np.load(a.chunk_bounds).astype(np.int64)
+        assert rowmap.size == feat.shape[0] and cbounds[0] == 0 and cbounds[-1] == feat.shape[0], "row map / bounds do not match --feat"
+        print(f"[naive GPU] {cbounds.size - 1} METIS parts as chunks: "
+              + ", ".join(f"{(cbounds[i + 1] - cbounds[i]) * feat.shape[1] * 2 / 1e9:.1f} GB" for i in range(cbounds.size - 1)), flush=True)
+    if a.drop_caches:
+        os.system("sync; echo 3 | sudo -n tee /proc/sys/vm/drop_caches > /dev/null")
+        if dev.type == "cuda":
+            print(f"[mem] after drop_caches: GPU free {torch.cuda.mem_get_info()[0] / 1e9:.1f} GB", flush=True)
     from ogb.lsc import MAG240MDataset
     ds = MAG240MDataset(root=a.root)
     n_classes = ds.num_classes
@@ -183,16 +218,24 @@ def main():
     pool = torch.from_numpy(np.sort(rng.choice(P, size=min(a.seeds, P), replace=False))).long()
     row_bytes = feat.shape[1] * 2
     fanouts = [[int(v) for v in f.split("/")] for f in a.fanouts.split(",")]
-    chunks_gb = [float(v) for v in a.chunk_gb.split(",")]
+    if cbounds is not None:   # one configuration: the parts; buffer sized to the largest part
+        chunks_gb = [f"metisk{cbounds.size - 1}"]
+    else:
+        chunks_gb = [float(v) for v in a.chunk_gb.split(",")]
     gs = a.batches_per_pass.split(",")
 
     with torch.no_grad():
         for chunk_gb in chunks_gb:
-            chunk_rows = int(chunk_gb * 1e9 // row_bytes)
+            if cbounds is not None:
+                chunk_rows = int(np.diff(cbounds).max())
+                clabel = chunk_gb
+            else:
+                chunk_rows = int(chunk_gb * 1e9 // row_bytes)
+                clabel = f"c{chunk_gb:g}gb"
             try:
                 chunk_buf = torch.empty((chunk_rows, feat.shape[1]), dtype=torch.float16, device=dev)
             except torch.cuda.OutOfMemoryError as e:
-                print(f"[{a.tag}] chunk {chunk_gb:g} GB does not fit on the GPU: {str(e)[:120]}", flush=True)
+                print(f"[{a.tag}] chunk {clabel} ({chunk_rows * row_bytes / 1e9:.1f} GB) does not fit on the GPU: {str(e)[:120]}", flush=True)
                 torch.cuda.empty_cache()
                 continue
             for f in fanouts:
@@ -204,7 +247,8 @@ def main():
                     for i in range(0, len(vb), a.val_G):
                         group = vb[i:i + a.val_G]
                         preds = []
-                        run_pass(g, feat, model, dev, group, f, chunk_rows, chunk_buf, 0, preds=preds)
+                        run_pass(g, feat, model, dev, group, f, chunk_rows, chunk_buf, 0, preds=preds,
+                                 rowmap=rowmap, cbounds=cbounds)
                         for b, p in zip(group, preds):
                             np.add.at(conf, (labels[b.numpy()], p.numpy()), 1)
                     tp = np.diag(conf).astype(float)
@@ -213,7 +257,7 @@ def main():
                     f1 = 2 * prec * rec / np.maximum(prec + rec, 1e-9)
                     present = conf.sum(1) > 0
                     val_f1 = float(f1[present].mean())
-                    print(f"[val] chunk {chunk_gb:g} GB fanout {f}: accuracy {val_acc:.4f}  macro-F1 {val_f1:.4f} "
+                    print(f"[val] chunk {clabel} fanout {f}: accuracy {val_acc:.4f}  macro-F1 {val_f1:.4f} "
                           f"on {int(conf.sum()):,} papers ({time.perf_counter() - tv:.0f}s, G={a.val_G})", flush=True)
                 for gspec in gs:
                     if gspec == "auto":
@@ -226,12 +270,12 @@ def main():
                               flush=True)
                     else:
                         G = int(gspec)
-                    tag = f"{a.tag}_c{chunk_gb:g}gb_G{G}{'auto' if gspec == 'auto' else ''}_f{'x'.join(map(str, f))}"
+                    tag = f"{a.tag}_{clabel}_G{G}{'auto' if gspec == 'auto' else ''}_f{'x'.join(map(str, f))}"
                     n_pass = a.warmup_passes + max(1, -(-a.batches // G))
                     need = n_pass * G * a.batch_size
                     if need > pool.numel():
                         n_pass = pool.numel() // (G * a.batch_size)
-                    print(f"\n[{tag}] chunk {chunk_gb:g} GB ({chunk_rows:,} rows), G={G}, "
+                    print(f"\n[{tag}] chunk {clabel} ({chunk_rows:,} rows, buffer {chunk_rows * row_bytes / 1e9:.1f} GB), G={G}, "
                           f"{n_pass} passes ({a.warmup_passes} warmup)", flush=True)
                     rows, i = [], 0
                     for p in range(n_pass):
@@ -239,7 +283,7 @@ def main():
                         i += G
                         try:
                             r = run_pass(g, feat, model, dev, seed_batches, f, chunk_rows, chunk_buf,
-                                         a.check_batches if p == 0 else 0)
+                                         a.check_batches if p == 0 else 0, rowmap=rowmap, cbounds=cbounds)
                         except torch.cuda.OutOfMemoryError as e:
                             print(f"[{tag}] OOM at G={G}: {str(e)[:120]}", flush=True)
                             torch.cuda.empty_cache()

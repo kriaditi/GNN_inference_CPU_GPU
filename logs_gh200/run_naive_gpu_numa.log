@@ -1,0 +1,38 @@
+start Thu Nov  5 01:30:39 UTC 2026
+node 0 size: 441526 MB
+node 0 free: 434527 MB
+node 1 size: 96768 MB
+node 1 free: 96767 MB
+node 2 size: 0 MB
+node 2 free: 0 MB
+node 3 size: 0 MB
+node 3 free: 0 MB
+node 4 size: 0 MB
+node 4 free: 0 MB
+node 5 size: 0 MB
+node 5 free: 0 MB
+node 6 size: 0 MB
+node 6 free: 0 MB
+node 7 size: 0 MB
+node 7 free: 0 MB
+node 8 size: 0 MB
+node 8 free: 0 MB
+memory.used [MiB]
+1 MiB
+a8ae33650b71d22ee32156a2ec65d500  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+2d19a925c2fa8c969f6686012f250df7  /unicorn/gnn/metis_ordered/rowmap_k5.npy
+00a9f2ba88f19629f19fdcdf5796115c  /unicorn/gnn/metis_ordered/bounds_k5.npy
+  GPU used before start: 1 MiB, node 1 free 96767 MB  Thu Nov  5 01:30:43 UTC 2026
+naive GPU (numa) 40/20 exit 0 Thu Nov  5 01:52:56 UTC 2026
+  GPU used before start: 2 MiB, node 1 free 96762 MB  Thu Nov  5 01:52:56 UTC 2026
+naive GPU (numa) 5/5 exit 0 Thu Nov  5 02:14:07 UTC 2026
+  GPU used before start: 2 MiB, node 1 free 96762 MB  Thu Nov  5 02:14:07 UTC 2026
+naive GPU (numa) 10/5 exit 0 Thu Nov  5 02:35:12 UTC 2026
+  GPU used before start: 2 MiB, node 1 free 96766 MB  Thu Nov  5 02:35:13 UTC 2026
+naive GPU (numa) 15/10 exit 0 Thu Nov  5 02:56:39 UTC 2026
+  GPU used before start: 2 MiB, node 1 free 96762 MB  Thu Nov  5 02:56:39 UTC 2026
+naive GPU (numa) 25/15 exit 0 Thu Nov  5 03:18:37 UTC 2026
+  GPU used before start: 2 MiB, node 1 free 96766 MB  Thu Nov  5 03:18:37 UTC 2026
+naive GPU (numa) 60/30 exit 0 Thu Nov  5 03:41:25 UTC 2026
+all done Thu Nov  5 03:41:25 UTC 2026
