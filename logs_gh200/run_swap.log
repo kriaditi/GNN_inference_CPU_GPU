@@ -1,0 +1,17 @@
+start Fri Nov  6 22:10:08 UTC 2026
+name, memory.total [MiB], memory.used [MiB]
+NVIDIA GH200 480GB, 97871 MiB, 0 MiB
+6228fdecb2441aa1543d8e2f93dbcc85  shard_infer.py
+available: 9 nodes (0-8)
+node 0 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63
+node 0 size: 441526 MB
+start Fri Nov  6 22:30:11 UTC 2026
+name, memory.total [MiB], memory.used [MiB]
+NVIDIA GH200 480GB, 97871 MiB, 19 MiB
+842a3170f99d3e9480420f8fbbff4dc8  shard_infer.py
+27a45ee01f14fefcd835cd55258ca154  build_metis_ordered_feat.py
+/dev/vda1       3.9T  2.4T  1.6T  61% /
+build k=16 done Fri Nov  6 22:50:30 UTC 2026 exit 0
+smoke done Fri Nov  6 22:53:28 UTC 2026 exit 0
+swap k16 done Fri Nov  6 23:10:35 UTC 2026 exit 0
+all done Fri Nov  6 23:10:35 UTC 2026

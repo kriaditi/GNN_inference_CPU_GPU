@@ -69,48 +69,92 @@ def now_sync(dev):
 class Shard:
     """Resident shard p: feature rows on the device plus a global->row map."""
 
-    def __init__(self, n_total, dim, dev, keep_host=False):
+    def __init__(self, n_total, dim, dev, keep_host=False, rowmap=None, bounds=None):
         self.row = np.full(n_total, -1, dtype=np.int64)   # global id -> shard row
         self.dim, self.dev, self.x, self.p = dim, dev, None, None
-        self.keep_host, self.host = keep_host, None       # pinned host copy, for --swap-per-batch
+        self.keep_host, self.host = keep_host, None       # host source of the shard, for --swap-per-batch
+        self.rowmap, self.bounds = rowmap, bounds         # METIS-ordered table: shard p = rows bounds[p]..bounds[p+1]-1
+        self.registered = None
 
     def load(self, feat, part, p, chunk=2_000_000):
         if self.x is not None:
             self.row[self.ids] = -1
             del self.x
             self.x = None
+            self._unregister()
             self.host = None
             if self.dev.type == "cuda":
                 torch.cuda.empty_cache()
         self.ids = np.flatnonzero(part == p)
         n = self.ids.size
         self.x = torch.empty((n, self.dim), dtype=torch.float16, device=self.dev)
-        if self.keep_host:
-            self.host = torch.empty((n, self.dim), dtype=torch.float16, pin_memory=(self.dev.type == "cuda"))
         t_gather = t_transfer = 0.0
-        for i in range(0, n, chunk):
-            j = min(i + chunk, n)
-            t0 = time.perf_counter()
-            block = torch.from_numpy(np.ascontiguousarray(feat[self.ids[i:j]]))
+        if self.bounds is not None:
+            # ordered table: the shard is one contiguous slice of the in-RAM table; no row assembly, no second copy
+            b0, b1 = int(self.bounds[p]), int(self.bounds[p + 1])
+            assert b1 - b0 == n, f"shard {p}: bounds give {b1 - b0} rows, part file gives {n}"
+            src = torch.from_numpy(feat[b0:b1])                     # a view, nothing is copied on the host
             if self.keep_host:
-                self.host[i:j].copy_(block)
-            t1 = now_sync(self.dev)
-            self.x[i:j].copy_(block.to(self.dev, non_blocking=False))
-            t2 = now_sync(self.dev)
-            t_gather += t1 - t0
-            t_transfer += t2 - t1
-        self.row[self.ids] = np.arange(n, dtype=np.int64)
+                self.host = src
+                self._register(src)
+            for i in range(0, n, chunk):
+                j = min(i + chunk, n)
+                t1 = now_sync(self.dev)
+                self.x[i:j].copy_(src[i:j], non_blocking=False)
+                t2 = now_sync(self.dev)
+                t_transfer += t2 - t1
+            self.row[self.ids] = self.rowmap[self.ids] - b0
+        else:
+            if self.keep_host:
+                self.host = torch.empty((n, self.dim), dtype=torch.float16, pin_memory=(self.dev.type == "cuda"))
+            for i in range(0, n, chunk):
+                j = min(i + chunk, n)
+                t0 = time.perf_counter()
+                block = torch.from_numpy(np.ascontiguousarray(feat[self.ids[i:j]]))
+                if self.keep_host:
+                    self.host[i:j].copy_(block)
+                t1 = now_sync(self.dev)
+                self.x[i:j].copy_(block.to(self.dev, non_blocking=False))
+                t2 = now_sync(self.dev)
+                t_gather += t1 - t0
+                t_transfer += t2 - t1
+            self.row[self.ids] = np.arange(n, dtype=np.int64)
         self.p = p
         return n, t_gather, t_transfer
 
+    def _register(self, t):
+        """Page-lock the shard's slice of the in-RAM table (cudaHostRegister) so the swap is a pinned copy; no extra memory."""
+        if self.dev.type != "cuda":
+            return
+        try:
+            rt = torch.cuda.cudart()
+            r = rt.cudaHostRegister(t.data_ptr(), t.numel() * t.element_size(), 0)
+            code = getattr(r, "value", r)
+            if code == 0 or str(r).lower().endswith("success"):
+                self.registered = t
+                self.host_mode = "pinned (cudaHostRegister)"
+            else:
+                self.host_mode = f"pageable (cudaHostRegister returned {r})"
+        except Exception as e:  # noqa: BLE001
+            self.host_mode = f"pageable (cudaHostRegister failed: {e})"
+
+    def _unregister(self):
+        if self.registered is not None:
+            try:
+                torch.cuda.cudart().cudaHostUnregister(self.registered.data_ptr())
+            except Exception:  # noqa: BLE001
+                pass
+            self.registered = None
+
     def swap(self):
-        """Re-copy the whole resident shard from pinned host memory to the device: one shard swap."""
+        """Copy the whole resident shard from host memory to the device again: one shard swap."""
         t0 = now_sync(self.dev)
         self.x.copy_(self.host, non_blocking=True)
         return now_sync(self.dev) - t0
 
 
 def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev, swap=False):
+    rm = shard.rowmap
     """One batch through the shard pipeline. Returns (logits, row dict).
     swap=True: the batch starts by copying the whole resident shard host->device (one shard swap per batch)."""
     t0 = time.perf_counter()
@@ -167,7 +211,7 @@ def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev, swap=Fal
     # ---- gather_remote (CPU, fetch only)
     rem_cpu = None
     if variant != "drop":
-        rem_cpu = {nt: torch.from_numpy(np.ascontiguousarray(feat[rem_gid[nt]]))
+        rem_cpu = {nt: torch.from_numpy(np.ascontiguousarray(feat[rem_gid[nt] if rm is None else rm[rem_gid[nt]]]))
                    if rem_gid[nt].size else torch.empty(0, feat.shape[1], dtype=torch.float16)
                    for nt in hc.NODE_TYPES}
     t3 = time.perf_counter()
@@ -257,6 +301,8 @@ def main():
     ap.add_argument("--unsorted-seeds", action="store_true",
                     help="keep the seed pool in default_rng(0) order instead of sorting it, so with --k 1 the batches are "
                          "exactly the ones sage_mag240m.py --seed-mode all uses (GPU-only vs node filtering on the same seeds)")
+    ap.add_argument("--row-map", default="", help="METIS-ordered --feat: rowmap_k<k>.npy (global id -> row of the ordered table)")
+    ap.add_argument("--chunk-bounds", default="", help="METIS-ordered --feat: bounds_k<k>.npy (first row of each shard, plus N)")
     ap.add_argument("--swap-per-batch", action="store_true",
                     help="copy the whole resident shard from pinned host memory to the GPU before every batch (swap_s)")
     ap.add_argument("--device", default="cuda")
@@ -304,7 +350,17 @@ def main():
     print(f"[seeds] {pool.size:,} fresh seeds; per shard: "
           + ", ".join(str(int((pool_part == p).sum())) for p in shards), flush=True)
 
-    shard = Shard(N, feat.shape[1], dev, keep_host=a.swap_per_batch)
+    rowmap = bounds = None
+    if a.chunk_bounds:
+        assert a.row_map, "--chunk-bounds needs --row-map"
+        rowmap = np.load(a.row_map)
+        bounds = np.load(a.chunk_bounds).astype(np.int64)
+        assert rowmap.size == N and bounds.size == a.k + 1 and bounds[0] == 0 and bounds[-1] == N, "row map / bounds do not match --feat / --k"
+        chk = np.random.default_rng(3).choice(N, size=1000, replace=False)
+        assert np.all(part[chk] == np.searchsorted(bounds, rowmap[chk], side="right") - 1), "row map does not agree with the part file"
+        print(f"[ordered table] {a.k} shards contiguous in --feat; shard GB: "
+              + ", ".join(f"{(bounds[i + 1] - bounds[i]) * feat.shape[1] * 2 / 1e9:.1f}" for i in range(a.k)), flush=True)
+    shard = Shard(N, feat.shape[1], dev, keep_host=a.swap_per_batch, rowmap=rowmap, bounds=bounds)
     shard.k = a.k
     rows = {(v, tuple(f)): [] for v in variants for f in fanouts}
     conf = {(v, tuple(f)): np.zeros((n_classes, n_classes), dtype=np.int64) for v in variants for f in fanouts}
@@ -318,6 +374,7 @@ def main():
                               load_gather_s=lg, load_transfer_s=lt))
             print(f"\n[shard {p}] loaded {n_rows:,} rows ({loads[-1]['gb']:.1f} GB): "
                   f"CPU gather {lg:.1f} s, transfer {lt:.2f} s"
+                  + (f", swap source {getattr(shard, 'host_mode', 'n/a')}" if a.swap_per_batch else "")
                   + (f", peak GPU {torch.cuda.max_memory_allocated()/1e9:.1f} GB" if dev.type == "cuda" else ""),
                   flush=True)
             seeds_p = pool[pool_part == p]
