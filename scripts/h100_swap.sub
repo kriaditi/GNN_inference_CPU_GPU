@@ -1,0 +1,45 @@
+#!/bin/bash
+#SBATCH --job-name=h100swap
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/h100swap_%j.out
+#SBATCH -e logs/h100swap_%j.err
+#SBATCH --open-mode=append
+#SBATCH --get-user-env
+#SBATCH --mem=500G
+#SBATCH -t 24:00:00
+#SBATCH --cpus-per-task=32
+#SBATCH --exclusive
+#SBATCH --partition=gpu
+#SBATCH --gres=gpu:nvidia_h100_nvl:1
+#SBATCH --nodelist=dutta-compute-01
+
+# GraphSAGE + METIS with ONE SHARD SWAP PER BATCH on the cluster H100 NVL (PCIe), 6 Nov meeting action item.
+# Same as results_shard_h100nvl (k=16, fetch, 16 shards x 63 batches, 6 fanouts, accuracy on all validation
+# papers, 375 GB table in RAM) but before every batch the resident 23 GB shard is re-copied from pinned host
+# memory to the GPU (new column swap_ms; wall_ms includes it). Needs shard_infer.py with --swap-per-batch
+# (md5 6228fdecb2441aa1543d8e2f93dbcc85). Exclusive node. Pair of run_swap_gh200.sh.
+#   sbatch scripts/h100_swap.sub
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD=1 PYTHONUNBUFFERED=1
+
+D=/share/gupta/ak2877/gnn
+echo "job $SLURM_JOB_ID on $(hostname)  $(date)"
+nvidia-smi --query-gpu=name,driver_version,memory.total,memory.used --format=csv
+free -g | head -2
+nproc; lscpu | grep -E "Model name|Socket|NUMA node\(s\)"; getconf PAGESIZE
+md5sum shard_infer.py hetero_common.py results/hetero/best.pt $D/metis/part_k16.npy || exit 1
+
+OUT=results_shard_swap_h100nvl
+mkdir -p $OUT
+rm -f $OUT/summary_shard_swap_h100nvl.csv
+
+python shard_infer.py --weights results/hetero/best.pt --root $D/data --csr $D/csr \
+  --hetero-dir $D/csr_hetero --feat $D/data/full_feat.npy --metis $D/metis --in-memory --swap-per-batch \
+  --k 16 --variants fetch --fanouts 40/20,5/5,10/5,15/10,25/15,60/30 --batches-per-shard 63 \
+  --out $OUT --summary $OUT/summary_shard_swap_h100nvl.csv --tag h100nvl_swap
+
+echo "exit $?  $(date)"

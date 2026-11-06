@@ -69,25 +69,31 @@ def now_sync(dev):
 class Shard:
     """Resident shard p: feature rows on the device plus a global->row map."""
 
-    def __init__(self, n_total, dim, dev):
+    def __init__(self, n_total, dim, dev, keep_host=False):
         self.row = np.full(n_total, -1, dtype=np.int64)   # global id -> shard row
         self.dim, self.dev, self.x, self.p = dim, dev, None, None
+        self.keep_host, self.host = keep_host, None       # pinned host copy, for --swap-per-batch
 
     def load(self, feat, part, p, chunk=2_000_000):
         if self.x is not None:
             self.row[self.ids] = -1
             del self.x
             self.x = None
+            self.host = None
             if self.dev.type == "cuda":
                 torch.cuda.empty_cache()
         self.ids = np.flatnonzero(part == p)
         n = self.ids.size
         self.x = torch.empty((n, self.dim), dtype=torch.float16, device=self.dev)
+        if self.keep_host:
+            self.host = torch.empty((n, self.dim), dtype=torch.float16, pin_memory=(self.dev.type == "cuda"))
         t_gather = t_transfer = 0.0
         for i in range(0, n, chunk):
             j = min(i + chunk, n)
             t0 = time.perf_counter()
             block = torch.from_numpy(np.ascontiguousarray(feat[self.ids[i:j]]))
+            if self.keep_host:
+                self.host[i:j].copy_(block)
             t1 = now_sync(self.dev)
             self.x[i:j].copy_(block.to(self.dev, non_blocking=False))
             t2 = now_sync(self.dev)
@@ -97,10 +103,18 @@ class Shard:
         self.p = p
         return n, t_gather, t_transfer
 
+    def swap(self):
+        """Re-copy the whole resident shard from pinned host memory to the device: one shard swap."""
+        t0 = now_sync(self.dev)
+        self.x.copy_(self.host, non_blocking=True)
+        return now_sync(self.dev) - t0
 
-def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev):
-    """One batch through the shard pipeline. Returns (logits, row dict)."""
+
+def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev, swap=False):
+    """One batch through the shard pipeline. Returns (logits, row dict).
+    swap=True: the batch starts by copying the whole resident shard host->device (one shard swap per batch)."""
     t0 = time.perf_counter()
+    swap_s = shard.swap() if swap else 0.0
     node_id, edge_index = hc.sample_hetero(g, seeds, fanout)
     t1 = time.perf_counter()
 
@@ -204,14 +218,14 @@ def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev):
         bytes_xfer += sum(v.numel() * v.element_size() for v in rem_cpu.values())
         bytes_xfer += sum(v.numel() * v.element_size() for v in loc_pos.values())
         bytes_xfer += sum(v.numel() * v.element_size() for v in rem_pos.values())
-    sample_s, filter_s, grem_s, xfer_s, gloc_s = t1 - t0, t2 - t1, t3 - t2, t4 - t3, t5 - t4
+    sample_s, filter_s, grem_s, xfer_s, gloc_s = t1 - t0 - swap_s, t2 - t1, t3 - t2, t4 - t3, t5 - t4
     wall_s = t6 - t0
-    attributed = sample_s + filter_s + grem_s + xfer_s + gloc_s + compute_s
+    attributed = swap_s + sample_s + filter_s + grem_s + xfer_s + gloc_s + compute_s
     row = dict(seeds=len(seeds), nodes_sampled=n_all, nodes_local=n_local,
                nodes_used=sum(n_rows.values()), frac_local=n_local / n_all,
                shards_hit=shards_hit, frac_kept=sum(n_rows.values()) / n_all,
                edges_used=sum(v.size(1) for v in ei_cpu.values()),
-               mb_transfer=bytes_xfer / 1e6,
+               mb_transfer=bytes_xfer / 1e6, swap_s=swap_s,
                sample_s=sample_s, filter_s=filter_s, gather_remote_s=grem_s,
                transfer_s=xfer_s, gather_local_s=gloc_s, compute_s=compute_s,
                wall_s=wall_s, drift_pct=abs(wall_s - attributed) / wall_s * 100)
@@ -243,6 +257,8 @@ def main():
     ap.add_argument("--unsorted-seeds", action="store_true",
                     help="keep the seed pool in default_rng(0) order instead of sorting it, so with --k 1 the batches are "
                          "exactly the ones sage_mag240m.py --seed-mode all uses (GPU-only vs node filtering on the same seeds)")
+    ap.add_argument("--swap-per-batch", action="store_true",
+                    help="copy the whole resident shard from pinned host memory to the GPU before every batch (swap_s)")
     ap.add_argument("--device", default="cuda")
     ap.add_argument("--out", default="results_shard")
     ap.add_argument("--summary", default="")
@@ -288,7 +304,7 @@ def main():
     print(f"[seeds] {pool.size:,} fresh seeds; per shard: "
           + ", ".join(str(int((pool_part == p).sum())) for p in shards), flush=True)
 
-    shard = Shard(N, feat.shape[1], dev)
+    shard = Shard(N, feat.shape[1], dev, keep_host=a.swap_per_batch)
     shard.k = a.k
     rows = {(v, tuple(f)): [] for v in variants for f in fanouts}
     conf = {(v, tuple(f)): np.zeros((n_classes, n_classes), dtype=np.int64) for v in variants for f in fanouts}
@@ -318,7 +334,7 @@ def main():
                 for v in variants:
                     key = (v, tuple(f))
                     for i, b in enumerate(batches):
-                        _, r = run_batch(g, feat, shard, part, b, f, v, model, dev)
+                        _, r = run_batch(g, feat, shard, part, b, f, v, model, dev, swap=a.swap_per_batch)
                         if i >= a.warmup:
                             r.update(shard=p, iter=i - a.warmup)
                             rows[key].append(r)
@@ -329,6 +345,7 @@ def main():
                         np.add.at(conf[key], (y, pred), 1)
                     rr = rows[key][-max(1, len(batches) - a.warmup):]
                     print(f"[shard {p}] {v:<5} fanout {f}: wall {np.median([x['wall_s'] for x in rr])*1e3:7.1f} ms  "
+                          f"swap {np.median([x['swap_s'] for x in rr])*1e3:6.1f} ms  "
                           f"local {np.median([x['frac_local'] for x in rr])*100:5.1f}%  "
                           f"val papers {sum(x.numel() for x in vbatches):,}", flush=True)
 
@@ -357,7 +374,7 @@ def main():
             present = c.sum(1) > 0
             s = dict(tag=f"{a.tag}_k{a.k}_{v}_f{fs}", k=a.k, variant=v, fanout=",".join(map(str, f)),
                      shards=len(loads), batches=len(rr), seeds_total=seeds_total,
-                     sample_ms=med("sample_s") * 1e3, filter_ms=med("filter_s") * 1e3,
+                     swap_ms=med("swap_s") * 1e3, sample_ms=med("sample_s") * 1e3, filter_ms=med("filter_s") * 1e3,
                      gather_remote_ms=med("gather_remote_s") * 1e3, transfer_ms=med("transfer_s") * 1e3,
                      gather_local_ms=med("gather_local_s") * 1e3, compute_ms=med("compute_s") * 1e3,
                      wall_ms=med("wall_s") * 1e3, drift_pct=med("drift_pct"),

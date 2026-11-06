@@ -1,0 +1,45 @@
+#!/bin/bash
+#SBATCH --job-name=h100cpu
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/h100cpu_%j.out
+#SBATCH -e logs/h100cpu_%j.err
+#SBATCH --open-mode=append
+#SBATCH --get-user-env
+#SBATCH --mem=500G
+#SBATCH -t 24:00:00
+#SBATCH --cpus-per-task=32
+#SBATCH --exclusive
+#SBATCH --partition=gpu
+#SBATCH --gres=gpu:nvidia_h100_nvl:1
+#SBATCH --nodelist=dutta-compute-01
+
+# CPU-only on the cluster node (the PCIe system's host CPU), the missing cell of the four-method set.
+# Same command as the GH200 CPU-only cells (results_gh200/summary_gh200_cpu.csv): sage_mag240m.py --device cpu,
+# R-GraphSAGE 2 layers hidden 256, batch 1,024, seeds from all papers, 6 fanouts x 1,000 batches, accuracy pass
+# on all validation papers, 375 GB table in RAM. The GPU is requested only so the job lands on dutta with the
+# node to itself; it is not used.
+#   sbatch scripts/h100_cpuonly.sub
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD=1 PYTHONUNBUFFERED=1
+
+D=/share/gupta/ak2877/gnn
+echo "job $SLURM_JOB_ID on $(hostname)  $(date)"
+free -g | head -2
+nproc; lscpu | grep -E "Model name|Socket|NUMA node\(s\)"; getconf PAGESIZE
+md5sum sage_mag240m.py hetero_common.py results/hetero/best.pt || exit 1
+
+OUT=results_cpu_h100nvl
+mkdir -p $OUT
+rm -f $OUT/summary_cpu_h100nvl.csv
+SWEEP="1024:40/20:1000,1024:5/5:1000,1024:10/5:1000,1024:15/10:1000,1024:25/15:1000,1024:60/30:1000"
+
+python sage_mag240m.py --hetero --weights results/hetero/best.pt --root $D/data --csr $D/csr --hetero-dir $D/csr_hetero \
+  --feat $D/data/full_feat.npy --device cpu --seeds 20000000 --seed-mode all --layers 2 \
+  --fanout 40,20 --batch-size 1024 --hidden 256 --in-memory --sweep "$SWEEP" \
+  --out $OUT --summary $OUT/summary_cpu_h100nvl.csv --tag h100nvl_cpu
+
+echo "exit $?  $(date)"
