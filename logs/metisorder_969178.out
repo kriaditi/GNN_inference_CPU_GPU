@@ -1,0 +1,25 @@
+job 969178 on yosemite.tech.cornell.edu  Wed Nov  4 06:39:09 PM EST 2026
+gupta-nfs-01.tech.cornell.edu:/export/data/gupta   86T   64T   23T  75% /share/gupta
+27a45ee01f14fefcd835cd55258ca154  build_metis_ordered_feat.py
+8ee6962a8e6a85cc8b6c1db7562990b5  /share/gupta/ak2877/gnn/metis/part_k5.npy
+[part 0] 50,056,109 rows, 76.9 GB, rows 0 .. 50,056,108
+[part 1] 47,767,124 rows, 73.4 GB, rows 50,056,109 .. 97,823,232
+[part 2] 48,270,666 rows, 74.1 GB, rows 97,823,233 .. 146,093,898
+[part 3] 50,299,482 rows, 77.3 GB, rows 146,093,899 .. 196,393,380
+[part 4] 47,767,118 rows, 73.4 GB, rows 196,393,381 .. 244,160,498
+[write] 2,000,000 / 244,160,499 rows (69s)
+[write] 22,000,000 / 244,160,499 rows (815s)
+[write] 42,000,000 / 244,160,499 rows (1594s)
+[write] 62,000,000 / 244,160,499 rows (2468s)
+[write] 82,000,000 / 244,160,499 rows (3425s)
+[write] 102,000,000 / 244,160,499 rows (4223s)
+[write] 122,000,000 / 244,160,499 rows (4980s)
+[write] 142,000,000 / 244,160,499 rows (5970s)
+[write] 162,000,000 / 244,160,499 rows (6832s)
+[write] 182,000,000 / 244,160,499 rows (7627s)
+[write] 202,000,000 / 244,160,499 rows (8572s)
+[write] 222,000,000 / 244,160,499 rows (9488s)
+[write] 242,000,000 / 244,160,499 rows (10338s)
+[check] 100,000 random rows equal the original; parts contiguous
+[done] 13835s -> /share/gupta/ak2877/gnn/metis_ordered
+exit 0  Wed Nov  4 10:29:56 PM EST 2026

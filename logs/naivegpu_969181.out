@@ -1,0 +1,30 @@
+job 969181 fanout 10/5 restart 0 on dutta-compute-01.cs.cornell.edu  Thu Nov  5 08:34:28 AM EST 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 580.126.18, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1511         498         894          72         200        1012
+a8ae33650b71d22ee32156a2ec65d500  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+2d19a925c2fa8c969f6686012f250df7  /share/gupta/ak2877/gnn/metis_ordered/rowmap_k5.npy
+00a9f2ba88f19629f19fdcdf5796115c  /share/gupta/ak2877/gnn/metis_ordered/bounds_k5.npy
+[hetero] 5 relations, 3,456,728,464 directed edges resident (102s)
+[feat] reading /share/gupta/ak2877/gnn/metis_ordered/full_feat_metis_k5.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 38.0 min)
+[naive GPU] 5 METIS parts as chunks: 76.9 GB, 73.4 GB, 74.1 GB, 77.3 GB, 73.4 GB
+[val] chunk metisk5 fanout [10, 5]: accuracy 0.6444  macro-F1 0.5141 on 138,949 papers (2468s, G=1)
+
+[h100nvl_naivegpu_metisk5_G1_f10x5] chunk metisk5 (50,299,482 rows, buffer 77.3 GB), G=1, 1001 passes (1 warmup)
+[h100nvl_naivegpu_metisk5_G1_f10x5] check: first 3 batches bit-exact vs CPU gather
+[h100nvl_naivegpu_metisk5_G1_f10x5] pass 0: wall 17.33 s, stream transfer 17.29 s, union 0.1 GB, drift 0.00%
+[h100nvl_naivegpu_metisk5_G1_f10x5] pass 100: wall 20.34 s, stream transfer 20.27 s, union 0.1 GB, drift 0.00%
+[h100nvl_naivegpu_metisk5_G1_f10x5] pass 200: wall 20.07 s, stream transfer 20.02 s, union 0.1 GB, drift 0.00%
+[h100nvl_naivegpu_metisk5_G1_f10x5] pass 300: wall 20.30 s, stream transfer 20.26 s, union 0.1 GB, drift 0.00%
+[h100nvl_naivegpu_metisk5_G1_f10x5] pass 400: wall 20.61 s, stream transfer 20.57 s, union 0.1 GB, drift 0.00%
+[h100nvl_naivegpu_metisk5_G1_f10x5] pass 500: wall 20.51 s, stream transfer 20.46 s, union 0.1 GB, drift 0.00%
+[h100nvl_naivegpu_metisk5_G1_f10x5] pass 600: wall 27.76 s, stream transfer 27.73 s, union 0.1 GB, drift 0.00%
+[h100nvl_naivegpu_metisk5_G1_f10x5] pass 700: wall 20.59 s, stream transfer 20.53 s, union 0.1 GB, drift 0.00%
+[h100nvl_naivegpu_metisk5_G1_f10x5] pass 800: wall 20.50 s, stream transfer 20.46 s, union 0.1 GB, drift 0.00%
+[h100nvl_naivegpu_metisk5_G1_f10x5] pass 900: wall 20.59 s, stream transfer 20.55 s, union 0.1 GB, drift 0.00%
+[summary] h100nvl_naivegpu_metisk5_G1_f10x5: 20399.6 ms/batch, pass 20400 ms, stream 18.4 GB/s, qps 48, drift 0.00%
+exit 0  Thu Nov  5 03:52:46 PM EST 2026

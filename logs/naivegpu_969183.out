@@ -1,0 +1,22 @@
+job 969183 fanout 25/15 restart 0 on dutta-compute-01.cs.cornell.edu  Thu Nov  5 03:52:53 PM EST 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 580.126.18, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1511         562         833          72         196         948
+a8ae33650b71d22ee32156a2ec65d500  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+2d19a925c2fa8c969f6686012f250df7  /share/gupta/ak2877/gnn/metis_ordered/rowmap_k5.npy
+00a9f2ba88f19629f19fdcdf5796115c  /share/gupta/ak2877/gnn/metis_ordered/bounds_k5.npy
+[hetero] 5 relations, 3,456,728,464 directed edges resident (89s)
+[feat] reading /share/gupta/ak2877/gnn/metis_ordered/full_feat_metis_k5.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 45.3 min)
+[naive GPU] 5 METIS parts as chunks: 76.9 GB, 73.4 GB, 74.1 GB, 77.3 GB, 73.4 GB
+[val] chunk metisk5 fanout [25, 15]: accuracy 0.6507  macro-F1 0.5189 on 138,949 papers (2900s, G=1)
+
+[h100nvl_naivegpu_metisk5_G1_f25x15] chunk metisk5 (50,299,482 rows, buffer 77.3 GB), G=1, 1001 passes (1 warmup)
+[h100nvl_naivegpu_metisk5_G1_f25x15] check: first 3 batches bit-exact vs CPU gather
+[h100nvl_naivegpu_metisk5_G1_f25x15] pass 0: wall 20.32 s, stream transfer 20.19 s, union 0.3 GB, drift 0.00%
+[h100nvl_naivegpu_metisk5_G1_f25x15] pass 100: wall 20.32 s, stream transfer 20.22 s, union 0.3 GB, drift 0.00%
+[h100nvl_naivegpu_metisk5_G1_f25x15] pass 200: wall 27.37 s, stream transfer 27.25 s, union 0.2 GB, drift 0.00%
+[h100nvl_naivegpu_metisk5_G1_f25x15] pass 300: wall 20.47 s, stream transfer 20.31 s, union 0.3 GB, drift 0.00%

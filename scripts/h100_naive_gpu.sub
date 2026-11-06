@@ -1,0 +1,48 @@
+#!/bin/bash
+#SBATCH --job-name=naivegpu
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/naivegpu_%j.out
+#SBATCH -e logs/naivegpu_%j.err
+#SBATCH --open-mode=append
+#SBATCH --requeue
+#SBATCH --get-user-env
+#SBATCH --mem=500G
+#SBATCH -t 48:00:00
+#SBATCH --cpus-per-task=32
+#SBATCH --partition=gpu
+#SBATCH --gres=gpu:nvidia_h100_nvl:1
+#SBATCH --nodelist=dutta-compute-01
+
+# Naive GPU (Michael, 4 Nov) on the cluster H100 NVL (PCIe): streaming with the METIS k=5 parts as the chunks.
+# Every batch (G=1), all 5 parts go RAM -> GPU in turn; CPU sampling on the full graph; accuracy pass included.
+# Same stream_infer.py and options as run_naive_gpu_gh200.sh. 375 GB part-ordered table in RAM.
+# ONE FANOUT PER JOB, after h100_metis_order.sub has finished:
+#   sbatch -J ngpu_40x20 --dependency=afterok:<order job id> --export=ALL,F=40/20 scripts/h100_naive_gpu.sub
+# A requeued job deletes that fanout's partial files first, so no duplicate rows.
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD=1 PYTHONUNBUFFERED=1
+
+[ -n "$F" ] || { echo "set F, e.g. --export=ALL,F=40/20"; exit 1; }
+FX=${F/\//x}
+D=/share/gupta/ak2877/gnn
+MO=$D/metis_ordered
+echo "job $SLURM_JOB_ID fanout $F restart ${SLURM_RESTART_COUNT:-0} on $(hostname)  $(date)"
+nvidia-smi --query-gpu=name,driver_version,memory.total,memory.used --format=csv
+free -g | head -2
+md5sum stream_infer.py hetero_common.py results/hetero/best.pt $MO/rowmap_k5.npy $MO/bounds_k5.npy || exit 1
+[ -f $MO/info_k5.json ] || { echo "$MO not built: run h100_metis_order.sub first"; exit 1; }
+
+OUT=results_naive_gpu_h100nvl
+mkdir -p $OUT
+rm -f $OUT/summary_naive_gpu_h100nvl_f$FX.csv $OUT/h100nvl_naivegpu_*_f${FX}_perpass.csv
+
+python stream_infer.py --weights results/hetero/best.pt --root $D/data --csr $D/csr --hetero-dir $D/csr_hetero \
+  --feat $MO/full_feat_metis_k5.npy --row-map $MO/rowmap_k5.npy --chunk-bounds $MO/bounds_k5.npy --in-memory \
+  --fanouts $F --batches-per-pass 1 --val --val-G 1 --batches 1000 \
+  --out $OUT --summary $OUT/summary_naive_gpu_h100nvl_f$FX.csv --tag h100nvl_naivegpu
+
+echo "exit $?  $(date)"

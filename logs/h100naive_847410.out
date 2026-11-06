@@ -70,3 +70,13 @@ e3459801976c9828669495f9457cc279  hetero_common.py
 [h100nvl_naive_c75.01gb_G1_f15x10] check: first 3 batches bit-exact vs CPU gather
 [h100nvl_naive_c75.01gb_G1_f15x10] pass 0: wall 17.33 s, stream transfer 17.28 s, union 0.2 GB, drift 0.00%
 [h100nvl_naive_c75.01gb_G1_f15x10] pass 100: wall 22.67 s, stream transfer 22.54 s, union 0.2 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f15x10] pass 200: wall 15.59 s, stream transfer 15.53 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f15x10] pass 300: wall 15.72 s, stream transfer 15.68 s, union 0.2 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f15x10] pass 400: wall 23.82 s, stream transfer 23.77 s, union 0.2 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f15x10] pass 500: wall 16.16 s, stream transfer 16.12 s, union 0.2 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f15x10] pass 600: wall 20.99 s, stream transfer 20.92 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f15x10] pass 700: wall 16.13 s, stream transfer 16.08 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f15x10] pass 800: wall 16.16 s, stream transfer 16.12 s, union 0.2 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f15x10] pass 900: wall 23.92 s, stream transfer 23.86 s, union 0.2 GB, drift 0.00%
+[summary] h100nvl_naive_c75.01gb_G1_f15x10: 16219.7 ms/batch, pass 16220 ms, stream 23.2 GB/s, qps 56, drift 0.00%
+exit 0  Tue Nov  3 02:38:49 PM EST 2026

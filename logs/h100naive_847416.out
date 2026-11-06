@@ -36,3 +36,20 @@ e3459801976c9828669495f9457cc279  hetero_common.py
 65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
 [hetero] 5 relations, 3,456,728,464 directed edges resident (127s)
 [feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 51.0 min)
+[val] chunk 75.01 GB fanout [60, 30]: accuracy 0.6518  macro-F1 0.5206 on 138,949 papers (525s, G=8)
+
+[h100nvl_naive_c75.01gb_G1_f60x30] chunk 75.01 GB (48,834,635 rows), G=1, 1001 passes (1 warmup)
+[h100nvl_naive_c75.01gb_G1_f60x30] check: first 3 batches bit-exact vs CPU gather
+[h100nvl_naive_c75.01gb_G1_f60x30] pass 0: wall 17.95 s, stream transfer 17.81 s, union 0.7 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f60x30] pass 100: wall 17.77 s, stream transfer 17.62 s, union 0.7 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f60x30] pass 200: wall 18.08 s, stream transfer 17.89 s, union 0.6 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f60x30] pass 300: wall 18.21 s, stream transfer 18.02 s, union 0.6 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f60x30] pass 400: wall 17.84 s, stream transfer 17.70 s, union 0.6 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f60x30] pass 500: wall 18.05 s, stream transfer 17.91 s, union 0.7 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f60x30] pass 600: wall 18.18 s, stream transfer 18.06 s, union 0.6 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f60x30] pass 700: wall 16.52 s, stream transfer 16.40 s, union 0.6 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f60x30] pass 800: wall 16.45 s, stream transfer 16.33 s, union 0.6 GB, drift 0.00%
+[h100nvl_naive_c75.01gb_G1_f60x30] pass 900: wall 16.50 s, stream transfer 16.31 s, union 0.6 GB, drift 0.00%
+[summary] h100nvl_naive_c75.01gb_G1_f60x30: 17942.2 ms/batch, pass 17942 ms, stream 21.1 GB/s, qps 58, drift 0.00%
+exit 0  Tue Nov  3 04:13:46 PM EST 2026

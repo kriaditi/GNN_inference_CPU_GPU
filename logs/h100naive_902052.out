@@ -14,3 +14,40 @@ e3459801976c9828669495f9457cc279  hetero_common.py
 [h100nvl_naive_c47gb_G1_f15x10] chunk 47 GB (30,598,958 rows), G=1, 1001 passes (1 warmup)
 [h100nvl_naive_c47gb_G1_f15x10] check: first 3 batches bit-exact vs CPU gather
 [h100nvl_naive_c47gb_G1_f15x10] pass 0: wall 16.49 s, stream transfer 16.45 s, union 0.2 GB, drift 0.00%
+job 902052 fanout 15/10 chunk 47 GB restart 1 on dutta-compute-01.cs.cornell.edu  Wed Nov  4 09:28:33 AM EST 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 580.126.18, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1511         120        1262          72         215        1391
+8c02dee31f5d6c7f610f225552325aaf  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+[hetero] 5 relations, 3,456,728,464 directed edges resident (54s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+job 902052 fanout 15/10 chunk 47 GB restart 2 on dutta-compute-01.cs.cornell.edu  Wed Nov  4 10:11:19 AM EST 2026
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 NVL, 580.126.18, 95830 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            1511         120        1219          72         257        1391
+8c02dee31f5d6c7f610f225552325aaf  stream_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  results/hetero/best.pt
+[hetero] 5 relations, 3,456,728,464 directed edges resident (57s)
+[feat] reading /share/gupta/ak2877/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 28.2 min)
+[val] chunk 47 GB fanout [15, 10]: accuracy 0.6487  macro-F1 0.5168 on 138,949 papers (330s, G=8)
+
+[h100nvl_naive_c47gb_G1_f15x10] chunk 47 GB (30,598,958 rows), G=1, 1001 passes (1 warmup)
+[h100nvl_naive_c47gb_G1_f15x10] check: first 3 batches bit-exact vs CPU gather
+[h100nvl_naive_c47gb_G1_f15x10] pass 0: wall 16.81 s, stream transfer 16.76 s, union 0.2 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f15x10] pass 100: wall 17.01 s, stream transfer 16.97 s, union 0.2 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f15x10] pass 200: wall 16.97 s, stream transfer 16.93 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f15x10] pass 300: wall 17.08 s, stream transfer 17.05 s, union 0.2 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f15x10] pass 400: wall 17.06 s, stream transfer 17.02 s, union 0.2 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f15x10] pass 500: wall 17.13 s, stream transfer 17.10 s, union 0.2 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f15x10] pass 600: wall 17.08 s, stream transfer 17.04 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f15x10] pass 700: wall 17.03 s, stream transfer 17.00 s, union 0.1 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f15x10] pass 800: wall 16.98 s, stream transfer 16.94 s, union 0.2 GB, drift 0.00%
+[h100nvl_naive_c47gb_G1_f15x10] pass 900: wall 17.05 s, stream transfer 17.01 s, union 0.2 GB, drift 0.00%
+[summary] h100nvl_naive_c47gb_G1_f15x10: 17060.7 ms/batch, pass 17061 ms, stream 22.0 GB/s, qps 57, drift 0.00%
+exit 0  Wed Nov  4 03:47:29 PM EST 2026

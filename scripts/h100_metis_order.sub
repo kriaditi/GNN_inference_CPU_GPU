@@ -1,0 +1,29 @@
+#!/bin/bash
+#SBATCH --job-name=metisorder
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=ak2877@cornell.edu
+#SBATCH -o logs/metisorder_%j.out
+#SBATCH -e logs/metisorder_%j.err
+#SBATCH --get-user-env
+#SBATCH --mem=200G
+#SBATCH -t 24:00:00
+#SBATCH --cpus-per-task=8
+#SBATCH --partition=gupta
+#SBATCH --nodelist=yosemite
+
+# Naive GPU (Michael, 4 Nov), step 1 on the cluster: write the 375 GB table once in METIS k=5 part order
+# (untimed, CPU only), so each part is one contiguous block for stream_infer.py --chunk-bounds.
+# Same build_metis_ordered_feat.py as on the GH200; checks 100,000 rows against the original.
+#   sbatch scripts/h100_metis_order.sub
+
+source /share/apps/software/anaconda3/etc/profile.d/conda.sh
+conda activate gnn
+cd ~/gnn
+export PYTHONUNBUFFERED=1
+D=/share/gupta/ak2877/gnn
+echo "job $SLURM_JOB_ID on $(hostname)  $(date)"
+df -h $D | tail -1
+md5sum build_metis_ordered_feat.py $D/metis/part_k5.npy || exit 1
+
+python build_metis_ordered_feat.py --feat $D/data/full_feat.npy --metis $D/metis --k 5 --out $D/metis_ordered
+echo "exit $?  $(date)"
