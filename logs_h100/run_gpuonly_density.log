@@ -1,0 +1,52 @@
+start Thu Nov  5 15:41:48 UTC 2026
+name, memory.total [MiB], memory.used [MiB]
+NVIDIA H100 PCIe, 81559 MiB, 0 MiB
+               total        used        free      shared  buff/cache   available
+Mem:             221           1         219           0           0         218
+/dev/vda1       993G  642G  351G  65% /
+28ad4bf71af76a02e5da72d41868958a  build_subset.py
+acc3a57e0db06749f3384b42ecd3eb01  shard_infer.py
+e3459801976c9828669495f9457cc279  hetero_common.py
+65543ffd389bc920557b6b1da274555f  /unicorn/gnn/results/h100het_378025/best.pt
+27dc3cb8368fdaf019745a27fdeb356e  results_capacity_order/order_density_k16.json
+build d1-d3 done Thu Nov  5 16:44:33 UTC 2026 exit 0
+== size d1: [2] 15235779 nodes, 23.4 GB
+  GPU used before start: 0 MiB  Thu Nov  5 16:44:34 UTC 2026
+  d1 gpuonly 40/20 exit 0 Thu Nov  5 16:47:19 UTC 2026
+  GPU used before start: 0 MiB  Thu Nov  5 16:47:19 UTC 2026
+  d1 gpuonly 5/5 exit 0 Thu Nov  5 16:47:52 UTC 2026
+  GPU used before start: 0 MiB  Thu Nov  5 16:47:52 UTC 2026
+  d1 gpuonly 10/5 exit 0 Thu Nov  5 16:48:22 UTC 2026
+  GPU used before start: 0 MiB  Thu Nov  5 16:48:22 UTC 2026
+  d1 gpuonly 15/10 exit 0 Thu Nov  5 16:48:56 UTC 2026
+  GPU used before start: 0 MiB  Thu Nov  5 16:48:56 UTC 2026
+  d1 gpuonly 25/15 exit 0 Thu Nov  5 16:49:36 UTC 2026
+  GPU used before start: 0 MiB  Thu Nov  5 16:49:36 UTC 2026
+  d1 gpuonly 60/30 exit 0 Thu Nov  5 16:50:27 UTC 2026
+== size d2: [2, 5] 30334913 nodes, 46.6 GB
+  GPU used before start: 0 MiB  Thu Nov  5 16:50:27 UTC 2026
+  d2 gpuonly 40/20 exit 0 Thu Nov  5 16:54:37 UTC 2026
+  GPU used before start: 0 MiB  Thu Nov  5 16:54:37 UTC 2026
+  d2 gpuonly 5/5 exit 0 Thu Nov  5 16:56:27 UTC 2026
+  GPU used before start: 0 MiB  Thu Nov  5 16:56:27 UTC 2026
+  d2 gpuonly 10/5 exit 0 Thu Nov  5 16:58:03 UTC 2026
+  GPU used before start: 0 MiB  Thu Nov  5 16:58:03 UTC 2026
+  d2 gpuonly 15/10 exit 0 Thu Nov  5 16:58:55 UTC 2026
+  GPU used before start: 0 MiB  Thu Nov  5 16:58:55 UTC 2026
+  d2 gpuonly 25/15 exit 0 Thu Nov  5 16:59:57 UTC 2026
+  GPU used before start: 0 MiB  Thu Nov  5 16:59:57 UTC 2026
+  d2 gpuonly 60/30 exit 0 Thu Nov  5 17:01:16 UTC 2026
+== size d3: [2, 5, 11] 45570666 nodes, 70.0 GB
+  GPU used before start: 0 MiB  Thu Nov  5 17:01:16 UTC 2026
+  d3 gpuonly 40/20 exit 0 Thu Nov  5 17:05:16 UTC 2026
+  GPU used before start: 0 MiB  Thu Nov  5 17:05:16 UTC 2026
+  d3 gpuonly 5/5 exit 0 Thu Nov  5 17:07:17 UTC 2026
+  GPU used before start: 0 MiB  Thu Nov  5 17:07:17 UTC 2026
+  d3 gpuonly 10/5 exit 0 Thu Nov  5 17:08:54 UTC 2026
+  GPU used before start: 0 MiB  Thu Nov  5 17:08:54 UTC 2026
+  d3 gpuonly 15/10 exit 0 Thu Nov  5 17:10:46 UTC 2026
+  GPU used before start: 0 MiB  Thu Nov  5 17:10:46 UTC 2026
+  d3 gpuonly 25/15 exit 0 Thu Nov  5 17:12:56 UTC 2026
+  GPU used before start: 0 MiB  Thu Nov  5 17:12:56 UTC 2026
+  d3 gpuonly 60/30 exit 0 Thu Nov  5 17:15:12 UTC 2026
+all done Thu Nov  5 17:15:12 UTC 2026
