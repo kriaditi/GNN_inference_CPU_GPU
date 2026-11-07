@@ -1,0 +1,15 @@
+start Sat Nov  7 16:01:02 UTC 2026
+name, memory.total [MiB], memory.used [MiB]
+NVIDIA GH200 480GB, 97871 MiB, 0 MiB
+115af639ad6b03b1cf16fc205e634d8e  shard_infer.py
+27a45ee01f14fefcd835cd55258ca154  build_metis_ordered_feat.py
+/dev/vda1       3.9T  2.7T  1.2T  70% /
+build k=32 done Sat Nov  7 16:31:40 UTC 2026 exit 0
+k=32 resident done Sat Nov  7 16:43:21 UTC 2026 exit 0
+k=32 swap done Sat Nov  7 16:58:05 UTC 2026 exit 0
+k=32 swap overlapped done Sat Nov  7 17:10:40 UTC 2026 exit 0
+build k=64 done Sat Nov  7 17:40:17 UTC 2026 exit 0
+k=64 resident done Sat Nov  7 17:52:57 UTC 2026 exit 0
+k=64 swap done Sat Nov  7 18:07:05 UTC 2026 exit 0
+k=64 swap overlapped done Sat Nov  7 18:19:54 UTC 2026 exit 0
+all done Sat Nov  7 18:19:54 UTC 2026
