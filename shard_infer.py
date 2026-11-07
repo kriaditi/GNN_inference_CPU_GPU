@@ -60,9 +60,14 @@ def variant_m(v):
     return int(v[3:])
 
 
-def now_sync(dev):
+def now_sync(dev, stream_only=False):
+    """Wall clock after the GPU work is done: the whole device, or only the current stream (so an overlapped
+    shard copy on its side stream is not waited for)."""
     if dev.type == "cuda":
-        torch.cuda.synchronize()
+        if stream_only:
+            torch.cuda.current_stream().synchronize()
+        else:
+            torch.cuda.synchronize()
     return time.perf_counter()
 
 
@@ -152,13 +157,32 @@ class Shard:
         self.x.copy_(self.host, non_blocking=True)
         return now_sync(self.dev) - t0
 
+    def swap_start(self):
+        """Issue the shard copy on a side stream and return at once; (ev0, ev1) time the copy on the GPU."""
+        if not hasattr(self, "stream"):
+            self.stream = torch.cuda.Stream()
+        ev0 = torch.cuda.Event(enable_timing=True)
+        ev1 = torch.cuda.Event(enable_timing=True)
+        with torch.cuda.stream(self.stream):
+            ev0.record()
+            self.x.copy_(self.host, non_blocking=True)
+            ev1.record()
+        return ev0, ev1
 
-def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev, swap=False):
+
+def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev, swap=False, overlap=False):
     rm = shard.rowmap
     """One batch through the shard pipeline. Returns (logits, row dict).
-    swap=True: the batch starts by copying the whole resident shard host->device (one shard swap per batch)."""
+    swap=True: the batch starts by copying the whole resident shard host->device (one shard swap per batch).
+    overlap=True: that copy runs on a side stream while the CPU samples, filters and fetches; the batch waits for it
+    just before the in-shard gather (swap_wait_s = the part of the copy that was not hidden)."""
     t0 = time.perf_counter()
-    swap_s = shard.swap() if swap else 0.0
+    swap_s = swap_wait_s = swap_block_s = 0.0
+    ev = None
+    if swap and overlap:
+        ev = shard.swap_start()
+    elif swap:
+        swap_s = swap_block_s = shard.swap()
     node_id, edge_index = hc.sample_hetero(g, seeds, fanout)
     t1 = time.perf_counter()
 
@@ -223,7 +247,13 @@ def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev, swap=Fal
         loc_pos_d = {k: v.to(dev) for k, v in loc_pos.items()}
         rem_pos_d = {k: v.to(dev) for k, v in rem_pos.items()}
         rem_d = {k: v.to(dev) for k, v in rem_cpu.items()}
-    t4 = now_sync(dev)
+    t4 = now_sync(dev, stream_only=ev is not None)
+    t4b = t4
+    if ev is not None:                       # wait for the overlapped shard copy before the in-shard gather
+        ev[1].synchronize()
+        t4b = time.perf_counter()
+        swap_wait_s = t4b - t4
+        swap_s = ev[0].elapsed_time(ev[1]) / 1000.0
 
     # ---- gather_local (device): rows of the resident shard
     if variant == "drop":
@@ -262,14 +292,14 @@ def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev, swap=Fal
         bytes_xfer += sum(v.numel() * v.element_size() for v in rem_cpu.values())
         bytes_xfer += sum(v.numel() * v.element_size() for v in loc_pos.values())
         bytes_xfer += sum(v.numel() * v.element_size() for v in rem_pos.values())
-    sample_s, filter_s, grem_s, xfer_s, gloc_s = t1 - t0 - swap_s, t2 - t1, t3 - t2, t4 - t3, t5 - t4
+    sample_s, filter_s, grem_s, xfer_s, gloc_s = t1 - t0 - swap_block_s, t2 - t1, t3 - t2, t4 - t3, t5 - t4b
     wall_s = t6 - t0
-    attributed = swap_s + sample_s + filter_s + grem_s + xfer_s + gloc_s + compute_s
+    attributed = (swap_wait_s if ev is not None else swap_s) + sample_s + filter_s + grem_s + xfer_s + gloc_s + compute_s
     row = dict(seeds=len(seeds), nodes_sampled=n_all, nodes_local=n_local,
                nodes_used=sum(n_rows.values()), frac_local=n_local / n_all,
                shards_hit=shards_hit, frac_kept=sum(n_rows.values()) / n_all,
                edges_used=sum(v.size(1) for v in ei_cpu.values()),
-               mb_transfer=bytes_xfer / 1e6, swap_s=swap_s,
+               mb_transfer=bytes_xfer / 1e6, swap_s=swap_s, swap_wait_s=swap_wait_s,
                sample_s=sample_s, filter_s=filter_s, gather_remote_s=grem_s,
                transfer_s=xfer_s, gather_local_s=gloc_s, compute_s=compute_s,
                wall_s=wall_s, drift_pct=abs(wall_s - attributed) / wall_s * 100)
@@ -305,6 +335,8 @@ def main():
     ap.add_argument("--chunk-bounds", default="", help="METIS-ordered --feat: bounds_k<k>.npy (first row of each shard, plus N)")
     ap.add_argument("--swap-per-batch", action="store_true",
                     help="copy the whole resident shard from pinned host memory to the GPU before every batch (swap_s)")
+    ap.add_argument("--swap-overlap", action="store_true",
+                    help="with --swap-per-batch: run that copy on a side stream while the CPU samples, filters and fetches")
     ap.add_argument("--device", default="cuda")
     ap.add_argument("--out", default="results_shard")
     ap.add_argument("--summary", default="")
@@ -391,7 +423,7 @@ def main():
                 for v in variants:
                     key = (v, tuple(f))
                     for i, b in enumerate(batches):
-                        _, r = run_batch(g, feat, shard, part, b, f, v, model, dev, swap=a.swap_per_batch)
+                        _, r = run_batch(g, feat, shard, part, b, f, v, model, dev, swap=a.swap_per_batch, overlap=a.swap_overlap)
                         if i >= a.warmup:
                             r.update(shard=p, iter=i - a.warmup)
                             rows[key].append(r)
@@ -402,7 +434,7 @@ def main():
                         np.add.at(conf[key], (y, pred), 1)
                     rr = rows[key][-max(1, len(batches) - a.warmup):]
                     print(f"[shard {p}] {v:<5} fanout {f}: wall {np.median([x['wall_s'] for x in rr])*1e3:7.1f} ms  "
-                          f"swap {np.median([x['swap_s'] for x in rr])*1e3:6.1f} ms  "
+                          f"swap {np.median([x['swap_s'] for x in rr])*1e3:6.1f} ms (wait {np.median([x['swap_wait_s'] for x in rr])*1e3:5.1f})  "
                           f"local {np.median([x['frac_local'] for x in rr])*100:5.1f}%  "
                           f"val papers {sum(x.numel() for x in vbatches):,}", flush=True)
 
@@ -431,7 +463,7 @@ def main():
             present = c.sum(1) > 0
             s = dict(tag=f"{a.tag}_k{a.k}_{v}_f{fs}", k=a.k, variant=v, fanout=",".join(map(str, f)),
                      shards=len(loads), batches=len(rr), seeds_total=seeds_total,
-                     swap_ms=med("swap_s") * 1e3, sample_ms=med("sample_s") * 1e3, filter_ms=med("filter_s") * 1e3,
+                     swap_ms=med("swap_s") * 1e3, swap_wait_ms=med("swap_wait_s") * 1e3, sample_ms=med("sample_s") * 1e3, filter_ms=med("filter_s") * 1e3,
                      gather_remote_ms=med("gather_remote_s") * 1e3, transfer_ms=med("transfer_s") * 1e3,
                      gather_local_ms=med("gather_local_s") * 1e3, compute_ms=med("compute_s") * 1e3,
                      wall_ms=med("wall_s") * 1e3, drift_pct=med("drift_pct"),

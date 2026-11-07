@@ -1,0 +1,147 @@
+[hetero] 5 relations, 3,456,728,464 directed edges resident (8s)
+[feat] reading /unicorn/gnn/metis_ordered/full_feat_metis_k16.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 2.4 min)
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/unicorn/code/shard_infer.py:371: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  ck = torch.load(a.weights, map_location=dev)
+[model] /unicorn/gnn/results/h100het_378025/best.pt: epoch 8, val acc 0.6519
+[seeds] 20,000,000 fresh seeds; per shard: 1251133, 1523873, 1218907, 1413629, 1169780, 1155443, 1377500, 1297148, 1406666, 1210004, 1118424, 1110040, 1155742, 1241017, 1229914, 1120780
+[ordered table] 16 shards contiguous in --feat; shard GB: 23.3, 23.7, 23.4, 23.7, 23.0, 23.2, 23.7, 23.7, 23.7, 22.8, 23.4, 23.4, 23.7, 23.7, 23.7, 23.4
+
+[shard 0] loaded 15,146,609 rows (23.3 GB): CPU gather 0.0 s, transfer 0.06 s, swap source pinned (cudaHostRegister), peak GPU 23.3 GB
+[shard 0] fetch fanout [40, 20]: wall    66.6 ms  swap   59.3 ms (wait   0.0)  local  88.1%  val papers 21,107
+[shard 0] fetch fanout [5, 5]: wall    63.3 ms  swap   58.8 ms (wait   0.0)  local  86.7%  val papers 21,107
+[shard 0] fetch fanout [10, 5]: wall    63.7 ms  swap   58.9 ms (wait   0.0)  local  87.0%  val papers 21,107
+[shard 0] fetch fanout [15, 10]: wall    64.7 ms  swap   59.0 ms (wait   0.0)  local  87.4%  val papers 21,107
+[shard 0] fetch fanout [25, 15]: wall    65.5 ms  swap   59.1 ms (wait   0.0)  local  87.8%  val papers 21,107
+[shard 0] fetch fanout [60, 30]: wall    69.5 ms  swap   59.4 ms (wait   0.0)  local  88.3%  val papers 21,107
+
+[shard 1] loaded 15,398,387 rows (23.7 GB): CPU gather 0.0 s, transfer 0.06 s, swap source pinned (cudaHostRegister), peak GPU 29.5 GB
+[shard 1] fetch fanout [40, 20]: wall    76.0 ms  swap   60.5 ms (wait   0.0)  local  79.9%  val papers 2,314
+[shard 1] fetch fanout [5, 5]: wall    64.7 ms  swap   59.1 ms (wait   0.0)  local  80.8%  val papers 2,314
+[shard 1] fetch fanout [10, 5]: wall    65.5 ms  swap   59.2 ms (wait   0.0)  local  80.7%  val papers 2,314
+[shard 1] fetch fanout [15, 10]: wall    66.8 ms  swap   59.5 ms (wait   0.0)  local  80.5%  val papers 2,314
+[shard 1] fetch fanout [25, 15]: wall    70.8 ms  swap   60.0 ms (wait   0.0)  local  80.6%  val papers 2,314
+[shard 1] fetch fanout [60, 30]: wall   102.5 ms  swap   60.6 ms (wait   0.0)  local  79.6%  val papers 2,314
+
+[shard 2] loaded 15,235,779 rows (23.4 GB): CPU gather 0.0 s, transfer 0.06 s, swap source pinned (cudaHostRegister), peak GPU 29.6 GB
+[shard 2] fetch fanout [40, 20]: wall    67.8 ms  swap   59.6 ms (wait   0.0)  local  80.1%  val papers 23,567
+[shard 2] fetch fanout [5, 5]: wall    63.8 ms  swap   59.1 ms (wait   0.0)  local  81.6%  val papers 23,567
+[shard 2] fetch fanout [10, 5]: wall    64.3 ms  swap   59.2 ms (wait   0.0)  local  81.8%  val papers 23,567
+[shard 2] fetch fanout [15, 10]: wall    65.4 ms  swap   59.3 ms (wait   0.0)  local  81.4%  val papers 23,567
+[shard 2] fetch fanout [25, 15]: wall    66.3 ms  swap   59.4 ms (wait   0.0)  local  80.8%  val papers 23,567
+[shard 2] fetch fanout [60, 30]: wall    70.6 ms  swap   59.9 ms (wait   0.0)  local  79.3%  val papers 23,567
+
+[shard 3] loaded 15,398,386 rows (23.7 GB): CPU gather 0.0 s, transfer 0.06 s, swap source pinned (cudaHostRegister), peak GPU 29.6 GB
+[shard 3] fetch fanout [40, 20]: wall    87.5 ms  swap   60.9 ms (wait   0.0)  local  81.7%  val papers 56,674
+[shard 3] fetch fanout [5, 5]: wall    65.9 ms  swap   59.7 ms (wait   0.0)  local  82.3%  val papers 56,674
+[shard 3] fetch fanout [10, 5]: wall    66.1 ms  swap   59.8 ms (wait   0.0)  local  82.7%  val papers 56,674
+[shard 3] fetch fanout [15, 10]: wall    70.2 ms  swap   60.2 ms (wait   0.0)  local  82.5%  val papers 56,674
+[shard 3] fetch fanout [25, 15]: wall    75.3 ms  swap   60.7 ms (wait   0.0)  local  82.1%  val papers 56,674
+[shard 3] fetch fanout [60, 30]: wall   120.3 ms  swap   60.8 ms (wait   0.0)  local  81.1%  val papers 56,674
+
+[shard 4] loaded 14,969,753 rows (23.0 GB): CPU gather 0.0 s, transfer 0.06 s, swap source pinned (cudaHostRegister), peak GPU 31.1 GB
+[shard 4] fetch fanout [40, 20]: wall    74.8 ms  swap   59.0 ms (wait   0.0)  local  79.0%  val papers 3,195
+[shard 4] fetch fanout [5, 5]: wall    63.3 ms  swap   57.6 ms (wait   0.0)  local  80.3%  val papers 3,195
+[shard 4] fetch fanout [10, 5]: wall    64.0 ms  swap   57.7 ms (wait   0.0)  local  80.3%  val papers 3,195
+[shard 4] fetch fanout [15, 10]: wall    65.2 ms  swap   58.0 ms (wait   0.0)  local  79.8%  val papers 3,195
+[shard 4] fetch fanout [25, 15]: wall    69.1 ms  swap   58.4 ms (wait   0.0)  local  79.3%  val papers 3,195
+[shard 4] fetch fanout [60, 30]: wall   102.4 ms  swap   59.0 ms (wait   0.0)  local  78.3%  val papers 3,195
+
+[shard 5] loaded 15,099,134 rows (23.2 GB): CPU gather 0.0 s, transfer 0.06 s, swap source pinned (cudaHostRegister), peak GPU 31.1 GB
+[shard 5] fetch fanout [40, 20]: wall    69.8 ms  swap   59.0 ms (wait   0.0)  local  74.8%  val papers 5,555
+[shard 5] fetch fanout [5, 5]: wall    63.2 ms  swap   57.9 ms (wait   0.0)  local  77.6%  val papers 5,555
+[shard 5] fetch fanout [10, 5]: wall    64.0 ms  swap   57.9 ms (wait   0.0)  local  77.3%  val papers 5,555
+[shard 5] fetch fanout [15, 10]: wall    64.6 ms  swap   58.2 ms (wait   0.0)  local  76.2%  val papers 5,555
+[shard 5] fetch fanout [25, 15]: wall    66.8 ms  swap   58.5 ms (wait   0.0)  local  75.4%  val papers 5,555
+[shard 5] fetch fanout [60, 30]: wall    75.5 ms  swap   59.4 ms (wait   0.0)  local  73.7%  val papers 5,555
+
+[shard 6] loaded 15,398,440 rows (23.7 GB): CPU gather 0.0 s, transfer 0.06 s, swap source pinned (cudaHostRegister), peak GPU 31.1 GB
+[shard 6] fetch fanout [40, 20]: wall   134.0 ms  swap   60.1 ms (wait   0.0)  local  78.5%  val papers 2,493
+[shard 6] fetch fanout [5, 5]: wall    65.2 ms  swap   59.0 ms (wait   0.0)  local  79.0%  val papers 2,493
+[shard 6] fetch fanout [10, 5]: wall    66.0 ms  swap   59.2 ms (wait   0.0)  local  79.0%  val papers 2,493
+[shard 6] fetch fanout [15, 10]: wall    71.8 ms  swap   59.8 ms (wait   0.0)  local  79.0%  val papers 2,493
+[shard 6] fetch fanout [25, 15]: wall    90.2 ms  swap   60.1 ms (wait   0.0)  local  78.8%  val papers 2,493
+[shard 6] fetch fanout [60, 30]: wall   200.6 ms  swap   59.7 ms (wait   0.0)  local  78.1%  val papers 2,493
+
+[shard 7] loaded 15,398,336 rows (23.7 GB): CPU gather 0.0 s, transfer 0.06 s, swap source pinned (cudaHostRegister), peak GPU 32.9 GB
+[shard 7] fetch fanout [40, 20]: wall    99.0 ms  swap   60.6 ms (wait   0.0)  local  80.7%  val papers 18,578
+[shard 7] fetch fanout [5, 5]: wall    65.9 ms  swap   59.7 ms (wait   0.0)  local  81.6%  val papers 18,578
+[shard 7] fetch fanout [10, 5]: wall    66.4 ms  swap   59.9 ms (wait   0.0)  local  81.9%  val papers 18,578
+[shard 7] fetch fanout [15, 10]: wall    70.9 ms  swap   60.2 ms (wait   0.0)  local  81.8%  val papers 18,578
+[shard 7] fetch fanout [25, 15]: wall    77.3 ms  swap   60.6 ms (wait   0.0)  local  81.3%  val papers 18,578
+[shard 7] fetch fanout [60, 30]: wall   133.7 ms  swap   60.5 ms (wait   0.0)  local  80.0%  val papers 18,578
+
+[shard 8] loaded 15,398,385 rows (23.7 GB): CPU gather 0.0 s, transfer 0.06 s, swap source pinned (cudaHostRegister), peak GPU 32.9 GB
+[shard 8] fetch fanout [40, 20]: wall    95.1 ms  swap   63.5 ms (wait   0.0)  local  72.2%  val papers 624
+[shard 8] fetch fanout [5, 5]: wall    68.7 ms  swap   62.7 ms (wait   0.0)  local  74.2%  val papers 624
+[shard 8] fetch fanout [10, 5]: wall    68.9 ms  swap   62.8 ms (wait   0.0)  local  73.7%  val papers 624
+[shard 8] fetch fanout [15, 10]: wall    71.8 ms  swap   62.9 ms (wait   0.0)  local  73.2%  val papers 624
+[shard 8] fetch fanout [25, 15]: wall    76.7 ms  swap   63.3 ms (wait   0.0)  local  72.6%  val papers 624
+[shard 8] fetch fanout [60, 30]: wall   139.2 ms  swap   63.5 ms (wait   0.0)  local  71.5%  val papers 624
+
+[shard 9] loaded 14,814,846 rows (22.8 GB): CPU gather 0.0 s, transfer 0.06 s, swap source pinned (cudaHostRegister), peak GPU 32.9 GB
+[shard 9] fetch fanout [40, 20]: wall   119.0 ms  swap   60.9 ms (wait   0.0)  local  68.4%  val papers 1,836
+[shard 9] fetch fanout [5, 5]: wall    66.3 ms  swap   60.0 ms (wait   0.0)  local  69.4%  val papers 1,836
+[shard 9] fetch fanout [10, 5]: wall    66.4 ms  swap   60.1 ms (wait   0.0)  local  69.7%  val papers 1,836
+[shard 9] fetch fanout [15, 10]: wall    69.9 ms  swap   60.6 ms (wait   0.0)  local  69.1%  val papers 1,836
+[shard 9] fetch fanout [25, 15]: wall    80.6 ms  swap   61.0 ms (wait   0.0)  local  68.9%  val papers 1,836
+[shard 9] fetch fanout [60, 30]: wall   177.8 ms  swap   60.7 ms (wait   0.0)  local  67.9%  val papers 1,836
+
+[shard 10] loaded 15,235,639 rows (23.4 GB): CPU gather 0.0 s, transfer 0.06 s, swap source pinned (cudaHostRegister), peak GPU 32.9 GB
+[shard 10] fetch fanout [40, 20]: wall   111.5 ms  swap   63.0 ms (wait   0.0)  local  66.9%  val papers 415
+[shard 10] fetch fanout [5, 5]: wall    68.6 ms  swap   62.3 ms (wait   0.0)  local  70.1%  val papers 415
+[shard 10] fetch fanout [10, 5]: wall    68.7 ms  swap   62.4 ms (wait   0.0)  local  70.0%  val papers 415
+[shard 10] fetch fanout [15, 10]: wall    72.5 ms  swap   62.7 ms (wait   0.0)  local  69.1%  val papers 415
+[shard 10] fetch fanout [25, 15]: wall    81.0 ms  swap   63.0 ms (wait   0.0)  local  68.1%  val papers 415
+[shard 10] fetch fanout [60, 30]: wall   161.4 ms  swap   62.9 ms (wait   0.0)  local  65.6%  val papers 415
+
+[shard 11] loaded 15,235,753 rows (23.4 GB): CPU gather 0.0 s, transfer 0.06 s, swap source pinned (cudaHostRegister), peak GPU 32.9 GB
+[shard 11] fetch fanout [40, 20]: wall    96.1 ms  swap   61.9 ms (wait   0.0)  local  69.5%  val papers 403
+[shard 11] fetch fanout [5, 5]: wall    67.1 ms  swap   60.8 ms (wait   0.0)  local  72.1%  val papers 403
+[shard 11] fetch fanout [10, 5]: wall    67.2 ms  swap   60.9 ms (wait   0.0)  local  72.0%  val papers 403
+[shard 11] fetch fanout [15, 10]: wall    70.5 ms  swap   61.1 ms (wait   0.0)  local  70.9%  val papers 403
+[shard 11] fetch fanout [25, 15]: wall    75.9 ms  swap   61.8 ms (wait   0.0)  local  70.3%  val papers 403
+[shard 11] fetch fanout [60, 30]: wall   137.5 ms  swap   61.9 ms (wait   0.0)  local  68.5%  val papers 403
+
+[shard 12] loaded 15,398,385 rows (23.7 GB): CPU gather 0.0 s, transfer 0.06 s, swap source pinned (cudaHostRegister), peak GPU 32.9 GB
+[shard 12] fetch fanout [40, 20]: wall   159.4 ms  swap   61.9 ms (wait   0.0)  local  66.7%  val papers 452
+[shard 12] fetch fanout [5, 5]: wall    67.6 ms  swap   61.3 ms (wait   0.0)  local  68.4%  val papers 452
+[shard 12] fetch fanout [10, 5]: wall    68.8 ms  swap   61.8 ms (wait   0.0)  local  68.3%  val papers 452
+[shard 12] fetch fanout [15, 10]: wall    74.4 ms  swap   62.1 ms (wait   0.0)  local  67.9%  val papers 452
+[shard 12] fetch fanout [25, 15]: wall   106.0 ms  swap   62.0 ms (wait   0.0)  local  67.5%  val papers 452
+[shard 12] fetch fanout [60, 30]: wall   241.9 ms  swap   61.8 ms (wait   0.0)  local  65.7%  val papers 452
+
+[shard 13] loaded 15,398,447 rows (23.7 GB): CPU gather 0.0 s, transfer 0.07 s, swap source pinned (cudaHostRegister), peak GPU 33.0 GB
+[shard 13] fetch fanout [40, 20]: wall   192.8 ms  swap   65.6 ms (wait   0.0)  local  62.3%  val papers 435
+[shard 13] fetch fanout [5, 5]: wall    71.5 ms  swap   65.2 ms (wait   0.0)  local  63.8%  val papers 435
+[shard 13] fetch fanout [10, 5]: wall    72.5 ms  swap   65.3 ms (wait   0.0)  local  63.5%  val papers 435
+[shard 13] fetch fanout [15, 10]: wall    79.0 ms  swap   65.7 ms (wait   0.0)  local  62.9%  val papers 435
+[shard 13] fetch fanout [25, 15]: wall   124.9 ms  swap   65.7 ms (wait   0.0)  local  62.7%  val papers 435
+[shard 13] fetch fanout [60, 30]: wall   304.1 ms  swap   65.5 ms (wait   0.0)  local  61.6%  val papers 435
+
+[shard 14] loaded 15,398,450 rows (23.7 GB): CPU gather 0.0 s, transfer 0.06 s, swap source pinned (cudaHostRegister), peak GPU 34.9 GB
+[shard 14] fetch fanout [40, 20]: wall   112.0 ms  swap   64.2 ms (wait   0.0)  local  78.8%  val papers 575
+[shard 14] fetch fanout [5, 5]: wall    69.4 ms  swap   63.2 ms (wait   0.0)  local  81.0%  val papers 575
+[shard 14] fetch fanout [10, 5]: wall    69.6 ms  swap   63.2 ms (wait   0.0)  local  80.6%  val papers 575
+[shard 14] fetch fanout [15, 10]: wall    73.8 ms  swap   63.4 ms (wait   0.0)  local  80.2%  val papers 575
+[shard 14] fetch fanout [25, 15]: wall    81.0 ms  swap   64.2 ms (wait   0.0)  local  79.7%  val papers 575
+[shard 14] fetch fanout [60, 30]: wall   168.0 ms  swap   64.1 ms (wait   0.0)  local  77.8%  val papers 575
+
+[shard 15] loaded 15,235,770 rows (23.4 GB): CPU gather 0.0 s, transfer 0.07 s, swap source pinned (cudaHostRegister), peak GPU 34.9 GB
+[shard 15] fetch fanout [40, 20]: wall   141.2 ms  swap   66.0 ms (wait   0.0)  local  66.3%  val papers 726
+[shard 15] fetch fanout [5, 5]: wall    71.9 ms  swap   65.6 ms (wait   0.0)  local  69.5%  val papers 726
+[shard 15] fetch fanout [10, 5]: wall    72.3 ms  swap   65.7 ms (wait   0.0)  local  69.3%  val papers 726
+[shard 15] fetch fanout [15, 10]: wall    76.7 ms  swap   65.8 ms (wait   0.0)  local  68.2%  val papers 726
+[shard 15] fetch fanout [25, 15]: wall    95.7 ms  swap   66.0 ms (wait   0.0)  local  67.2%  val papers 726
+[shard 15] fetch fanout [60, 30]: wall   210.8 ms  swap   66.0 ms (wait   0.0)  local  65.0%  val papers 726
+[summary] gh200_swapovl_k16_fetch_f40x20: wall 98.5 ms, local 76.7%, qps 9626 (incl. load 9539), acc 65.19% F1 0.5209 on 138,949, drift 0.08%
+[summary] gh200_swapovl_k16_fetch_f5x5: wall 66.1 ms, local 78.3%, qps 15383 (incl. load 15160), acc 63.52% F1 0.5033 on 138,949, drift 0.09%
+[summary] gh200_swapovl_k16_fetch_f10x5: wall 66.4 ms, local 78.3%, qps 15253 (incl. load 15034), acc 64.49% F1 0.5127 on 138,949, drift 0.08%
+[summary] gh200_swapovl_k16_fetch_f15x10: wall 70.7 ms, local 77.7%, qps 14528 (incl. load 14329), acc 64.92% F1 0.5164 on 138,949, drift 0.09%
+[summary] gh200_swapovl_k16_fetch_f25x15: wall 77.1 ms, local 77.4%, qps 12582 (incl. load 12433), acc 65.08% F1 0.5181 on 138,949, drift 0.09%
+[summary] gh200_swapovl_k16_fetch_f60x30: wall 139.3 ms, local 75.9%, qps 6779 (incl. load 6735), acc 65.18% F1 0.5208 on 138,949, drift 0.06%
+[done] 16 shard loads, total load 1.0 s -> results_shard_swap_gh200/summary_shard_swap_overlap_gh200.csv

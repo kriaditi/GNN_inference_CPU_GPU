@@ -1,0 +1,20 @@
+[hetero] 5 relations, 3,456,728,464 directed edges resident (8s)
+[feat] reading /unicorn/gnn/metis_ordered/full_feat_metis_k16.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 2.4 min)
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/unicorn/code/shard_infer.py:371: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  ck = torch.load(a.weights, map_location=dev)
+[model] /unicorn/gnn/results/h100het_378025/best.pt: epoch 8, val acc 0.6519
+[seeds] 20,000,000 fresh seeds; per shard: 1251133, 1523873
+[ordered table] 16 shards contiguous in --feat; shard GB: 23.3, 23.7, 23.4, 23.7, 23.0, 23.2, 23.7, 23.7, 23.7, 22.8, 23.4, 23.4, 23.7, 23.7, 23.7, 23.4
+
+[shard 0] loaded 15,146,609 rows (23.3 GB): CPU gather 0.0 s, transfer 0.06 s, swap source pinned (cudaHostRegister), peak GPU 23.3 GB
+[shard 0] fetch fanout [40, 20]: wall    66.6 ms  swap   58.2 ms (wait   0.0)  local  89.0%  val papers 0
+
+[shard 1] loaded 15,398,387 rows (23.7 GB): CPU gather 0.0 s, transfer 0.06 s, swap source pinned (cudaHostRegister), peak GPU 25.4 GB
+[shard 1] fetch fanout [40, 20]: wall    75.6 ms  swap   60.1 ms (wait   0.0)  local  79.6%  val papers 0
+[summary] gh200_swapovl_smoke_k16_fetch_f40x20: wall 72.5 ms, local 84.2%, qps 14334 (incl. load 11863), acc nan% F1 nan on 0, drift 0.09%
+[done] 2 shard loads, total load 0.1 s -> results_shard_swap_gh200/smoke/summary_smoke_overlap.csv
