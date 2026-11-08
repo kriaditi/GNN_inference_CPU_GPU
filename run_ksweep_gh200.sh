@@ -20,12 +20,12 @@ OUT=results_ksweep_gh200
 mkdir -p $OUT logs_gh200
 LOG=logs_gh200/run_ksweep.log
 { echo "start $(date)"; nvidia-smi --query-gpu=name,memory.total,memory.used --format=csv; md5sum shard_infer.py build_metis_ordered_feat.py; df -h $D/data | tail -1; } | tee -a $LOG
-for K in 32 64; do [ -f $D/metis/part_k$K.npy ] || { echo "missing $D/metis/part_k$K.npy" | tee -a $LOG; exit 1; }; done
+for K in ${KS:-32 64}; do [ -f $D/metis/part_k$K.npy ] || { echo "missing $D/metis/part_k$K.npy" | tee -a $LOG; exit 1; }; done
 
 # do not start while another GPU run (the k=16 swap run) is still going
 while pgrep -f "shard_infer.py" > /dev/null; do sleep 120; done
 
-for K in 32 64; do
+for K in ${KS:-32 64}; do
   BPS=$((1024 / K))                      # batches per shard: 32 -> 32, 64 -> 16 (1,024 batches per cell)
   ORD="--feat $MO/full_feat_metis_k$K.npy --row-map $MO/rowmap_k$K.npy --chunk-bounds $MO/bounds_k$K.npy"
   if [ -f $MO/info_k$K.json ]; then
