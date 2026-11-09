@@ -51,10 +51,12 @@ VARIANTS = ("drop", "fetch")
 
 
 def variant_m(v):
-    """'drop' -> 1, 'fetch' -> None (all shards), 'topM' -> M (home shard + the M-1 most-hit shards)."""
+    """'drop' -> 1, 'fetch' / 'coherent' / 'cpuonly' -> None (all rows used), 'topM' -> M (home shard + M-1 most-hit shards).
+    coherent: the shard stays in host RAM and the GPU gathers its rows in place over the link (no copy into HBM).
+    cpuonly: every row gathered by the CPU from RAM and the model run on the CPU (same batches, for comparison)."""
     if v == "drop":
         return 1
-    if v == "fetch":
+    if v in ("fetch", "coherent", "cpuonly"):
         return None
     assert v.startswith("top") and v[3:].isdigit() and int(v[3:]) >= 2, v
     return int(v[3:])
@@ -74,26 +76,44 @@ def now_sync(dev, stream_only=False):
 class Shard:
     """Resident shard p: feature rows on the device plus a global->row map."""
 
-    def __init__(self, n_total, dim, dev, keep_host=False, rowmap=None, bounds=None):
+    def __init__(self, n_total, dim, dev, keep_host=False, rowmap=None, bounds=None, coherent=False):
         self.row = np.full(n_total, -1, dtype=np.int64)   # global id -> shard row
         self.dim, self.dev, self.x, self.p = dim, dev, None, None
         self.keep_host, self.host = keep_host, None       # host source of the shard, for --swap-per-batch
         self.rowmap, self.bounds = rowmap, bounds         # METIS-ordered table: shard p = rows bounds[p]..bounds[p+1]-1
         self.registered = None
+        self.coherent, self.xh = coherent, None           # coherent: GPU-side view of the shard's host memory (no HBM copy)
 
     def load(self, feat, part, p, chunk=2_000_000):
-        if self.x is not None:
+        if self.x is not None or self.xh is not None:
             self.row[self.ids] = -1
             del self.x
             self.x = None
+            self.xh = None
             self._unregister()
             self.host = None
             if self.dev.type == "cuda":
                 torch.cuda.empty_cache()
         self.ids = np.flatnonzero(part == p)
         n = self.ids.size
-        self.x = torch.empty((n, self.dim), dtype=torch.float16, device=self.dev)
         t_gather = t_transfer = 0.0
+        if self.coherent:
+            assert self.bounds is not None, "coherent needs the METIS-ordered table (--row-map / --chunk-bounds)"
+            b0, b1 = int(self.bounds[p]), int(self.bounds[p + 1])
+            assert b1 - b0 == n
+            t0 = time.perf_counter()
+            self.host = torch.from_numpy(feat[b0:b1])
+            self.xh = self._map_host(self.host)
+            self.x = None
+            t_transfer = now_sync(self.dev) - t0           # time to make the host slice GPU-visible (no bytes copied)
+            chk = np.random.default_rng(5).choice(n, size=min(2000, n), replace=False)
+            idx = torch.from_numpy(chk).to(self.dev)
+            got = self.xh[idx].cpu()
+            assert torch.equal(got, self.host[torch.from_numpy(chk)]), "coherent view does not read the host rows correctly"
+            self.row[self.ids] = self.rowmap[self.ids] - b0
+            self.p = p
+            return n, 0.0, t_transfer
+        self.x = torch.empty((n, self.dim), dtype=torch.float16, device=self.dev)
         if self.bounds is not None:
             # ordered table: the shard is one contiguous slice of the in-RAM table; no row assembly, no second copy
             b0, b1 = int(self.bounds[p]), int(self.bounds[p + 1])
@@ -126,6 +146,38 @@ class Shard:
             self.row[self.ids] = np.arange(n, dtype=np.int64)
         self.p = p
         return n, t_gather, t_transfer
+
+    def _map_host(self, t):
+        """Return a CUDA tensor that aliases host tensor t: page-lock + map it (cudaHostRegisterMapped) and wrap the
+        device pointer; on a coherent system the GPU then reads the host rows over the link on demand."""
+        import ctypes
+        import glob
+        nbytes = t.numel() * t.element_size()
+        rt = torch.cuda.cudart()
+        r = rt.cudaHostRegister(t.data_ptr(), nbytes, 2)         # 2 = cudaHostRegisterMapped
+        code = getattr(r, "value", r)
+        reg_ok = code == 0 or str(r).lower().endswith("success")
+        dev_ptr = t.data_ptr()
+        self.host_mode = "coherent: host pointer used directly (not registered)"
+        if reg_ok:
+            self.registered = t
+            libs = glob.glob(os.path.join(os.path.dirname(torch.__file__), "lib", "libcudart*.so*")) or ["libcudart.so"]
+            try:
+                lib = ctypes.CDLL(libs[0])
+                dp = ctypes.c_void_p()
+                e = lib.cudaHostGetDevicePointer(ctypes.byref(dp), ctypes.c_void_p(t.data_ptr()), ctypes.c_uint(0))
+                if e == 0 and dp.value:
+                    dev_ptr = dp.value
+                    self.host_mode = "coherent: cudaHostRegisterMapped + cudaHostGetDevicePointer"
+                else:
+                    self.host_mode = f"coherent: registered, GetDevicePointer returned {e}, host pointer used"
+            except Exception as ex:  # noqa: BLE001
+                self.host_mode = f"coherent: registered, host pointer used ({ex})"
+
+        class _View:
+            __cuda_array_interface__ = dict(shape=tuple(t.shape), typestr="<f2", data=(dev_ptr, False), version=3,
+                                            strides=None, descr=[("", "<f2")])
+        return torch.as_tensor(_View(), device=self.dev)
 
     def _register(self, t):
         """Page-lock the shard's slice of the in-RAM table (cudaHostRegister) so the swap is a pinned copy; no extra memory."""
@@ -170,8 +222,10 @@ class Shard:
         return ev0, ev1
 
 
-def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev, swap=False, overlap=False):
+def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev, swap=False, overlap=False, model_cpu=None):
     rm = shard.rowmap
+    if variant == "cpuonly":
+        return run_batch_cpu(g, feat, shard, part, seeds, fanout, model_cpu, rm)
     """One batch through the shard pipeline. Returns (logits, row dict).
     swap=True: the batch starts by copying the whole resident shard host->device (one shard swap per batch).
     overlap=True: that copy runs on a side stream while the CPU samples, filters and fetches; the batch waits for it
@@ -255,15 +309,16 @@ def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev, swap=Fal
         swap_wait_s = t4b - t4
         swap_s = ev[0].elapsed_time(ev[1]) / 1000.0
 
-    # ---- gather_local (device): rows of the resident shard
+    # ---- gather_local (device): rows of the resident shard (coherent: read in place from host memory over the link)
+    src = shard.xh if variant == "coherent" else shard.x
     if variant == "drop":
-        x = {nt: shard.x[loc_rows_d[nt]] for nt in hc.NODE_TYPES}
+        x = {nt: src[loc_rows_d[nt]] for nt in hc.NODE_TYPES}
     else:
         x = {}
         for nt in hc.NODE_TYPES:
             xt = torch.empty((n_rows[nt], shard.dim), dtype=torch.float16, device=dev)
             if loc_pos_d[nt].numel():
-                xt[loc_pos_d[nt]] = shard.x[loc_rows_d[nt]]
+                xt[loc_pos_d[nt]] = src[loc_rows_d[nt]]
             if rem_pos_d[nt].numel():
                 xt[rem_pos_d[nt]] = rem_d[nt]
             x[nt] = xt
@@ -292,6 +347,8 @@ def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev, swap=Fal
         bytes_xfer += sum(v.numel() * v.element_size() for v in rem_cpu.values())
         bytes_xfer += sum(v.numel() * v.element_size() for v in loc_pos.values())
         bytes_xfer += sum(v.numel() * v.element_size() for v in rem_pos.values())
+    if variant == "coherent":                 # in-shard rows also cross the link, read in place by the GPU
+        bytes_xfer += n_local * shard.dim * 2
     sample_s, filter_s, grem_s, xfer_s, gloc_s = t1 - t0 - swap_block_s, t2 - t1, t3 - t2, t4 - t3, t5 - t4b
     wall_s = t6 - t0
     attributed = (swap_wait_s if ev is not None else swap_s) + sample_s + filter_s + grem_s + xfer_s + gloc_s + compute_s
@@ -303,6 +360,32 @@ def run_batch(g, feat, shard, part, seeds, fanout, variant, model, dev, swap=Fal
                sample_s=sample_s, filter_s=filter_s, gather_remote_s=grem_s,
                transfer_s=xfer_s, gather_local_s=gloc_s, compute_s=compute_s,
                wall_s=wall_s, drift_pct=abs(wall_s - attributed) / wall_s * 100)
+    return out[:len(seeds)], row
+
+
+def run_batch_cpu(g, feat, shard, part, seeds, fanout, model_cpu, rm):
+    """cpuonly variant on the same batches: CPU samples, gathers every row from RAM, runs the model on the CPU."""
+    t0 = time.perf_counter()
+    node_id, edge_index = hc.sample_hetero(g, seeds, fanout)
+    t1 = time.perf_counter()
+    gid = {nt: node_id[nt].numpy() + g.offset[nt] for nt in hc.NODE_TYPES}
+    local = {nt: shard.row[gid[nt]] >= 0 for nt in hc.NODE_TYPES}
+    n_all = sum(v.size for v in gid.values())
+    n_local = sum(int(v.sum()) for v in local.values())
+    t2 = time.perf_counter()
+    x = {nt: torch.from_numpy(np.ascontiguousarray(feat[gid[nt] if rm is None else rm[gid[nt]]])) for nt in hc.NODE_TYPES}
+    t3 = time.perf_counter()
+    out = model_cpu({k: v.float() for k, v in x.items()}, dict(edge_index))
+    t6 = time.perf_counter()
+    hist = np.bincount(np.concatenate([part[gid[nt]] for nt in hc.NODE_TYPES]), minlength=shard.k)
+    mb = sum(v.numel() * v.element_size() for v in x.values()) / 1e6
+    sample_s, filter_s, grem_s, compute_s = t1 - t0, t2 - t1, t3 - t2, t6 - t3
+    wall_s = t6 - t0
+    row = dict(seeds=len(seeds), nodes_sampled=n_all, nodes_local=n_local, nodes_used=n_all, frac_local=n_local / n_all,
+               shards_hit=int((hist > 0).sum()), frac_kept=1.0, edges_used=sum(v.size(1) for v in edge_index.values()),
+               mb_transfer=mb, swap_s=0.0, swap_wait_s=0.0, sample_s=sample_s, filter_s=filter_s, gather_remote_s=grem_s,
+               transfer_s=0.0, gather_local_s=0.0, compute_s=compute_s, wall_s=wall_s,
+               drift_pct=abs(wall_s - (sample_s + filter_s + grem_s + compute_s)) / wall_s * 100)
     return out[:len(seeds)], row
 
 
@@ -392,7 +475,16 @@ def main():
         assert np.all(part[chk] == np.searchsorted(bounds, rowmap[chk], side="right") - 1), "row map does not agree with the part file"
         print(f"[ordered table] {a.k} shards contiguous in --feat; shard GB: "
               + ", ".join(f"{(bounds[i + 1] - bounds[i]) * feat.shape[1] * 2 / 1e9:.1f}" for i in range(a.k)), flush=True)
-    shard = Shard(N, feat.shape[1], dev, keep_host=a.swap_per_batch, rowmap=rowmap, bounds=bounds)
+    coherent = "coherent" in variants
+    shard = Shard(N, feat.shape[1], dev, keep_host=a.swap_per_batch, rowmap=rowmap, bounds=bounds, coherent=coherent and len(variants) == 1)
+    shard_copy = None
+    if coherent and len(variants) > 1:        # coherent together with fetch: a second Shard object holds the host view
+        shard_copy = Shard(N, feat.shape[1], dev, rowmap=rowmap, bounds=bounds, coherent=True)
+        shard_copy.k = a.k
+    model_cpu = None
+    if "cpuonly" in variants:
+        model_cpu = hc.RSAGE(feat.shape[1], a.hidden, n_classes, 2).eval()
+        model_cpu.load_state_dict({k: v.cpu() for k, v in ck["model"].items()})
     shard.k = a.k
     rows = {(v, tuple(f)): [] for v in variants for f in fanouts}
     conf = {(v, tuple(f)): np.zeros((n_classes, n_classes), dtype=np.int64) for v in variants for f in fanouts}
@@ -402,6 +494,9 @@ def main():
     with torch.no_grad():
         for p in shards:
             n_rows, lg, lt = shard.load(feat, part, p)
+            if shard_copy is not None:
+                shard_copy.load(feat, part, p)
+                print(f"[shard {p}] coherent view ready: {shard_copy.host_mode}", flush=True)
             loads.append(dict(shard=p, rows=n_rows, gb=n_rows * feat.shape[1] * 2 / 1e9,
                               load_gather_s=lg, load_transfer_s=lt))
             print(f"\n[shard {p}] loaded {n_rows:,} rows ({loads[-1]['gb']:.1f} GB): "
@@ -422,13 +517,14 @@ def main():
             for f in fanouts:
                 for v in variants:
                     key = (v, tuple(f))
+                    sh = shard_copy if (v == "coherent" and shard_copy is not None) else shard
                     for i, b in enumerate(batches):
-                        _, r = run_batch(g, feat, shard, part, b, f, v, model, dev, swap=a.swap_per_batch, overlap=a.swap_overlap)
+                        _, r = run_batch(g, feat, sh, part, b, f, v, model, dev, swap=a.swap_per_batch, overlap=a.swap_overlap, model_cpu=model_cpu)
                         if i >= a.warmup:
                             r.update(shard=p, iter=i - a.warmup)
                             rows[key].append(r)
                     for b in vbatches:
-                        out, _ = run_batch(g, feat, shard, part, b, f, v, model, dev)
+                        out, _ = run_batch(g, feat, sh, part, b, f, v, model, dev, model_cpu=model_cpu)
                         pred = out.argmax(1).cpu().numpy()
                         y = labels[b.numpy()]
                         np.add.at(conf[key], (y, pred), 1)

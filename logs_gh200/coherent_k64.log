@@ -1,0 +1,53 @@
+[hetero] 5 relations, 3,456,728,464 directed edges resident (8s)
+[feat] reading /unicorn/gnn/metis_ordered/full_feat_metis_k64.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 2.4 min)
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/unicorn/code/shard_infer.py:454: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  ck = torch.load(a.weights, map_location=dev)
+[model] /unicorn/gnn/results/h100het_378025/best.pt: epoch 8, val acc 0.6519
+[seeds] 20,000,000 fresh seeds; per shard: 298706
+[ordered table] 64 shards contiguous in --feat; shard GB: 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.8, 5.9, 5.8, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.8, 5.8, 5.8, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.9, 5.7, 5.8, 5.9, 5.9, 5.9, 5.9, 5.9
+[shard 0] coherent view ready: coherent: cudaHostRegisterMapped + cudaHostGetDevicePointer
+
+[shard 0] loaded 3,819,116 rows (5.9 GB): CPU gather 0.0 s, transfer 0.02 s, peak GPU 5.9 GB
+[shard 0] only 291 full batches available (< 1002)
+[shard 0] cpuonly fanout [40, 20]: wall   156.9 ms  swap    0.0 ms (wait   0.0)  local  66.0%  val papers 1,485
+[shard 0] fetch fanout [40, 20]: wall    46.9 ms  swap    0.0 ms (wait   0.0)  local  66.2%  val papers 1,485
+[shard 0] coherent fanout [40, 20]: wall    47.4 ms  swap    0.0 ms (wait   0.0)  local  66.1%  val papers 1,485
+[shard 0] cpuonly fanout [5, 5]: wall    38.2 ms  swap    0.0 ms (wait   0.0)  local  69.1%  val papers 1,485
+[shard 0] fetch fanout [5, 5]: wall    13.0 ms  swap    0.0 ms (wait   0.0)  local  69.1%  val papers 1,485
+[shard 0] coherent fanout [5, 5]: wall    13.0 ms  swap    0.0 ms (wait   0.0)  local  69.1%  val papers 1,485
+[shard 0] cpuonly fanout [10, 5]: wall    48.8 ms  swap    0.0 ms (wait   0.0)  local  68.8%  val papers 1,485
+[shard 0] fetch fanout [10, 5]: wall    15.7 ms  swap    0.0 ms (wait   0.0)  local  68.8%  val papers 1,485
+[shard 0] coherent fanout [10, 5]: wall    15.8 ms  swap    0.0 ms (wait   0.0)  local  68.8%  val papers 1,485
+[shard 0] cpuonly fanout [15, 10]: wall    76.9 ms  swap    0.0 ms (wait   0.0)  local  67.6%  val papers 1,485
+[shard 0] fetch fanout [15, 10]: wall    23.0 ms  swap    0.0 ms (wait   0.0)  local  67.6%  val papers 1,485
+[shard 0] coherent fanout [15, 10]: wall    23.0 ms  swap    0.0 ms (wait   0.0)  local  67.5%  val papers 1,485
+[shard 0] cpuonly fanout [25, 15]: wall   117.3 ms  swap    0.0 ms (wait   0.0)  local  66.9%  val papers 1,485
+[shard 0] fetch fanout [25, 15]: wall    35.2 ms  swap    0.0 ms (wait   0.0)  local  66.9%  val papers 1,485
+[shard 0] coherent fanout [25, 15]: wall    35.7 ms  swap    0.0 ms (wait   0.0)  local  66.8%  val papers 1,485
+[shard 0] cpuonly fanout [60, 30]: wall   216.0 ms  swap    0.0 ms (wait   0.0)  local  65.1%  val papers 1,485
+[shard 0] fetch fanout [60, 30]: wall    66.0 ms  swap    0.0 ms (wait   0.0)  local  65.1%  val papers 1,485
+[shard 0] coherent fanout [60, 30]: wall    66.8 ms  swap    0.0 ms (wait   0.0)  local  65.1%  val papers 1,485
+[summary] gh200_coh_k64_k64_cpuonly_f40x20: wall 156.9 ms, local 66.0%, qps 6486 (incl. load 6483), acc 58.86% F1 0.2824 on 1,485, drift 0.00%
+[summary] gh200_coh_k64_k64_cpuonly_f5x5: wall 38.2 ms, local 69.1%, qps 26800 (incl. load 26760), acc 57.58% F1 0.2730 on 1,485, drift 0.00%
+[summary] gh200_coh_k64_k64_cpuonly_f10x5: wall 48.8 ms, local 68.8%, qps 20943 (incl. load 20918), acc 57.71% F1 0.2898 on 1,485, drift 0.00%
+[summary] gh200_coh_k64_k64_cpuonly_f15x10: wall 76.9 ms, local 67.6%, qps 13218 (incl. load 13209), acc 58.38% F1 0.2685 on 1,485, drift 0.00%
+[summary] gh200_coh_k64_k64_cpuonly_f25x15: wall 117.3 ms, local 66.9%, qps 8704 (incl. load 8700), acc 58.92% F1 0.2601 on 1,485, drift 0.00%
+[summary] gh200_coh_k64_k64_cpuonly_f60x30: wall 216.0 ms, local 65.1%, qps 4726 (incl. load 4725), acc 58.52% F1 0.2815 on 1,485, drift 0.00%
+[summary] gh200_coh_k64_k64_fetch_f40x20: wall 46.9 ms, local 66.2%, qps 21636 (incl. load 21611), acc 58.92% F1 0.2829 on 1,485, drift 0.15%
+[summary] gh200_coh_k64_k64_fetch_f5x5: wall 13.0 ms, local 69.1%, qps 78744 (incl. load 78402), acc 56.90% F1 0.2667 on 1,485, drift 0.45%
+[summary] gh200_coh_k64_k64_fetch_f10x5: wall 15.7 ms, local 68.8%, qps 65023 (incl. load 64789), acc 58.11% F1 0.2849 on 1,485, drift 0.39%
+[summary] gh200_coh_k64_k64_fetch_f15x10: wall 23.0 ms, local 67.6%, qps 44199 (incl. load 44091), acc 57.64% F1 0.2554 on 1,485, drift 0.22%
+[summary] gh200_coh_k64_k64_fetch_f25x15: wall 35.2 ms, local 66.9%, qps 28987 (incl. load 28941), acc 58.52% F1 0.2582 on 1,485, drift 0.19%
+[summary] gh200_coh_k64_k64_fetch_f60x30: wall 66.0 ms, local 65.1%, qps 15523 (incl. load 15510), acc 58.65% F1 0.2564 on 1,485, drift 0.11%
+[summary] gh200_coh_k64_k64_coherent_f40x20: wall 47.4 ms, local 66.1%, qps 21555 (incl. load 21530), acc 58.86% F1 0.2826 on 1,485, drift 0.15%
+[summary] gh200_coh_k64_k64_coherent_f5x5: wall 13.0 ms, local 69.1%, qps 78942 (incl. load 78598), acc 57.04% F1 0.2669 on 1,485, drift 0.45%
+[summary] gh200_coh_k64_k64_coherent_f10x5: wall 15.8 ms, local 68.8%, qps 64721 (incl. load 64490), acc 58.32% F1 0.2816 on 1,485, drift 0.41%
+[summary] gh200_coh_k64_k64_coherent_f15x10: wall 23.0 ms, local 67.5%, qps 44194 (incl. load 44087), acc 58.11% F1 0.2710 on 1,485, drift 0.23%
+[summary] gh200_coh_k64_k64_coherent_f25x15: wall 35.7 ms, local 66.8%, qps 28640 (incl. load 28595), acc 58.65% F1 0.2648 on 1,485, drift 0.19%
+[summary] gh200_coh_k64_k64_coherent_f60x30: wall 66.8 ms, local 65.1%, qps 15283 (incl. load 15270), acc 58.52% F1 0.2808 on 1,485, drift 0.12%
+[done] 1 shard loads, total load 0.0 s -> results_coherent_gh200/summary_coherent_gh200.csv

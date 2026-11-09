@@ -1,0 +1,53 @@
+[hetero] 5 relations, 3,456,728,464 directed edges resident (8s)
+[feat] reading /unicorn/gnn/metis_ordered/full_feat_metis_k32.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 2.4 min)
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/unicorn/code/shard_infer.py:454: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  ck = torch.load(a.weights, map_location=dev)
+[model] /unicorn/gnn/results/h100het_378025/best.pt: epoch 8, val acc 0.6519
+[seeds] 20,000,000 fresh seeds; per shard: 676983
+[ordered table] 32 shards contiguous in --feat; shard GB: 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.7, 11.5, 11.7, 11.7, 11.7, 11.7, 11.7
+[shard 0] coherent view ready: coherent: cudaHostRegisterMapped + cudaHostGetDevicePointer
+
+[shard 0] loaded 7,634,823 rows (11.7 GB): CPU gather 0.0 s, transfer 0.03 s, peak GPU 11.8 GB
+[shard 0] only 661 full batches available (< 1002)
+[shard 0] cpuonly fanout [40, 20]: wall    39.8 ms  swap    0.0 ms (wait   0.0)  local  75.8%  val papers 94
+[shard 0] fetch fanout [40, 20]: wall    12.4 ms  swap    0.0 ms (wait   0.0)  local  75.9%  val papers 94
+[shard 0] coherent fanout [40, 20]: wall    12.4 ms  swap    0.0 ms (wait   0.0)  local  75.8%  val papers 94
+[shard 0] cpuonly fanout [5, 5]: wall    20.4 ms  swap    0.0 ms (wait   0.0)  local  82.1%  val papers 94
+[shard 0] fetch fanout [5, 5]: wall     8.9 ms  swap    0.0 ms (wait   0.0)  local  82.1%  val papers 94
+[shard 0] coherent fanout [5, 5]: wall     8.7 ms  swap    0.0 ms (wait   0.0)  local  82.2%  val papers 94
+[shard 0] cpuonly fanout [10, 5]: wall    22.4 ms  swap    0.0 ms (wait   0.0)  local  80.7%  val papers 94
+[shard 0] fetch fanout [10, 5]: wall     9.2 ms  swap    0.0 ms (wait   0.0)  local  80.7%  val papers 94
+[shard 0] coherent fanout [10, 5]: wall     8.9 ms  swap    0.0 ms (wait   0.0)  local  80.7%  val papers 94
+[shard 0] cpuonly fanout [15, 10]: wall    29.8 ms  swap    0.0 ms (wait   0.0)  local  78.4%  val papers 94
+[shard 0] fetch fanout [15, 10]: wall    10.5 ms  swap    0.0 ms (wait   0.0)  local  78.5%  val papers 94
+[shard 0] coherent fanout [15, 10]: wall    10.2 ms  swap    0.0 ms (wait   0.0)  local  78.4%  val papers 94
+[shard 0] cpuonly fanout [25, 15]: wall    35.8 ms  swap    0.0 ms (wait   0.0)  local  76.9%  val papers 94
+[shard 0] fetch fanout [25, 15]: wall    11.2 ms  swap    0.0 ms (wait   0.0)  local  76.9%  val papers 94
+[shard 0] coherent fanout [25, 15]: wall    11.1 ms  swap    0.0 ms (wait   0.0)  local  76.9%  val papers 94
+[shard 0] cpuonly fanout [60, 30]: wall    49.1 ms  swap    0.0 ms (wait   0.0)  local  74.9%  val papers 94
+[shard 0] fetch fanout [60, 30]: wall    13.4 ms  swap    0.0 ms (wait   0.0)  local  74.9%  val papers 94
+[shard 0] coherent fanout [60, 30]: wall    13.6 ms  swap    0.0 ms (wait   0.0)  local  74.8%  val papers 94
+[summary] gh200_coh_k32_k32_cpuonly_f40x20: wall 39.8 ms, local 75.8%, qps 25548 (incl. load 25518), acc 46.81% F1 0.4195 on 94, drift 0.00%
+[summary] gh200_coh_k32_k32_cpuonly_f5x5: wall 20.4 ms, local 82.1%, qps 50110 (incl. load 49993), acc 46.81% F1 0.4195 on 94, drift 0.00%
+[summary] gh200_coh_k32_k32_cpuonly_f10x5: wall 22.4 ms, local 80.7%, qps 45547 (incl. load 45450), acc 46.81% F1 0.4219 on 94, drift 0.00%
+[summary] gh200_coh_k32_k32_cpuonly_f15x10: wall 29.8 ms, local 78.4%, qps 34179 (incl. load 34124), acc 46.81% F1 0.4195 on 94, drift 0.00%
+[summary] gh200_coh_k32_k32_cpuonly_f25x15: wall 35.8 ms, local 76.9%, qps 28549 (incl. load 28512), acc 46.81% F1 0.4195 on 94, drift 0.00%
+[summary] gh200_coh_k32_k32_cpuonly_f60x30: wall 49.1 ms, local 74.9%, qps 20810 (incl. load 20790), acc 46.81% F1 0.4195 on 94, drift 0.00%
+[summary] gh200_coh_k32_k32_fetch_f40x20: wall 12.4 ms, local 75.9%, qps 82465 (incl. load 82151), acc 46.81% F1 0.4195 on 94, drift 0.48%
+[summary] gh200_coh_k32_k32_fetch_f5x5: wall 8.9 ms, local 82.1%, qps 115496 (incl. load 114880), acc 46.81% F1 0.4195 on 94, drift 0.67%
+[summary] gh200_coh_k32_k32_fetch_f10x5: wall 9.2 ms, local 80.7%, qps 110695 (incl. load 110128), acc 46.81% F1 0.4195 on 94, drift 0.64%
+[summary] gh200_coh_k32_k32_fetch_f15x10: wall 10.5 ms, local 78.5%, qps 97395 (incl. load 96957), acc 46.81% F1 0.4195 on 94, drift 0.57%
+[summary] gh200_coh_k32_k32_fetch_f25x15: wall 11.2 ms, local 76.9%, qps 91099 (incl. load 90715), acc 46.81% F1 0.4195 on 94, drift 0.51%
+[summary] gh200_coh_k32_k32_fetch_f60x30: wall 13.4 ms, local 74.9%, qps 76111 (incl. load 75843), acc 46.81% F1 0.4195 on 94, drift 0.37%
+[summary] gh200_coh_k32_k32_coherent_f40x20: wall 12.4 ms, local 75.8%, qps 82093 (incl. load 81782), acc 46.81% F1 0.4256 on 94, drift 0.48%
+[summary] gh200_coh_k32_k32_coherent_f5x5: wall 8.7 ms, local 82.2%, qps 117186 (incl. load 116552), acc 46.81% F1 0.4219 on 94, drift 0.67%
+[summary] gh200_coh_k32_k32_coherent_f10x5: wall 8.9 ms, local 80.7%, qps 114129 (incl. load 113528), acc 46.81% F1 0.4195 on 94, drift 0.64%
+[summary] gh200_coh_k32_k32_coherent_f15x10: wall 10.2 ms, local 78.4%, qps 100085 (incl. load 99622), acc 46.81% F1 0.4195 on 94, drift 0.57%
+[summary] gh200_coh_k32_k32_coherent_f25x15: wall 11.1 ms, local 76.9%, qps 91697 (incl. load 91308), acc 46.81% F1 0.4195 on 94, drift 0.51%
+[summary] gh200_coh_k32_k32_coherent_f60x30: wall 13.6 ms, local 74.8%, qps 75082 (incl. load 74821), acc 46.81% F1 0.4195 on 94, drift 0.38%
+[done] 1 shard loads, total load 0.0 s -> results_coherent_gh200/summary_coherent_gh200.csv

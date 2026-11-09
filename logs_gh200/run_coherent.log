@@ -1,0 +1,10 @@
+start Mon Nov  9 15:16:16 UTC 2026
+name, memory.total [MiB], memory.used [MiB]
+NVIDIA GH200 480GB, 97871 MiB, 0 MiB
+9e3e606c75548707d4bc94f1328ed99a  shard_infer.py
+smoke done Mon Nov  9 15:19:02 UTC 2026 exit 0
+k=64 done Mon Nov  9 15:27:14 UTC 2026 exit 0
+k=32 done Mon Nov  9 15:33:43 UTC 2026 exit 0
+k=16 done Mon Nov  9 15:50:51 UTC 2026 exit 0
+k=8 done Mon Nov  9 16:16:35 UTC 2026 exit 0
+all done Mon Nov  9 16:16:35 UTC 2026
