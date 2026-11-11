@@ -1,0 +1,30 @@
+[hetero] 5 relations, 3,456,728,464 directed edges resident (8s)
+[feat] reading /unicorn/gnn/data/full_feat.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 2.4 min)
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/unicorn/code/shard_infer.py:468: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  ck = torch.load(a.weights, map_location=dev)
+[model] /unicorn/gnn/results/h100het_378025/best.pt: epoch 8, val acc 0.6519
+[seeds] 20,000,000 fresh seeds; per shard: 221795, 149961
+[shard 0] coherent view ready: coherent: cudaHostRegisterMapped + cudaHostGetDevicePointer
+
+[shard 0] loaded 1,908,408 rows (2.9 GB): CPU gather 0.8 s, transfer 0.02 s, peak GPU 5.9 GB
+[shard 0] cpuonly fanout [40, 20]: wall   275.2 ms  swap    0.0 ms (wait   0.0)  local  78.7%  val papers 0
+[shard 0] fetch fanout [40, 20]: wall    67.4 ms  swap    0.0 ms (wait   0.0)  local  78.8%  val papers 0
+[shard 0] fetchload fanout [40, 20]: wall    72.8 ms  swap    7.3 ms (wait   0.0)  local  78.7%  val papers 0
+[shard 0] coherent fanout [40, 20]: wall    65.8 ms  swap    0.0 ms (wait   0.0)  local  78.8%  val papers 0
+[shard 1] coherent view ready: coherent: cudaHostRegisterMapped + cudaHostGetDevicePointer
+
+[shard 1] loaded 1,938,705 rows (3.0 GB): CPU gather 0.8 s, transfer 0.02 s, peak GPU 6.2 GB
+[shard 1] cpuonly fanout [40, 20]: wall   211.7 ms  swap    0.0 ms (wait   0.0)  local  76.9%  val papers 0
+[shard 1] fetch fanout [40, 20]: wall    53.9 ms  swap    0.0 ms (wait   0.0)  local  76.8%  val papers 0
+[shard 1] fetchload fanout [40, 20]: wall    60.9 ms  swap    7.5 ms (wait   0.0)  local  76.9%  val papers 0
+[shard 1] coherent fanout [40, 20]: wall    53.7 ms  swap    0.0 ms (wait   0.0)  local  76.9%  val papers 0
+[summary] gh200_cohk_smoke_k128_cpuonly_f40x20: wall 249.8 ms, local 78.0%, qps 4136 (incl. load 2270), acc nan% F1 nan on 0, drift 0.00%
+[summary] gh200_cohk_smoke_k128_fetch_f40x20: wall 62.7 ms, local 78.3%, qps 16529 (incl. load 3858), acc nan% F1 nan on 0, drift 0.14%
+[summary] gh200_cohk_smoke_k128_fetchload_f40x20: wall 68.8 ms, local 77.8%, qps 15281 (incl. load 3786), acc nan% F1 nan on 0, drift 0.11%
+[summary] gh200_cohk_smoke_k128_coherent_f40x20: wall 61.6 ms, local 77.9%, qps 17076 (incl. load 3887), acc nan% F1 nan on 0, drift 0.12%
+[done] 2 shard loads, total load 1.6 s -> results_coherent_k_gh200/smoke/summary_smoke.csv
