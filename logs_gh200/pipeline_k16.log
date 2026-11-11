@@ -1,0 +1,52 @@
+[hetero] 5 relations, 3,456,728,464 directed edges resident (8s)
+[feat] reading /unicorn/gnn/metis_ordered/full_feat_metis_k16.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 2.4 min)
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/unicorn/code/shard_pipeline.py:207: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  ck = torch.load(a.weights, map_location=dev)
+[plan] k=16, 1024 batches per (mode, fanout): 1 warm-up round(s) + 63 timed, shards rotate every batch; modes ['series', 'overlap', 'pipeline']
+[gpu] 2 buffer(s) of 23.7 GB
+[host] shard 0: 15,146,609 rows, 23.3 GB, pinned (cudaHostRegister), registered in 0.08 s
+[host] shard 1: 15,398,387 rows, 23.7 GB, pinned (cudaHostRegister), registered in 0.07 s
+[host] shard 2: 15,235,779 rows, 23.4 GB, pinned (cudaHostRegister), registered in 0.07 s
+[host] shard 3: 15,398,386 rows, 23.7 GB, pinned (cudaHostRegister), registered in 0.07 s
+[host] shard 4: 14,969,753 rows, 23.0 GB, pinned (cudaHostRegister), registered in 0.07 s
+[host] shard 5: 15,099,134 rows, 23.2 GB, pinned (cudaHostRegister), registered in 0.07 s
+[host] shard 6: 15,398,440 rows, 23.7 GB, pinned (cudaHostRegister), registered in 0.07 s
+[host] shard 7: 15,398,336 rows, 23.7 GB, pinned (cudaHostRegister), registered in 0.08 s
+[host] shard 8: 15,398,385 rows, 23.7 GB, pinned (cudaHostRegister), registered in 0.09 s
+[host] shard 9: 14,814,846 rows, 22.8 GB, pinned (cudaHostRegister), registered in 0.07 s
+[host] shard 10: 15,235,639 rows, 23.4 GB, pinned (cudaHostRegister), registered in 0.08 s
+[host] shard 11: 15,235,753 rows, 23.4 GB, pinned (cudaHostRegister), registered in 0.08 s
+[host] shard 12: 15,398,385 rows, 23.7 GB, pinned (cudaHostRegister), registered in 0.08 s
+[host] shard 13: 15,398,447 rows, 23.7 GB, pinned (cudaHostRegister), registered in 0.10 s
+[host] shard 14: 15,398,450 rows, 23.7 GB, pinned (cudaHostRegister), registered in 0.10 s
+[host] shard 15: 15,235,770 rows, 23.4 GB, pinned (cudaHostRegister), registered in 0.10 s
+[val] fanout [40, 20]: 65.16% on 138,949 papers
+[summary] gh200_pipe_k16_series_f40x20: wall 148.2 ms, elapsed/batch 151.5 ms, copy 58.5 ms, wait 0.0 ms, local 76.8%, acc 65.16%
+[summary] gh200_pipe_k16_overlap_f40x20: wall 100.2 ms, elapsed/batch 108.2 ms, copy 60.0 ms, wait 0.0 ms, local 76.8%, acc 65.16%
+[summary] gh200_pipe_k16_pipeline_f40x20: wall 100.2 ms, elapsed/batch 108.5 ms, copy 59.7 ms, wait 0.0 ms, local 76.8%, acc 65.16%
+[val] fanout [5, 5]: 63.52% on 138,949 papers
+[summary] gh200_pipe_k16_series_f5x5: wall 75.1 ms, elapsed/batch 74.8 ms, copy 58.4 ms, wait 0.0 ms, local 78.4%, acc 63.52%
+[summary] gh200_pipe_k16_overlap_f5x5: wall 64.8 ms, elapsed/batch 65.0 ms, copy 58.8 ms, wait 0.0 ms, local 78.4%, acc 63.52%
+[summary] gh200_pipe_k16_pipeline_f5x5: wall 64.4 ms, elapsed/batch 64.9 ms, copy 58.6 ms, wait 0.0 ms, local 78.4%, acc 63.52%
+[val] fanout [10, 5]: 64.47% on 138,949 papers
+[summary] gh200_pipe_k16_series_f10x5: wall 80.9 ms, elapsed/batch 80.6 ms, copy 58.5 ms, wait 0.0 ms, local 78.3%, acc 64.47%
+[summary] gh200_pipe_k16_overlap_f10x5: wall 65.3 ms, elapsed/batch 65.7 ms, copy 59.0 ms, wait 0.0 ms, local 78.2%, acc 64.47%
+[summary] gh200_pipe_k16_pipeline_f10x5: wall 65.1 ms, elapsed/batch 65.7 ms, copy 58.7 ms, wait 0.0 ms, local 78.3%, acc 64.47%
+[val] fanout [15, 10]: 64.87% on 138,949 papers
+[summary] gh200_pipe_k16_series_f15x10: wall 96.1 ms, elapsed/batch 95.7 ms, copy 58.5 ms, wait 0.0 ms, local 77.9%, acc 64.87%
+[summary] gh200_pipe_k16_overlap_f15x10: wall 69.0 ms, elapsed/batch 69.3 ms, copy 59.4 ms, wait 0.0 ms, local 77.9%, acc 64.87%
+[summary] gh200_pipe_k16_pipeline_f15x10: wall 68.7 ms, elapsed/batch 69.5 ms, copy 59.1 ms, wait 0.0 ms, local 77.9%, acc 64.87%
+[val] fanout [25, 15]: 65.04% on 138,949 papers
+[summary] gh200_pipe_k16_series_f25x15: wall 120.7 ms, elapsed/batch 120.4 ms, copy 58.5 ms, wait 0.0 ms, local 77.4%, acc 65.04%
+[summary] gh200_pipe_k16_overlap_f25x15: wall 76.5 ms, elapsed/batch 82.1 ms, copy 60.0 ms, wait 0.0 ms, local 77.4%, acc 65.04%
+[summary] gh200_pipe_k16_pipeline_f25x15: wall 77.1 ms, elapsed/batch 82.2 ms, copy 59.6 ms, wait 0.0 ms, local 77.4%, acc 65.04%
+[val] fanout [60, 30]: 65.19% on 138,949 papers
+[summary] gh200_pipe_k16_series_f60x30: wall 189.7 ms, elapsed/batch 200.7 ms, copy 58.5 ms, wait 0.0 ms, local 75.9%, acc 65.19%
+[summary] gh200_pipe_k16_overlap_f60x30: wall 140.8 ms, elapsed/batch 153.6 ms, copy 59.9 ms, wait 0.0 ms, local 75.9%, acc 65.19%
+[summary] gh200_pipe_k16_pipeline_f60x30: wall 140.4 ms, elapsed/batch 153.8 ms, copy 59.7 ms, wait 0.0 ms, local 75.9%, acc 65.19%
+[done] -> results_pipeline_gh200/summary_pipeline_gh200.csv

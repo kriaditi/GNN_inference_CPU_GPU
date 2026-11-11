@@ -1,0 +1,7 @@
+start Tue Nov 10 22:50:15 UTC 2026
+name, memory.total [MiB], memory.used [MiB]
+NVIDIA GH200 480GB, 97871 MiB, 0 MiB
+ee75fa415d80be074de2f9b7903662d5  shard_pipeline.py
+smoke done Tue Nov 10 22:53:13 UTC 2026 exit 0
+pipeline k=16 done Tue Nov 10 23:27:57 UTC 2026 exit 0
+all done Tue Nov 10 23:27:57 UTC 2026

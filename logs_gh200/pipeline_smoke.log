@@ -1,0 +1,31 @@
+[hetero] 5 relations, 3,456,728,464 directed edges resident (8s)
+[feat] reading /unicorn/gnn/metis_ordered/full_feat_metis_k16.npy into RAM ...
+[feat] RESIDENT (244160499, 768) float16 (375 GB, 2.4 min)
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:41: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__meta__ = torch.load(osp.join(self.dir, 'meta.pt'))
+/home/ubuntu/anaconda3/envs/gnn/lib/python3.11/site-packages/ogb/lsc/mag240m.py:42: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  self.__split__ = torch.load(osp.join(self.dir, 'split_dict.pt'))
+/unicorn/code/shard_pipeline.py:207: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  ck = torch.load(a.weights, map_location=dev)
+[plan] k=16, 32 batches per (mode, fanout): 1 warm-up round(s) + 1 timed, shards rotate every batch; modes ['series', 'overlap', 'pipeline']
+[gpu] 2 buffer(s) of 23.7 GB
+[host] shard 0: 15,146,609 rows, 23.3 GB, pinned (cudaHostRegister), registered in 0.05 s
+[host] shard 1: 15,398,387 rows, 23.7 GB, pinned (cudaHostRegister), registered in 0.06 s
+[host] shard 2: 15,235,779 rows, 23.4 GB, pinned (cudaHostRegister), registered in 0.06 s
+[host] shard 3: 15,398,386 rows, 23.7 GB, pinned (cudaHostRegister), registered in 0.06 s
+[host] shard 4: 14,969,753 rows, 23.0 GB, pinned (cudaHostRegister), registered in 0.06 s
+[host] shard 5: 15,099,134 rows, 23.2 GB, pinned (cudaHostRegister), registered in 0.06 s
+[host] shard 6: 15,398,440 rows, 23.7 GB, pinned (cudaHostRegister), registered in 0.05 s
+[host] shard 7: 15,398,336 rows, 23.7 GB, pinned (cudaHostRegister), registered in 0.06 s
+[host] shard 8: 15,398,385 rows, 23.7 GB, pinned (cudaHostRegister), registered in 0.05 s
+[host] shard 9: 14,814,846 rows, 22.8 GB, pinned (cudaHostRegister), registered in 0.06 s
+[host] shard 10: 15,235,639 rows, 23.4 GB, pinned (cudaHostRegister), registered in 0.07 s
+[host] shard 11: 15,235,753 rows, 23.4 GB, pinned (cudaHostRegister), registered in 0.07 s
+[host] shard 12: 15,398,385 rows, 23.7 GB, pinned (cudaHostRegister), registered in 0.07 s
+[host] shard 13: 15,398,447 rows, 23.7 GB, pinned (cudaHostRegister), registered in 0.08 s
+[host] shard 14: 15,398,450 rows, 23.7 GB, pinned (cudaHostRegister), registered in 0.08 s
+[host] shard 15: 15,235,770 rows, 23.4 GB, pinned (cudaHostRegister), registered in 0.09 s
+[summary] gh200_pipe_smoke_k16_series_f40x20: wall 142.7 ms, elapsed/batch 149.1 ms, copy 58.6 ms, wait 0.0 ms, local 76.3%, acc nan%
+[summary] gh200_pipe_smoke_k16_overlap_f40x20: wall 96.4 ms, elapsed/batch 106.8 ms, copy 59.9 ms, wait 0.0 ms, local 76.4%, acc nan%
+[summary] gh200_pipe_smoke_k16_pipeline_f40x20: wall 96.4 ms, elapsed/batch 106.7 ms, copy 59.6 ms, wait 0.0 ms, local 76.2%, acc nan%
+[done] -> results_pipeline_gh200/smoke/summary_smoke.csv
