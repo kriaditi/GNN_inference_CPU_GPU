@@ -1,6 +1,6 @@
 # gnn_results
 
-One place to find the GNN inference results, grouped by machine. Every file here is a
+Raw GNN inference results, grouped by machine (the high-level summaries are one level up, in gnn_results/). Every file here is a
 **symlink** to a summary CSV in one of the `results_*` folders, so new runs written by the
 existing scripts show up here automatically. Per-iteration CSVs stay in those folders.
 
