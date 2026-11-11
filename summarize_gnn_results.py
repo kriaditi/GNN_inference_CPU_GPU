@@ -11,8 +11,9 @@ leaves out d3 (it samples more nodes per batch than d4, so the curve would dip a
   gnn_gpu_only_f40x20_b1024.csv          GH200 GPU, the whole subset in HBM (d1-d4; d4 = 93 GB is the
                                          largest that fits, so graph size is capped by HBM)
   gnn_pcie_h100_naive_f40x20_b1024.csv   Lambda H100 PCIe, naive GraphSAGE: features in host memory,
-                                         gathered and copied over PCIe every batch (d1-d8; its 221 GB of
-                                         RAM can't hold larger subsets)
+                                         gathered and copied over PCIe every batch (d1-d8 measured; its 221
+                                         GB of RAM can't hold larger subsets, so d12 and full are linear
+                                         extrapolations, estimated=True)
   gnn_mezzanine_metis_gh200_f40x20_b1024.csv
                                          GH200, METIS k=16 shards + GraphSAGE: each batch runs on its
                                          seeds' shard in HBM and fetches out-of-shard neighbors from
@@ -56,7 +57,25 @@ def finish(df, method, device, cols):
     df = df.assign(method=method, device=device, fanout=FANOUT, batch_size=1024,
                    num_nodes_m=df["graph"].map(NODES_M))
     df["feature_gb"] = df["num_nodes_m"] * 1e6 * FEAT_BYTES / 1e9
-    return df[LEAD + cols]
+    if "estimated" not in df:
+        df["estimated"] = False
+    return df[LEAD + cols + ["estimated"]]
+
+
+# The H100 PCIe machine's 221 GB of RAM stops the measured PCIe line at d8 (187 GB of features). It is
+# extrapolated to the larger graphs the CPU line covers (d12, full) with a straight line in wall_ms vs.
+# nodes through the two largest measured points (d6, d8); only wall_ms is filled for those rows.
+PCIE_EXTRAP = ["d12", "full"]
+
+
+def extrapolate(df, graphs):
+    (n0, w0), (n1, w1) = zip(df["num_nodes_m"].iloc[-2:], df["wall_ms"].iloc[-2:])
+    slope = (w1 - w0) / (n1 - n0)
+    est = pd.DataFrame({"graph": graphs, "estimated": True, "batches": pd.NA})
+    est = finish(est, df["method"].iloc[0], df["device"].iloc[0], [])
+    est["wall_ms"] = w1 + slope * (est["num_nodes_m"] - n1)
+    est["qps"] = 1024 * 1e3 / est["wall_ms"]
+    return pd.concat([df, est], ignore_index=True)[df.columns]
 
 
 def main():
@@ -82,6 +101,7 @@ def main():
                     "h100den_d{}_nf_b1024_f40x20_i1000", sizes("pcie"))
     pcie = pcie.rename(columns={"iters": "batches", "throughput_qps": "qps"})
     pcie = finish(pcie, "pcie_naive", "h100_pcie", full_cols)
+    pcie = extrapolate(pcie, PCIE_EXTRAP)
 
     mz = pd.read_csv(OUT / "raw" / "gh200" / "shard_k16.csv")
     mz = mz[(mz["variant"] == "fetch") & (mz["fanout"] == FANOUT)].assign(graph="full")
