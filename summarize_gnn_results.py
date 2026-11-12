@@ -14,6 +14,9 @@ leaves out d3 (it samples more nodes per batch than d4, so the curve would dip a
                                          gathered and copied over PCIe every batch (d1-d8 measured; its 221
                                          GB of RAM can't hold larger subsets, so d12 and full are linear
                                          extrapolations, estimated=True)
+  gnn_nvlink_gh200_naive_f40x20_b1024.csv GH200, the same naive GraphSAGE: features in Grace memory, gathered and
+                                         copied over NVLink-C2C every batch (d1-d12 from the density sweep, full
+                                         from raw/gh200/full_graph_cpu_gather.csv; table7's "nvlink" line)
   gnn_mezzanine_metis_gh200_f40x20_b1024.csv
                                          GH200, METIS k=16 shards + GraphSAGE: each batch runs on its
                                          seeds' shard in HBM and fetches out-of-shard neighbors from
@@ -103,6 +106,15 @@ def main():
     pcie = finish(pcie, "pcie_naive", "h100_pcie", full_cols)
     pcie = extrapolate(pcie, PCIE_EXTRAP)
 
+    nvl = capacity("results_capacity_density_gh200/summary_capacity_density_nvlink.csv",
+                   "gh200den_d{}_nf_b1024_f40x20_i1000", [s for s in sizes("nvlink")])
+    nvl_full = pd.read_csv(OUT / "raw" / "gh200" / "full_graph_cpu_gather.csv")
+    nvl_full = nvl_full[(nvl_full["fanout"] == FANOUT) & (nvl_full["iters"] == 1000)].assign(graph="full")
+    assert len(nvl_full) == 1
+    nvl = pd.concat([nvl, nvl_full], ignore_index=True)
+    nvl = nvl.rename(columns={"iters": "batches", "throughput_qps": "qps"})
+    nvl = finish(nvl, "nvlink_naive", "gh200_nvlink_c2c", full_cols)
+
     mz = pd.read_csv(OUT / "raw" / "gh200" / "shard_k16.csv")
     mz = mz[(mz["variant"] == "fetch") & (mz["fanout"] == FANOUT)].assign(graph="full")
     assert len(mz) == 1
@@ -111,7 +123,7 @@ def main():
                  "transfer_ms", "compute_ms", "wall_ms", "qps", "shard_gb_mean", "qps_incl_load", "val_acc"])
 
     for name, df in [("cpu_only", cpu), ("gpu_only", gpu), ("pcie_h100_naive", pcie),
-                     ("mezzanine_metis_gh200", mz)]:
+                     ("nvlink_gh200_naive", nvl), ("mezzanine_metis_gh200", mz)]:
         path = OUT / f"gnn_{name}_f40x20_b1024.csv"
         df.to_csv(path, index=False)
         print(f"{path.relative_to(HERE)}: " + ", ".join(f"{g}={w:.1f}ms" for g, w in zip(df["graph"], df["wall_ms"])))
