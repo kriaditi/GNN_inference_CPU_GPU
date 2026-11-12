@@ -48,7 +48,7 @@ for N in ${SIZES:-1 2 4 8}; do
   sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null
   numactl --membind=0 python shard_infer.py --weights $W --root $D/data --csr $S/csr --hetero-dir $S/csr_hetero \
     --feat $S/full_feat.npy --metis $S/metis --k $K --in-memory \
-    --fanouts 40/20,5/5,10/5,15/10,25/15,60/30 --variants fetch,coherent --batches-per-shard $((1024 / K)) --warmup 1 --no-val \
+    --fanouts 40/20,5/5,10/5,15/10,25/15,60/30 --variants fetch,coherent --batches-per-shard $((1024 / K)) --warmup 1 --no-val --unsorted-seeds \
     --out $OUT --summary $OUT/summary_graphsize_gh200.csv --tag gh200_gsz_s${N} 2>&1 | tee logs_gh200/graphsize_s${N}.log
   echo "  s$N fetch exit ${PIPESTATUS[0]} $(date)" | tee -a $LOG
 done
