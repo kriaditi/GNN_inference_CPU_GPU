@@ -20,7 +20,11 @@ leaves out d3 (it samples more nodes per batch than d4, so the curve would dip a
   gnn_mezzanine_metis_gh200_f40x20_b1024.csv
                                          GH200, METIS k=16 shards + GraphSAGE: each batch runs on its
                                          seeds' shard in HBM and fetches out-of-shard neighbors from
-                                         Grace memory over NVLink-C2C (full graph, full accuracy)
+                                         Grace memory over NVLink-C2C. full = the whole graph (full
+                                         accuracy, raw/gh200/shard_k16.csv); s1, s2, s4, s8 = the 3 Nov
+                                         shard-union subsets (build_subset.py, not the density-ordered d<n>;
+                                         about the size of d1, d2, d4, d8), each re-partitioned with METIS
+                                         k=16 (results_graphsize_gh200, timing only, no accuracy)
 
 Times are mean ms per batch; qps = seeds per second. val_acc is only measured on full-graph runs.
 
@@ -37,6 +41,11 @@ FEAT_BYTES = 768 * 2  # fp16 paper features per node
 TABLE = pd.read_csv(HERE / "table7_density_long_5nov.csv")
 TABLE = TABLE[(TABLE["fanout"] == "40/20") & (TABLE["in_plot"] == "yes")]
 NODES_M = dict(zip(TABLE["subset"], TABLE["nodes"] / 1e6))
+# Mezzanine graph-size runs on the s<n> subsets: node counts summed from each run's per-shard load log.
+GRAPHSIZE_DIR = HERE / "results_graphsize_gh200"
+GRAPHSIZE_SUBSETS = [1, 2, 4, 8]
+NODES_M |= {f"s{n}": pd.read_csv(GRAPHSIZE_DIR / f"gh200_gsz_s{n}_k16_loads.csv")["rows"].sum() / 1e6
+            for n in GRAPHSIZE_SUBSETS}
 
 
 def sizes(line):
@@ -118,6 +127,11 @@ def main():
     mz = pd.read_csv(OUT / "raw" / "gh200" / "shard_k16.csv")
     mz = mz[(mz["variant"] == "fetch") & (mz["fanout"] == FANOUT)].assign(graph="full")
     assert len(mz) == 1
+    gsz = pd.read_csv(GRAPHSIZE_DIR / "summary_graphsize_gh200.csv").set_index("tag")
+    tags = {n: f"gh200_gsz_s{n}_k16_fetch_f40x20" for n in GRAPHSIZE_SUBSETS}
+    assert all(t in gsz.index for t in tags.values()), "summary_graphsize_gh200.csv: missing s<n> fetch rows"
+    small = pd.DataFrame([gsz.loc[t].to_dict() | {"graph": f"s{n}"} for n, t in tags.items()])
+    mz = pd.concat([small, mz], ignore_index=True)
     mz = finish(mz, "mezzanine_metis_k16", "gh200_nvlink_c2c",
                 ["k", "frac_local", "mb_transfer", "sample_ms", "filter_ms", "gather_local_ms", "gather_remote_ms",
                  "transfer_ms", "compute_ms", "wall_ms", "qps", "shard_gb_mean", "qps_incl_load", "val_acc"])
