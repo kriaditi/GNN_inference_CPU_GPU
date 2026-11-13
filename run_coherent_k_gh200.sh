@@ -15,6 +15,7 @@
 cd /unicorn/code
 eval "$(conda shell.bash hook)" && conda activate gnn || { echo "conda activate failed"; exit 1; }
 export TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD=1 PYTHONUNBUFFERED=1 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+export MALLOC_ARENA_MAX=4   # 12 Nov: cap glibc arenas (the k=8 run grew to 424 GB and was OOM-killed)
 
 D=/unicorn/gnn
 MO=$D/metis_ordered
@@ -45,9 +46,14 @@ for K in ${KS:-128 256 512 1024}; do
   BPS=$((1024 / K)); [ $BPS -lt 1 ] && BPS=1
   [ -n "$SHARDS" ] && BPS=1000
   sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null
-  numactl --membind=0 python shard_infer.py $PATHS $(feat_args $K) --metis $D/metis --k $K --in-memory $SH \
-    --fanouts 40/20,5/5,10/5,15/10,25/15,60/30 --variants cpuonly,fetch,fetchload,coherent --batches-per-shard $BPS --warmup 1 \
-    --out $OUT --summary $OUT/summary_coherent_k_gh200.csv --tag gh200_cohk_k${K} 2>&1 | tee logs_gh200/coherent_k_k${K}.log
-  echo "k=$K done $(date) exit ${PIPESTATUS[0]}" | tee -a $LOG
+  # 12 Nov: the GPU paths and CPU-only in two separate processes (same batches, same summary file)
+  for V in fetch,fetchload,coherent cpuonly; do
+    VN=${V%%,*}; [ "$V" = cpuonly ] && VN=cpu || VN=gpu
+    sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null
+    numactl --membind=0 python shard_infer.py $PATHS $(feat_args $K) --metis $D/metis --k $K --in-memory $SH \
+      --fanouts 40/20,5/5,10/5,15/10,25/15,60/30 --variants $V --batches-per-shard $BPS --warmup 1 \
+      --out $OUT --summary $OUT/summary_coherent_k_gh200.csv --tag gh200_cohk_k${K} 2>&1 | tee logs_gh200/coherent_k_k${K}_${VN}.log
+    echo "k=$K $VN done $(date) exit ${PIPESTATUS[0]}" | tee -a $LOG
+  done
 done
 echo "all done $(date)" | tee -a $LOG
