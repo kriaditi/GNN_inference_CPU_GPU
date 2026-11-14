@@ -25,6 +25,14 @@ leaves out d3 (it samples more nodes per batch than d4, so the curve would dip a
                                          shard-union subsets (build_subset.py, not the density-ordered d<n>;
                                          about the size of d1, d2, d4, d8, d12), each re-partitioned with METIS
                                          k=16 (results_graphsize_gh200, timing only, no accuracy)
+  gnn_coherence_gh200_f40x20_b1024.csv   GH200, whole graph, METIS k = 8 ... 1024 shards (47 GB ... 0.37 GB each),
+                                         all shards, the same ~1,024 batches through four paths
+                                         (results_coherent_k_gh200): copy_in = the batch's shard is copied
+                                         Grace -> HBM inside every batch (swap_ms, the copy, is in wall_ms);
+                                         coherent = the shard stays in Grace memory and the GPU gathers its rows
+                                         in place over NVLink-C2C; resident = shard already in HBM (no copy, the
+                                         lower bound); cpu_only = Grace CPU gathers and computes. Out-of-shard
+                                         neighbors are fetched by the CPU in every GPU path (full accuracy)
 
 Times are mean ms per batch; qps = seeds per second. val_acc is only measured on full-graph runs.
 
@@ -46,6 +54,12 @@ GRAPHSIZE_DIR = HERE / "results_graphsize_gh200"
 GRAPHSIZE_SUBSETS = [1, 2, 4, 8, 12]
 NODES_M |= {f"s{n}": pd.read_csv(GRAPHSIZE_DIR / f"gh200_gsz_s{n}_k16_loads.csv")["rows"].sum() / 1e6
             for n in GRAPHSIZE_SUBSETS}
+
+NODES_M["full"] = TABLE.loc[TABLE["subset"] == "full", "nodes"].iloc[0] / 1e6
+# Coherence k-sweep: variant in summary_coherent_k_gh200.csv -> method name in the summary.
+COHERENCE_DIR = HERE / "results_coherent_k_gh200"
+COHERENCE_METHODS = {"fetchload": "copy_in", "coherent": "coherent", "fetch": "resident", "cpuonly": "cpu_only"}
+COHERENCE_K = [8, 16, 32, 64, 128, 256, 512, 1024]
 
 
 def sizes(line):
@@ -136,11 +150,25 @@ def main():
                 ["k", "frac_local", "mb_transfer", "sample_ms", "filter_ms", "gather_local_ms", "gather_remote_ms",
                  "transfer_ms", "compute_ms", "wall_ms", "qps", "shard_gb_mean", "qps_incl_load", "val_acc"])
 
+    coh = pd.read_csv(COHERENCE_DIR / "summary_coherent_k_gh200.csv")
+    coh = coh[coh["fanout"] == FANOUT].assign(graph="full")
+    coh["method"] = coh["variant"].map(COHERENCE_METHODS)
+    coh = coh.sort_values(["method", "k"], key=lambda c: c.map(list(COHERENCE_METHODS.values()).index)
+                          if c.name == "method" else c)
+    assert len(coh) == len(COHERENCE_METHODS) * len(COHERENCE_K) and set(coh["k"]) == set(COHERENCE_K), \
+        "summary_coherent_k_gh200.csv: missing (variant, k) rows for 40,20"
+    method = coh.pop("method")
+    coh = finish(coh, method.values, "gh200", ["variant", "k", "shards", "shard_gb_mean", "frac_local",
+                                               "mb_transfer", "swap_ms", "sample_ms", "filter_ms", "gather_local_ms",
+                                               "gather_remote_ms", "transfer_ms", "compute_ms", "wall_ms", "qps",
+                                               "val_acc"])
+
     for name, df in [("cpu_only", cpu), ("gpu_only", gpu), ("pcie_h100_naive", pcie),
-                     ("nvlink_gh200_naive", nvl), ("mezzanine_metis_gh200", mz)]:
+                     ("nvlink_gh200_naive", nvl), ("mezzanine_metis_gh200", mz), ("coherence_gh200", coh)]:
         path = OUT / f"gnn_{name}_f40x20_b1024.csv"
         df.to_csv(path, index=False)
-        print(f"{path.relative_to(HERE)}: " + ", ".join(f"{g}={w:.1f}ms" for g, w in zip(df["graph"], df["wall_ms"])))
+        keys = df["graph"] if name != "coherence_gh200" else df["method"] + "/k" + df["k"].astype(str)
+        print(f"{path.relative_to(HERE)}: " + ", ".join(f"{g}={w:.1f}ms" for g, w in zip(keys, df["wall_ms"])))
 
 
 if __name__ == "__main__":
